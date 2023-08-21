@@ -5,6 +5,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager2.widget.ViewPager2
+import com.example.wayfindr.home.ImagePagerAdapter
 
 // TODO: Rename parameter arguments, choose names that match
 // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -29,12 +33,30 @@ class Home : Fragment() {
         }
     }
 
+    private lateinit var viewPager: ViewPager2
+    private lateinit var adapter: ImagePagerAdapter
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_home, container, false)
+        val view = inflater.inflate(R.layout.fragment_home, container, false)
+
+        viewPager = view.findViewById(R.id.viewPager)
+        adapter = ImagePagerAdapter(requireContext())
+
+        val imageResIds = listOf(
+            R.drawable.arkeolojimuzesi,
+            R.drawable.kizkulesi,
+            R.drawable.dolmabahce,
+            R.drawable.galatakulesi,
+            R.drawable.topkapisarayi
+        )
+
+        adapter.setImageList(imageResIds)
+        viewPager.adapter = adapter
+
+        return view
     }
 
     companion object {
