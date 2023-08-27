@@ -5,77 +5,33 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.viewpager2.widget.ViewPager2
-import com.example.wayfindr.home.ImagePagerAdapter
+import com.example.wayfindr.home.ImageSliderAdapter
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
 
-/**
- * A simple [Fragment] subclass.
- * Use the [Home.newInstance] factory method to
- * create an instance of this fragment.
- */
 class Home : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
-        }
-    }
-
-    private lateinit var viewPager: ViewPager2
-    private lateinit var adapter: ImagePagerAdapter
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var adapter: ImageSliderAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_home, container, false)
+        val rootView = inflater.inflate(R.layout.fragment_home, container, false)
 
-        viewPager = view.findViewById(R.id.viewPager)
-        adapter = ImagePagerAdapter(requireContext())
+        recyclerView = rootView.findViewById(R.id.recyclerView)
+        recyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
 
-        val imageResIds = listOf(
-            R.drawable.arkeolojimuzesi,
-            R.drawable.kizkulesi,
-            R.drawable.dolmabahce,
-            R.drawable.galatakulesi,
-            R.drawable.topkapisarayi
-        )
+        val imageList = listOf(R.drawable.galatakulesi, R.drawable.dolmabahce, R.drawable.arkeolojimuzesi, R.drawable.kizkulesi, R.drawable.topkapisarayi)
+        val captionList = listOf("Galata Kulesi", "Dolmabahçe Sarayı", "İstanbul Arkeoloji Müzesi", "Kız Kulesi", "İstanbul Topkapı Sarayı")
 
-        adapter.setImageList(imageResIds)
-        viewPager.adapter = adapter
 
-        return view
-    }
+        adapter = ImageSliderAdapter(imageList, captionList)
+        recyclerView.adapter = adapter
 
-    companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment Home.
-         */
-        // TODO: Rename and change types and number of parameters
-        @JvmStatic
-        fun newInstance(param1: String, param2: String) =
-            Home().apply {
-                arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
-                }
-            }
+
+        return rootView
     }
 }

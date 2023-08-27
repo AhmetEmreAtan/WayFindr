@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/grey">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" >
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/places_image"
+                android:layout_width="wrap_content"
+                android:layout_height="200dp"
+                android:background="@drawable/dolmabahce1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/placesname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:fontFamily="@font/font1"
+                android:text="Dolmabahçe Sarayı"
+                android:textAlignment="center"
+                android:textColor="@color/navy"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/places_image" />
+
+            <TextView
+                android:id="@+id/adrestitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"
+                android:text="Adres:"
+                android:textColor="@color/navy"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/places_info_scroll" />
+
+            <ScrollView
+                android:id="@+id/places_info_scroll"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/placesname">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/textView4"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Dolmabahçe Sarayı, İstanbul, Beşiktaş'ta, Kabataş'tan Beşiktaş'a uzanan Dolmabahçe Caddesi'yle İstanbul Boğazı arasında, 250.000 m²'lik bir alan üzerinde bulunan Osmanlı sarayı. Marmara Denizi'nden Boğaziçi'ne deniz yoluyla girişte sol kıyıda, Üsküdar ve Kuzguncuk'un karşısında yer alır. Sultan Abdülmecid tarafından inşa ettirilen sarayın yapımı 1843 yılında başlayıp 1856 yılında bitirilmiştir. Günümüzde müze olarak kullanılmaktadır. Dolmabahçe Sarayı'nın bugün bulunduğu alan, bundan dört yüzyıl öncesine kadar Osmanlı Kaptan-ı Derya'sının gemileri demirlediği, Boğaziçi'nin büyük bir koyu idi. Geleneksel denizcilik törenlerinin yapıldığı bu koy zamanla bir bataklık hâline geldi. 17. yüzyılda doldurulmaya başlanan koy,[3] padişahların dinlenme ve eğlenceleri için düzenlenen bir &quot;hasbahçe&quot;ye (hadayik-hassâ) dönüştürüldü. Bu bahçede çeşitli dönemlerde yapılan köşkler ve kasırlar topluluğu, uzun süre &quot;Beşiktaş Sahil Sarayı&quot; adıyla anıldı."
+                        android:textAlignment="center"
+                        android:textSize="16sp" />
+                </LinearLayout>
+            </ScrollView>
+
+            <TextView
+                android:id="@+id/adres_info"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="Vişnezade, Dolmabahçe Cd. No:2, 34357 Beşiktaş/İstanbul"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="@+id/adrestitle"
+                app:layout_constraintTop_toBottomOf="@+id/adrestitle" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
