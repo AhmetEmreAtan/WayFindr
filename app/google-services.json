@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "275872804865",
+    "project_id": "wayfindr-54e24",
+    "storage_bucket": "wayfindr-54e24.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:275872804865:android:e7757fa02dffb6b5ad5000",
+        "android_client_info": {
+          "package_name": "com.example.wayfindr"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "275872804865-btnvvt7ahv6li8efr6njtglq2ojs9crl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCdrqoEMh-IwDp0MDavHxCptmo6hgYJ7e0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "275872804865-btnvvt7ahv6li8efr6njtglq2ojs9crl.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

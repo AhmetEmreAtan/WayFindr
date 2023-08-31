@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/grey">
+    android:background="@drawable/fragment_bg_desing">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -18,11 +18,24 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content">
 
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/font1"
+                android:text="Yerler"
+                android:textColor="@color/navy"
+                android:textSize="24sp"
+                app:layout_constraintBottom_toTopOf="@+id/places_image"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
             <ImageView
                 android:id="@+id/places_image"
                 android:layout_width="wrap_content"
                 android:layout_height="200dp"
-                android:background="@drawable/dolmabahce1"
+                android:layout_marginTop="50dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -55,11 +68,61 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/places_info_scroll" />
 
+            <TextView
+                android:id="@+id/adres_info"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="Vişnezade, Dolmabahçe Cd. No:2, 34357 Beşiktaş/İstanbul"
+                android:textSize="16sp"
+                app:layout_constraintStart_toStartOf="@+id/adrestitle"
+                app:layout_constraintTop_toBottomOf="@+id/adrestitle" />
+
+            <TextView
+                android:id="@+id/ekbilgittxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="100dp"
+                android:text="Ek Bilgiler:"
+                android:textColor="@color/navy"
+                android:textSize="16sp"
+                android:textStyle="bold"
+                app:layout_constraintStart_toEndOf="@+id/adrestitle"
+                app:layout_constraintTop_toTopOf="@+id/adrestitle" />
+
+            <TextView
+                android:id="@+id/ekbilgicommenttxt"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="16dp"
+                android:text="Açılış-Kapanış:09.00-16.00 Ücretli-Ücretsiz:Ücretli"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/ekbilgittxt"
+                app:layout_constraintTop_toBottomOf="@+id/ekbilgittxt" />
+
+            <Button
+                android:id="@+id/gitbtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:backgroundTint="@color/peachorange"
+                android:fontFamily="@font/font1"
+                android:text="Git"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/adres_info" />
+
             <ScrollView
                 android:id="@+id/places_info_scroll"
                 android:layout_width="match_parent"
                 android:layout_height="200dp"
+                android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
+                android:layout_marginEnd="16dp"
+                android:background="@color/peachorange"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/placesname">
@@ -76,18 +139,10 @@
                         android:text="Dolmabahçe Sarayı, İstanbul, Beşiktaş'ta, Kabataş'tan Beşiktaş'a uzanan Dolmabahçe Caddesi'yle İstanbul Boğazı arasında, 250.000 m²'lik bir alan üzerinde bulunan Osmanlı sarayı. Marmara Denizi'nden Boğaziçi'ne deniz yoluyla girişte sol kıyıda, Üsküdar ve Kuzguncuk'un karşısında yer alır. Sultan Abdülmecid tarafından inşa ettirilen sarayın yapımı 1843 yılında başlayıp 1856 yılında bitirilmiştir. Günümüzde müze olarak kullanılmaktadır. Dolmabahçe Sarayı'nın bugün bulunduğu alan, bundan dört yüzyıl öncesine kadar Osmanlı Kaptan-ı Derya'sının gemileri demirlediği, Boğaziçi'nin büyük bir koyu idi. Geleneksel denizcilik törenlerinin yapıldığı bu koy zamanla bir bataklık hâline geldi. 17. yüzyılda doldurulmaya başlanan koy,[3] padişahların dinlenme ve eğlenceleri için düzenlenen bir &quot;hasbahçe&quot;ye (hadayik-hassâ) dönüştürüldü. Bu bahçede çeşitli dönemlerde yapılan köşkler ve kasırlar topluluğu, uzun süre &quot;Beşiktaş Sahil Sarayı&quot; adıyla anıldı."
                         android:textAlignment="center"
                         android:textSize="16sp" />
+
                 </LinearLayout>
             </ScrollView>
 
-            <TextView
-                android:id="@+id/adres_info"
-                android:layout_width="150dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:text="Vişnezade, Dolmabahçe Cd. No:2, 34357 Beşiktaş/İstanbul"
-                android:textSize="16sp"
-                app:layout_constraintStart_toStartOf="@+id/adrestitle"
-                app:layout_constraintTop_toBottomOf="@+id/adrestitle" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
 

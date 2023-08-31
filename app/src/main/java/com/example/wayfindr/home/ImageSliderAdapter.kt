@@ -8,8 +8,11 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.wayfindr.R
 
-class ImageSliderAdapter(private val imageList: List<Int>, private val captionList: List<String>) :
-    RecyclerView.Adapter<ImageSliderAdapter.ImageSliderViewHolder>() {
+class ImageSliderAdapter(
+    private val imageList: List<Int>,
+    private val captionList: List<String>,
+    private val itemClickListener: ItemClickListener // Yeni tıklama dinleyici ekledik
+) : RecyclerView.Adapter<ImageSliderAdapter.ImageSliderViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageSliderViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -19,6 +22,9 @@ class ImageSliderAdapter(private val imageList: List<Int>, private val captionLi
 
     override fun onBindViewHolder(holder: ImageSliderViewHolder, position: Int) {
         holder.bind(imageList[position], captionList[position])
+        holder.itemView.setOnClickListener {
+            itemClickListener.onItemClick(position) // Öğeye tıklama işlemini ilettik
+        }
     }
 
     override fun getItemCount(): Int {
@@ -35,4 +41,3 @@ class ImageSliderAdapter(private val imageList: List<Int>, private val captionLi
         }
     }
 }
-
