@@ -27,13 +27,16 @@ class Places : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
+
         val filterImage: ImageView? = view.findViewById(R.id.filterImage)
         filterImage?.setOnClickListener {
             val filterBottomSheetFragment = FilterBottomSheetFragment()
             activity?.supportFragmentManager?.beginTransaction()
                 ?.replace(R.id.fragmentPlaces, filterBottomSheetFragment)
-                ?.addToBackStack(null)
                 ?.commit()
         }
+
+
     }
 }

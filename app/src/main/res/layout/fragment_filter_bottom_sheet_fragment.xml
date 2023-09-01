@@ -1,17 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/fragmentPlaces"
     tools:context=".FilterBottomSheetFragment">
 
     <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp">
+        android:padding="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
 
         <TextView
             android:layout_width="wrap_content"
@@ -21,7 +25,6 @@
             android:textStyle="bold"
             android:layout_gravity="center"
             android:layout_marginBottom="16dp" />
-
 
         <TextView
             android:layout_width="wrap_content"
@@ -50,7 +53,6 @@
                 android:buttonTint="@color/peachorange"/>
         </RadioGroup>
 
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -73,14 +75,15 @@
             android:progressTint="@color/peachorange"
             android:thumbTint="@color/peachorange"
             android:progressBackgroundTint="@color/peachorange"
-            />
+            android:layout_marginTop="8dp"/>
+
         <TextView
             android:id="@+id/textViewSelectedDistance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Seçilen Mesafe: 0 km" />
-
+            android:text="Seçilen Mesafe: 0 km"
+            android:layout_marginTop="8dp"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -105,10 +108,7 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:src="@drawable/tarih"
-                    android:contentDescription="Tarih" />
-
-
-
+                    android:contentDescription="Tarih Müzeleri" />
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
@@ -122,8 +122,7 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:src="@drawable/bilim"
-                    android:contentDescription="Icon 2" />
-
+                    android:contentDescription="Bilim ve Endüstri Müzeleri" />
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
@@ -137,9 +136,9 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:src="@drawable/antropoloji"
-                    android:contentDescription="Icon 2" />
-
+                    android:contentDescription="Antropoloji Müzeleri" />
             </androidx.cardview.widget.CardView>
+
             <androidx.cardview.widget.CardView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -151,9 +150,9 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:src="@drawable/art"
-                    android:contentDescription="Icon 2" />
-
+                    android:contentDescription="Sanat Müzeleri" />
             </androidx.cardview.widget.CardView>
+
             <androidx.cardview.widget.CardView
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -165,13 +164,10 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:src="@drawable/ozelmuzeler"
-                    android:contentDescription="Icon 2"
+                    android:contentDescription="Özel Müzeler"
                     />
-
             </androidx.cardview.widget.CardView>
-
         </LinearLayout>
-
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -194,7 +190,5 @@
                 android:text="Filtrele"
                 android:backgroundTint="@color/peachorange"/>
         </LinearLayout>
-
     </LinearLayout>
-
-</FrameLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
