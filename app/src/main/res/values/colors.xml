@@ -6,4 +6,10 @@
     <color name="maroon">#B31312</color>
     <color name="peachorange">#EA906C</color>
     <color name="grey">#EEE2DE</color>
+    <color name="textColor">#FFF3E2</color>
+    <color name="pinkColor">#E74646</color>
+    <color name="tansparentColor">#00FFFFFF</color>
+    <color name="pembe">#FA9884</color>
+    <color name="sarı">#FFE5CA</color>
+    <color name="krem">#FFF3E2</color>
 </resources>
