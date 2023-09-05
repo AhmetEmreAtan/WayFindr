@@ -21,7 +21,8 @@ class Register : AppCompatActivity() {
         }
 
         binding.notSingUp.setOnClickListener {
-
+            val intent = Intent(this,Home::class.java)
+            startActivity(intent)
         }
 
         binding.letLogIn.setOnClickListener {

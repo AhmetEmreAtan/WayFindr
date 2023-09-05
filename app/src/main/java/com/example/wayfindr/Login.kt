@@ -1,6 +1,7 @@
 package com.example.wayfindr
 
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.EditText
@@ -28,6 +29,8 @@ class Login : AppCompatActivity() {
         binding.singIn.setOnClickListener {
             val email = binding.eMail.text.toString()
             val password = binding.passwords.text.toString()
+            val intent = Intent(this, Home::class.java)
+            startActivity(intent)
 
         }
     }
