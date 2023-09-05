@@ -19,7 +19,6 @@ class Home : Fragment() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: ImageSliderAdapter
-    private lateinit var dialog: BottomSheetDialog
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
