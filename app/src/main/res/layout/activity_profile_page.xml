@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Profile">
+    tools:context=".Profile_page">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -54,7 +54,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/textView3">
 
                     <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/button"
+                        android:id="@+id/user_information_button"
                         android:layout_width="match_parent"
                         android:layout_height="60dp"
                         android:layout_marginStart="32dp"
@@ -72,7 +72,7 @@
                         android:textAlignment="viewStart" />
 
                     <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/button3"
+                        android:id="@+id/favButton"
                         style="@android:style/Widget.Button"
                         android:layout_width="match_parent"
                         android:layout_height="60dp"
@@ -90,7 +90,7 @@
                         android:textStyle="bold" />
 
                     <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/button5"
+                        android:id="@+id/setting_button"
                         android:layout_width="match_parent"
                         android:layout_height="60dp"
                         android:layout_marginStart="32dp"
