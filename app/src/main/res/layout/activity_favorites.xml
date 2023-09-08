@@ -93,7 +93,7 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/favorite"
+                        android:src="@drawable/like"
                         android:layout_gravity="bottom|end"
                         android:layout_marginTop="8dp"
                         android:contentDescription="Simge açıklaması"/>
@@ -124,7 +124,7 @@
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:src="@drawable/arkeolojimuzesi"
+                    android:src="@drawable/arkeoloji_muzesi_deneme"
                     android:scaleType="centerCrop"
                     android:background="@color/white" />
 
@@ -154,7 +154,7 @@
                     <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/favorite"
+                        android:src="@drawable/like"
                         android:layout_gravity="bottom|end"
                         android:layout_marginTop="8dp" />
 
@@ -186,7 +186,7 @@
                     android:layout_weight="1"
                     android:background="@color/white"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/galata_kulesi" />
+                    android:src="@drawable/galatakulesi" />
 
                 <LinearLayout
                     android:layout_width="0dp"
@@ -216,7 +216,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="bottom|end"
                         android:layout_marginTop="8dp"
-                        android:src="@drawable/favorite" />
+                        android:src="@drawable/like" />
 
 
                 </LinearLayout>

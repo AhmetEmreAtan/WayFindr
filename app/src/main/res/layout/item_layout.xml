@@ -10,8 +10,10 @@
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:layout_centerInParent="true"
-        android:background="@color/navy"
-        android:layout_margin="16dp"/>
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp" />
 
     <TextView
         android:id="@+id/textView"
@@ -21,12 +23,12 @@
         android:layout_alignStart="@+id/imageView"
         android:layout_alignEnd="@+id/imageView"
         android:layout_marginStart="0dp"
-        android:layout_marginTop="-50dp"
+        android:layout_marginTop="-55dp"
         android:layout_marginEnd="0dp"
         android:fontFamily="@font/font1"
         android:text="Title"
         android:textAlignment="center"
-        android:textColor="@color/grey"
+        android:textColor="@color/green"
         android:textSize="16sp"
         android:textStyle="bold" />
 

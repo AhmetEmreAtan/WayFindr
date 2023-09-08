@@ -12,7 +12,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" >
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="wrap_content"
@@ -70,11 +70,12 @@
 
             <TextView
                 android:id="@+id/adres_info"
-                android:layout_width="150dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:text="Vişnezade, Dolmabahçe Cd. No:2, 34357 Beşiktaş/İstanbul"
                 android:textSize="16sp"
+                app:layout_constraintEnd_toStartOf="@+id/ekbilgicommenttxt"
                 app:layout_constraintStart_toStartOf="@+id/adrestitle"
                 app:layout_constraintTop_toBottomOf="@+id/adrestitle" />
 
@@ -105,9 +106,9 @@
                 android:id="@+id/gitbtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
-                android:backgroundTint="@color/peachorange"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="30dp"
+                android:backgroundTint="@color/green"
                 android:fontFamily="@font/font1"
                 android:text="Git"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -122,7 +123,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
-                android:background="@color/peachorange"
+                android:background="@color/green"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/placesname">

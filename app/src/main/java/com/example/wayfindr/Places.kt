@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 
 
@@ -35,6 +36,11 @@ class Places : Fragment() {
             activity?.supportFragmentManager?.beginTransaction()
                 ?.replace(R.id.fragmentPlaces, filterBottomSheetFragment)
                 ?.commit()
+        }
+
+        val resetButton: Button? = view.findViewById(R.id.resetButton)
+        resetButton?.setOnClickListener {
+            activity?.supportFragmentManager?.beginTransaction()?.remove(this)?.commit()
         }
 
 
