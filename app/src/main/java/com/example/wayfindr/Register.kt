@@ -38,12 +38,6 @@ class Register : AppCompatActivity() {
             }
         }
 
-        binding.letLogIn.setOnClickListener {
-            startActivity(Intent(this@Register, Login::class.java))
-            finish()
-        }
-
-
         val signUpTextView = findViewById<Button>(R.id.singUp)
         signUpTextView.setOnClickListener {
             val intent = Intent(this@Register, Profile_page::class.java)
