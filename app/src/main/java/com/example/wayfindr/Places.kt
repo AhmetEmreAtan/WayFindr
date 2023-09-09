@@ -29,7 +29,6 @@ class Places : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
-
         val filterImage: ImageView? = view.findViewById(R.id.filterImage)
         filterImage?.setOnClickListener {
             val filterBottomSheetFragment = FilterBottomSheetFragment()
@@ -38,11 +37,13 @@ class Places : Fragment() {
                 ?.commit()
         }
 
-        val resetButton: Button? = view.findViewById(R.id.resetButton)
+        /*val resetButton: Button? = view.findViewById(R.id.resetButton)
         resetButton?.setOnClickListener {
             activity?.supportFragmentManager?.beginTransaction()?.remove(this)?.commit()
-        }
+        }*/
 
 
     }
+
+
 }

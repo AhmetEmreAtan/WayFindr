@@ -5,12 +5,12 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/fragmentPlaces"
+    android:background="@color/begie"
     tools:context=".Places">
 
 
-
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:paddingBottom="8dp">
@@ -28,19 +28,18 @@
                 android:id="@+id/searchText"
                 android:layout_width="match_parent"
                 android:layout_height="40dp"
-                android:layout_weight="1"
                 android:layout_margin="3dp"
-                android:ems="10"
-                android:inputType="text"
+                android:layout_weight="1"
                 android:background="@color/white"
                 android:drawableStart="@drawable/search"
                 android:drawablePadding="8dp"
+                android:ems="10"
+                android:hint="Search Location..."
+                android:inputType="text"
                 android:padding="8dp"
-                android:textSize="15sp"
                 android:paddingStart="16dp"
                 android:paddingEnd="16dp"
-                android:hint="Search Location..."
-                />
+                android:textSize="15sp" />
 
             <View
                 android:id="@+id/view"
@@ -48,7 +47,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
-                android:background="@color/grey"/>
+                android:background="@color/grey" />
 
             <ImageView
                 android:id="@+id/filterImage"
@@ -59,58 +58,18 @@
                 android:src="@drawable/settings" />
         </LinearLayout>
 
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewPlaces"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="20dp"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            />
 
-        <androidx.cardview.widget.CardView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="16dp"
-            app:cardCornerRadius="8dp">
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:padding="16dp">
-
-                <ImageView
-                    android:id="@+id/placesImage"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:src="@drawable/kizkulesi"
-                    android:scaleType="centerCrop"
-                    android:background="@color/white"
-                    android:contentDescription="Image Description" />
-
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:orientation="vertical"
-                    android:paddingStart="16dp">
-
-                    <TextView
-                        android:id="@+id/placesName"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Kız Kulesi"
-                        android:textSize="18sp"
-                        android:textStyle="bold"
-                        android:layout_marginTop="8dp" />
-
-                    <TextView
-                        android:id="@+id/placesDescription"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Kız Kulesi açıklama"
-                        android:layout_marginTop="4dp" />
-
-                </LinearLayout>
-
-            </LinearLayout>
-
-        </androidx.cardview.widget.CardView>
+        <include layout="@layout/item_places"/>
 
     </LinearLayout>
+
+
 
 </FrameLayout>

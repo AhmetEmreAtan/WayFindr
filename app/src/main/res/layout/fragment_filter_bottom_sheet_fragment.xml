@@ -44,22 +44,16 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Ücretli"
-                android:buttonTint="@color/peachorange"/>
+                android:buttonTint="@color/gradient"/>
 
             <RadioButton
                 android:id="@+id/radioButtonFree"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Ücretsiz"
-                android:buttonTint="@color/peachorange"/>
+                android:buttonTint="@color/vintage"/>
         </RadioGroup>
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Konum"
-            android:textStyle="bold"
-            android:layout_marginTop="16dp" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -73,9 +67,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:max="100"
-            android:progressTint="@color/peachorange"
-            android:thumbTint="@color/peachorange"
-            android:progressBackgroundTint="@color/peachorange"
+            android:progressTint="@color/gradient"
+            android:thumbTint="@color/gradient"
+            android:progressBackgroundTint="@color/gradient"
             android:layout_marginTop="8dp"/>
 
         <TextView
@@ -99,6 +93,7 @@
             android:orientation="horizontal">
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/cardview1"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -113,6 +108,7 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/cardview2"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -127,6 +123,7 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/cardview3"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -141,6 +138,7 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/cardview4"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -155,6 +153,7 @@
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
+                android:id="@+id/cardview5"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -183,13 +182,13 @@
                 android:layout_height="wrap_content"
                 android:text="Sıfırla"
                 android:layout_marginEnd="8dp"
-                android:backgroundTint="@color/peachorange"/>
+                android:backgroundTint="@color/gradient"/>
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Filtrele"
-                android:backgroundTint="@color/peachorange"/>
+                android:backgroundTint="@color/gradient"/>
         </LinearLayout>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
