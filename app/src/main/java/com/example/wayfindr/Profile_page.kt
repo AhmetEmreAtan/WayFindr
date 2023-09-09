@@ -23,5 +23,10 @@ class Profile_page : AppCompatActivity() {
             val intent = Intent(this, Favorites::class.java)
             startActivity(intent)
         }
+
+        binding.settingButton.setOnClickListener {
+            val intent = Intent(this, Setting::class.java)
+            startActivity(intent)
+        }
     }
 }
