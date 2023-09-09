@@ -60,7 +60,7 @@ class Login : AppCompatActivity() {
             dialog.show()
         }
 
-        // Diğer kodlar buraya gelebilir
+
     }
 
     private fun compareEmail(email: EditText) {
@@ -70,22 +70,20 @@ class Login : AppCompatActivity() {
             return
         }
 
-        // Kullanıcının e-posta adresini Firebase Realtime Database'de kontrol edin
+
         databaseReference.child(userEmail).addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 if (dataSnapshot.exists()) {
-                    // E-posta veritabanında bulundu, sıfırlama bağlantısı gönderin
-                    // Burada sıfırlama bağlantısı gönderme işlemini gerçekleştirebilirsiniz
-                    // Örneğin, kullanıcıya sıfırlama bağlantısını e-posta ile göndermek için JavaMail gibi bir kütüphane kullanabilirsiniz.
+
                     Toast.makeText(this@Login, "E-postanızı kontrol edin.", Toast.LENGTH_SHORT).show()
                 } else {
-                    // E-posta veritabanında bulunamadı
+
                     Toast.makeText(this@Login, "Bu e-posta kayıtlı değil.", Toast.LENGTH_SHORT).show()
                 }
             }
 
             override fun onCancelled(databaseError: DatabaseError) {
-                // Veritabanı hatası durumunda işlem yapabilirsiniz
+
                 Toast.makeText(this@Login, "Veritabanı hatası: ${databaseError.message}", Toast.LENGTH_SHORT).show()
             }
         })

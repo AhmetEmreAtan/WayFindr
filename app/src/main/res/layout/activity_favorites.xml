@@ -14,7 +14,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:paddingBottom="8dp"
-        android:background="@color/begie">
+        android:background="@color/white">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -39,6 +39,7 @@
                 android:text="FAVORİLER"
                 android:textAlignment="center"
                 android:textColor="@color/black"
+                android:background="@color/green"
                 android:textSize="18sp"
                 android:textStyle="bold|normal" />
 
@@ -56,8 +57,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:background="@color/green">
+                android:orientation="horizontal">
 
                 <ImageView
                     android:id="@+id/placesImage1"
