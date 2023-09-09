@@ -13,7 +13,8 @@
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:paddingBottom="8dp">
+        android:paddingBottom="8dp"
+        android:background="@color/begie">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -55,7 +56,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:background="@color/green">
 
                 <ImageView
                     android:id="@+id/placesImage1"
@@ -91,12 +93,15 @@
                         android:layout_marginTop="4dp" />
 
                     <ImageView
+                        android:id="@+id/fav1"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/like"
                         android:layout_gravity="bottom|end"
                         android:layout_marginTop="8dp"
-                        android:contentDescription="Simge açıklaması"/>
+                        android:contentDescription="Simge açıklaması"
+                        android:src="@drawable/favorite"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginBottom="10dp"/>
 
 
                 </LinearLayout>
@@ -152,11 +157,14 @@
                         android:layout_marginTop="4dp" />
 
                     <ImageView
+                        android:id="@+id/fav2"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:src="@drawable/like"
                         android:layout_gravity="bottom|end"
-                        android:layout_marginTop="8dp" />
+                        android:layout_marginTop="8dp"
+                        android:src="@drawable/favorite"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginBottom="10dp" />
 
 
                 </LinearLayout>
@@ -212,11 +220,14 @@
                         android:text="Beyoğlu" />
 
                     <ImageView
+                        android:id="@+id/fav3"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="bottom|end"
                         android:layout_marginTop="8dp"
-                        android:src="@drawable/like" />
+                        android:src="@drawable/favorite"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginBottom="10dp"/>
 
 
                 </LinearLayout>
