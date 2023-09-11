@@ -47,7 +47,7 @@ class Profile : Fragment() {
 
         val notSignupTxt = view.findViewById<TextView>(R.id.notSingUp)
         notSignupTxt.setOnClickListener {
-            val intent = Intent(requireActivity(), Home::class.java)
+            val intent = Intent(requireActivity(), Profile_page::class.java)
             startActivity(intent)
         }
         val letLoginTxt = view.findViewById<TextView>(R.id.letLogIn)
