@@ -1,6 +1,5 @@
 package com.example.wayfindr
 
-
 import android.content.Intent
 import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AlertDialog
@@ -12,12 +11,14 @@ import android.widget.EditText
 import android.widget.Toast
 import com.example.wayfindr.databinding.ActivityLoginBinding
 import com.google.firebase.database.*
+import com.google.firebase.auth.FirebaseAuth
 
 class Login : AppCompatActivity() {
 
     private lateinit var binding: ActivityLoginBinding
     private lateinit var firebaseDatabase: FirebaseDatabase
     private lateinit var databaseReference: DatabaseReference
+    private val firebaseAuth = FirebaseAuth.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -54,39 +55,29 @@ class Login : AppCompatActivity() {
             view.findViewById<Button>(R.id.btnCancel).setOnClickListener {
                 dialog.dismiss()
             }
-            if (dialog.window != null) {
+            if(dialog.window != null){
                 dialog.window!!.setBackgroundDrawable(ColorDrawable(0))
             }
             dialog.show()
         }
 
 
+
+
     }
 
     private fun compareEmail(email: EditText) {
-        val userEmail = email.text.toString().trim()
-
-        if (userEmail.isEmpty()) {
+        if(email.text.toString().isEmpty()){
             return
         }
-
-
-        databaseReference.child(userEmail).addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                if (dataSnapshot.exists()) {
-
-                    Toast.makeText(this@Login, "E-postanızı kontrol edin.", Toast.LENGTH_SHORT).show()
-                } else {
-
-                    Toast.makeText(this@Login, "Bu e-posta kayıtlı değil.", Toast.LENGTH_SHORT).show()
-                }
+        if (!Patterns.EMAIL_ADDRESS.matcher(email.text.toString()).matches()){
+            return
+        }
+        firebaseAuth.sendPasswordResetEmail(email.text.toString()).addOnCompleteListener { task ->
+            if(task.isSuccessful){
+                Toast.makeText(this,"E Postanızı kontrol edin.", Toast.LENGTH_SHORT).show()
             }
-
-            override fun onCancelled(databaseError: DatabaseError) {
-
-                Toast.makeText(this@Login, "Veritabanı hatası: ${databaseError.message}", Toast.LENGTH_SHORT).show()
-            }
-        })
+        }
     }
 
     private fun loginUser(email:String, password: String){
