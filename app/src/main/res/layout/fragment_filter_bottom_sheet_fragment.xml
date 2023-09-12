@@ -8,6 +8,8 @@
     tools:context=".FilterBottomSheetFragment"
     android:background="@color/begie">
 
+
+
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -17,6 +19,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent">
+
+        <ImageView
+            android:id="@+id/closeButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="300dp"
+            android:layout_marginBottom="30dp"
+            android:contentDescription="Kapat"
+            android:src="@drawable/icon_closed"
+            app:layout_constraintStart_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:layout_width="wrap_content"

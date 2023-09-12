@@ -1,19 +1,20 @@
 package com.example.wayfindr
 
+import android.content.ContentValues.TAG
 import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.ImageView
 import android.widget.RadioGroup
 import android.widget.SeekBar
 import android.widget.TextView
+import androidx.activity.OnBackPressedCallback
 import androidx.cardview.widget.CardView
 import androidx.fragment.app.Fragment
-import com.example.wayfindr.R
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-
 
 class FilterBottomSheetFragment : Fragment(){
 
@@ -23,16 +24,20 @@ class FilterBottomSheetFragment : Fragment(){
 
     }
 
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_filter_bottom_sheet_fragment, container, false)
+
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+
 
         val seekBarLocation: SeekBar = view.findViewById(R.id.seekBarLocation)
         val textViewSelectedDistance: TextView = view.findViewById(R.id.textViewSelectedDistance)
@@ -92,6 +97,21 @@ class FilterBottomSheetFragment : Fragment(){
 
         }
 
+        val imageViewClose: ImageView = view.findViewById(R.id.closeButton)
+        imageViewClose.setOnClickListener {
+            activity?.supportFragmentManager?.beginTransaction()?.remove(this)?.commit()
+        }
 
+        requireActivity()
+            .onBackPressedDispatcher
+            .addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
+                override fun handleOnBackPressed() {
+                    Log.d(TAG, "Back button pressed ")
+                    if (isEnabled) {
+                        isEnabled = false
+                        activity?.supportFragmentManager?.beginTransaction()?.remove(this@FilterBottomSheetFragment)?.commit()
+                    }
+                }
+            })
     }
 }
