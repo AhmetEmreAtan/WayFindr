@@ -8,25 +8,29 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.TextView
+import com.google.firebase.auth.FirebaseAuth
 import android.widget.EditText
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.wayfindr.R
 import com.example.wayfindr.UserData
+import com.example.wayfindr.databinding.FragmentProfileBinding
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseAuthUserCollisionException
 import com.google.firebase.database.*
 
 class Profile : Fragment() {
 
+
+    private lateinit var binding: FragmentProfileBinding
     private lateinit var firebaseDatabase: FirebaseDatabase
     private lateinit var databaseReference: DatabaseReference
     private lateinit var auth: FirebaseAuth
+    private val firebaseAuth = FirebaseAuth.getInstance()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,21 +43,22 @@ class Profile : Fragment() {
         databaseReference = firebaseDatabase.reference.child("users")
         auth = FirebaseAuth.getInstance()
 
+
+
         signUpButton.setOnClickListener {
             val name = view.findViewById<TextView>(R.id.name).text.toString()
             val email = view.findViewById<TextView>(R.id.eMail2).text.toString()
             val password = view.findViewById<TextView>(R.id.passwords2).text.toString()
 
             if (name.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty()) {
-                // Firebase Authentication ile kullanıcı kaydı oluştur
+
                 auth.createUserWithEmailAndPassword(email, password)
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
-                            // Kullanıcı başarıyla kaydedildi
+
                             val user = auth.currentUser
                             val id = user?.uid
 
-                            // Firebase Realtime Database'e kullanıcı bilgilerini kaydet
                             val userData = UserData(id, name, email, password)
                             databaseReference.child(id!!).setValue(userData)
 
@@ -63,20 +68,17 @@ class Profile : Fragment() {
                                 Toast.LENGTH_SHORT
                             ).show()
 
-                            // Kullanıcıyı başka bir ekrana yönlendir
+
                             val intent = Intent(requireContext(), Login::class.java)
                             startActivity(intent)
                         } else {
-                            // Kullanıcı kaydı başarısız
                             if (task.exception is FirebaseAuthUserCollisionException) {
-                                // E-posta çakışması hatası
                                 Toast.makeText(
                                     requireContext(),
                                     "Bu e-posta adresi zaten kullanılıyor.",
                                     Toast.LENGTH_SHORT
                                 ).show()
                             } else {
-                                // Diğer hatalar
                                 Toast.makeText(
                                     requireContext(),
                                     "Kullanıcı kaydı başarısız: " + task.exception?.message,
@@ -89,6 +91,7 @@ class Profile : Fragment() {
                 Toast.makeText(requireContext(), "Tüm alanları doldurmak zorunludur", Toast.LENGTH_SHORT).show()
             }
         }
+
 
         val notSignupTxt = view.findViewById<TextView>(R.id.notSingUp)
         notSignupTxt.setOnClickListener {

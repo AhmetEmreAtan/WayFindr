@@ -1,11 +1,40 @@
 package com.example.wayfindr
 
+import android.content.Context
+import android.content.Intent
+import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import com.example.wayfindr.databinding.ActivitySettingBinding
+import com.google.firebase.auth.FirebaseAuth
 
-class Setting : AppCompatActivity() {
+class     Setting : AppCompatActivity() {
+
+    private lateinit var binding: ActivitySettingBinding
+    private lateinit var auth: FirebaseAuth
+    private lateinit var sharedPreferences: SharedPreferences
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_setting)
+        binding = ActivitySettingBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        auth = FirebaseAuth.getInstance()
+        sharedPreferences = getSharedPreferences("MY_PRE", Context.MODE_PRIVATE)
+
+       binding.logOutButton.setOnClickListener {
+           auth.signOut()
+           clearUserPreference()
+
+           val intent = Intent(this, Login::class.java)
+           startActivity(intent)
+           finish()
+
+       }
+    }
+    private fun clearUserPreference(){
+        val editor = sharedPreferences.edit()
+        editor.clear()
+        editor.apply()
     }
 }

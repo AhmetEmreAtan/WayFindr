@@ -1,6 +1,8 @@
 package com.example.wayfindr
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
 import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
@@ -19,19 +21,37 @@ class Login : AppCompatActivity() {
     private lateinit var firebaseDatabase: FirebaseDatabase
     private lateinit var databaseReference: DatabaseReference
     private val firebaseAuth = FirebaseAuth.getInstance()
+    private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+
         firebaseDatabase = FirebaseDatabase.getInstance()
         databaseReference =firebaseDatabase.reference.child("users")
+
+        val sharedPreferences = getSharedPreferences("MY_PRE", Context.MODE_PRIVATE)
+        val getemail = sharedPreferences.getString("EMAIL", "")
+        val getpassword = sharedPreferences.getString("PASSWORD", "")
+
+        if(getemail != "" && getpassword != ""){
+            val i = Intent(this, Profile_page::class.java)
+            startActivity(i)
+        }
+
 
         binding.singIn.setOnClickListener {
 
             val email = binding.eMail.text.toString()
             val password = binding.passwords.text.toString()
+
+            val editor = sharedPreferences.edit()
+            editor.putString("EMAIL", email)
+            editor.putString("PASSWORD", password)
+            editor.apply()
+
 
             if (email.isNotEmpty() && password.isNotEmpty()) {
                 loginUser( email, password)
@@ -62,8 +82,6 @@ class Login : AppCompatActivity() {
         }
 
 
-
-
     }
 
     private fun compareEmail(email: EditText) {
@@ -87,11 +105,14 @@ class Login : AppCompatActivity() {
                     for(userSnapshot in dataSnapshot.children){
                         val userData = userSnapshot.getValue(UserData::class.java)
 
-                        if(userData != null && userData.password == password){
+
+
+                        if(userData != null && userData.password == password ){
                             Toast.makeText(this@Login, "Giriş işlemi gerçekleşti.", Toast.LENGTH_SHORT).show()
                             startActivity(Intent(this@Login,Profile_page::class.java))
                             finish()
-                            return
+
+
                         }
                     }
                 }
