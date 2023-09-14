@@ -24,7 +24,7 @@ class Profile_page : AppCompatActivity() {
 
         val email = sharedPreferences.getString("EMAIL", "")
         val password = sharedPreferences.getString("PASSWORD", "")
-        binding.profileName.text = "$email,$password"
+        binding.profileName.text = "$email"
 
 
 
@@ -36,6 +36,11 @@ class Profile_page : AppCompatActivity() {
 
         binding.settingButton.setOnClickListener {
             val intent = Intent(this, Setting::class.java)
+            startActivity(intent)
+        }
+
+        binding.adminButton.setOnClickListener {
+            val intent = Intent(this, admin::class.java)
             startActivity(intent)
         }
     }

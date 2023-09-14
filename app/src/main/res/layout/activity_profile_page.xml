@@ -57,7 +57,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/profilEmail">
 
                     <androidx.appcompat.widget.AppCompatButton
-                        android:id="@+id/user_information_button"
+                        android:id="@+id/adminButton"
                         style="@android:style/Widget.Button"
                         android:layout_width="match_parent"
                         android:layout_height="60dp"

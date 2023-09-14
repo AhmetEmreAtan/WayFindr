@@ -26,7 +26,8 @@ class Login : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityLoginBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+        val view = binding.root
+        setContentView(view)
 
 
         firebaseDatabase = FirebaseDatabase.getInstance()
@@ -46,7 +47,6 @@ class Login : AppCompatActivity() {
 
             val email = binding.eMail.text.toString()
             val password = binding.passwords.text.toString()
-
             val editor = sharedPreferences.edit()
             editor.putString("EMAIL", email)
             editor.putString("PASSWORD", password)
@@ -79,6 +79,12 @@ class Login : AppCompatActivity() {
                 dialog.window!!.setBackgroundDrawable(ColorDrawable(0))
             }
             dialog.show()
+        }
+
+        val letRegisterTxt = binding.letRegister
+        letRegisterTxt.setOnClickListener {
+            val intent = Intent(this, Profile::class.java)
+            startActivity(intent)
         }
 
 

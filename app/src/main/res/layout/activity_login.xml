@@ -150,6 +150,38 @@
                 android:textSize="17sp"
                 app:shapeAppearanceOverlay="@style/Button5" />
 
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:gravity="center"
+                android:orientation="horizontal"
+                android:textAlignment="center">
+
+                <TextView
+                    android:id="@+id/textView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_weight="0"
+                    android:gravity="center"
+                    android:text="Bir hesabın yok mu ?  "
+                    android:textSize="11sp" />
+
+                <TextView
+                    android:id="@+id/letRegister"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0"
+                    android:text="Kayıt ol"
+                    android:textColor="@color/vintage"
+                    android:textSize="11sp"
+                    android:textStyle="bold" />
+
+            </LinearLayout>
+
 
             <LinearLayout
                 android:layout_width="match_parent"
