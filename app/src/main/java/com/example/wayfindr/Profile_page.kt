@@ -40,7 +40,7 @@ class Profile_page : AppCompatActivity() {
         }
 
         binding.adminButton.setOnClickListener {
-            val intent = Intent(this, admin::class.java)
+            val intent = Intent(this, adminEdit::class.java)
             startActivity(intent)
         }
     }

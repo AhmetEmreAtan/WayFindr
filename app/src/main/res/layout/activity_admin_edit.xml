@@ -8,7 +8,7 @@
     android:orientation="vertical"
     android:gravity="center"
     android:background="@color/vintage"
-    tools:context=".admin">
+    tools:context=".adminEdit">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -39,8 +39,8 @@
                 android:id="@+id/editName"
                 android:layout_marginTop="40dp"
                 android:padding="8dp"
-                android:hint="Name"
                 android:drawablePadding="8dp"
+                android:hint="Name"
                 android:textColor="@color/black"/>
 
             <EditText
@@ -51,8 +51,6 @@
                 android:padding="8dp"
                 android:hint="Email"
                 android:textColor="@color/black"/>
-
-
 
 
             <EditText
