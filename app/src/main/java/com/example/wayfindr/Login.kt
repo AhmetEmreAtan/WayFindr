@@ -5,43 +5,46 @@ import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.drawable.ColorDrawable
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Patterns
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
-import com.example.wayfindr.databinding.ActivityLoginBinding
+import androidx.fragment.app.Fragment
+import com.example.wayfindr.databinding.FragmentLoginBinding
 import com.google.firebase.database.*
 import com.google.firebase.auth.FirebaseAuth
 
-class Login : AppCompatActivity() {
+class Login : Fragment() {
 
-    private lateinit var binding: ActivityLoginBinding
+    private lateinit var binding: FragmentLoginBinding
     private lateinit var firebaseDatabase: FirebaseDatabase
     private lateinit var databaseReference: DatabaseReference
     private val firebaseAuth = FirebaseAuth.getInstance()
     private lateinit var sharedPreferences: SharedPreferences
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = ActivityLoginBinding.inflate(layoutInflater)
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        binding = FragmentLoginBinding.inflate(inflater, container, false)
         val view = binding.root
-        setContentView(view)
-
 
         firebaseDatabase = FirebaseDatabase.getInstance()
-        databaseReference =firebaseDatabase.reference.child("users")
+        databaseReference = firebaseDatabase.reference.child("users")
 
-        val sharedPreferences = getSharedPreferences("MY_PRE", Context.MODE_PRIVATE)
+        sharedPreferences = requireActivity().getSharedPreferences("MY_PRE", Context.MODE_PRIVATE)
         val getemail = sharedPreferences.getString("EMAIL", "")
         val getpassword = sharedPreferences.getString("PASSWORD", "")
 
-        if(getemail != "" && getpassword != ""){
-            val i = Intent(this, Profile_page::class.java)
+        if (getemail != "" && getpassword != "") {
+            val i = Intent(requireContext(), Profile_page::class.java)
             startActivity(i)
         }
-
 
         binding.singIn.setOnClickListener {
 
@@ -52,86 +55,83 @@ class Login : AppCompatActivity() {
             editor.putString("PASSWORD", password)
             editor.apply()
 
-
             if (email.isNotEmpty() && password.isNotEmpty()) {
-                loginUser( email, password)
+                loginUser(email, password)
             } else {
-                Toast.makeText(this@Login, "Tüm alanları doldurmak zorunludur", Toast.LENGTH_SHORT).show()
+                Toast.makeText(requireContext(), "Tüm alanları doldurmak zorunludur", Toast.LENGTH_SHORT).show()
             }
         }
 
         binding.forgetPassword.setOnClickListener {
-            val builder = AlertDialog.Builder(this)
-            val view = layoutInflater.inflate(R.layout.dialog_forget, null)
-            val userEmail = view.findViewById<EditText>(R.id.editBox)
+            val builder = AlertDialog.Builder(requireContext())
+            val dialogView = layoutInflater.inflate(R.layout.dialog_forget, null)
+            val userEmail = dialogView.findViewById<EditText>(R.id.editBox)
 
-            builder.setView(view)
+            builder.setView(dialogView)
             val dialog = builder.create()
 
-            view.findViewById<Button>(R.id.btnReset).setOnClickListener {
+            dialogView.findViewById<Button>(R.id.btnReset).setOnClickListener {
                 compareEmail(userEmail)
                 dialog.dismiss()
             }
-            view.findViewById<Button>(R.id.btnCancel).setOnClickListener {
+            dialogView.findViewById<Button>(R.id.btnCancel).setOnClickListener {
                 dialog.dismiss()
             }
-            if(dialog.window != null){
+            if (dialog.window != null) {
                 dialog.window!!.setBackgroundDrawable(ColorDrawable(0))
             }
             dialog.show()
         }
 
-        val letRegisterTxt = binding.letRegister
+        val letRegisterTxt = binding.singUp
         letRegisterTxt.setOnClickListener {
-            val intent = Intent(this, Profile::class.java)
+            val intent = Intent(requireContext(), Register::class.java)
             startActivity(intent)
         }
 
-
+        return view
     }
 
     private fun compareEmail(email: EditText) {
-        if(email.text.toString().isEmpty()){
+        if (email.text.toString().isEmpty()) {
             return
         }
-        if (!Patterns.EMAIL_ADDRESS.matcher(email.text.toString()).matches()){
+        if (!Patterns.EMAIL_ADDRESS.matcher(email.text.toString()).matches()) {
             return
         }
         firebaseAuth.sendPasswordResetEmail(email.text.toString()).addOnCompleteListener { task ->
-            if(task.isSuccessful){
-                Toast.makeText(this,"E Postanızı kontrol edin.", Toast.LENGTH_SHORT).show()
+            if (task.isSuccessful) {
+                Toast.makeText(requireContext(), "E Postanızı kontrol edin.", Toast.LENGTH_SHORT).show()
             }
         }
     }
 
-    private fun loginUser(email:String, password: String){
-        databaseReference.orderByChild("email").equalTo(email).addListenerForSingleValueEvent(object : ValueEventListener{
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                if(dataSnapshot.exists()){
-                    for(userSnapshot in dataSnapshot.children){
-                        val userData = userSnapshot.getValue(UserData::class.java)
+    private fun loginUser(email: String, password: String) {
+        databaseReference.orderByChild("email").equalTo(email)
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    if (dataSnapshot.exists()) {
+                        for (userSnapshot in dataSnapshot.children) {
+                            val userData = userSnapshot.getValue(UserData::class.java)
 
-
-
-                        if(userData != null && userData.password == password ){
-                            Toast.makeText(this@Login, "Giriş işlemi gerçekleşti.", Toast.LENGTH_SHORT).show()
-                            startActivity(Intent(this@Login,Profile_page::class.java))
-                            finish()
-
-
+                            if (userData != null && userData.password == password) {
+                                Toast.makeText(requireContext(), "Giriş işlemi gerçekleşti.", Toast.LENGTH_SHORT).show()
+                                val intent = Intent(requireContext(), Profile_page::class.java)
+                                startActivity(intent)
+                                requireActivity().finish()
+                            }
                         }
                     }
+                    Toast.makeText(requireContext(), "Giriş işlemi gerçekleşmedi.", Toast.LENGTH_SHORT).show()
                 }
-                Toast.makeText(this@Login, "Giriş işlemi gerçekleşmedi.", Toast.LENGTH_SHORT).show()
-            }
 
-            override fun onCancelled(databaseError: DatabaseError) {
-                Toast.makeText(
-                    this@Login,
-                    "Database Error : ${databaseError.message}",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
-        })
+                override fun onCancelled(databaseError: DatabaseError) {
+                    Toast.makeText(
+                        requireContext(),
+                        "Database Error : ${databaseError.message}",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            })
     }
 }

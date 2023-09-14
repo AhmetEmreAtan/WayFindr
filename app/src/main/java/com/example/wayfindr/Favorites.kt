@@ -3,7 +3,6 @@ package com.example.wayfindr
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.wayfindr.databinding.ActivityFavoritesBinding
-import com.example.wayfindr.databinding.ActivityLoginBinding
 
 class Favorites : AppCompatActivity() {
 

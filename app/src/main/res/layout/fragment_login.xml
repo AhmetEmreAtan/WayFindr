@@ -6,7 +6,8 @@
     android:layout_height="match_parent"
     android:background="@color/white"
     android:orientation="vertical"
-    tools:context=".Login">
+    tools:context=".Login"
+    tools:ignore="MissingDefaultResource">
 
 
 
@@ -171,7 +172,7 @@
                     android:textSize="11sp" />
 
                 <TextView
-                    android:id="@+id/letRegister"
+                    android:id="@+id/singUp"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_weight="0"
