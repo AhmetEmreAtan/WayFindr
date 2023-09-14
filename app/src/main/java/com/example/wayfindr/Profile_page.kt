@@ -2,18 +2,13 @@ package com.example.wayfindr
 
 import android.content.Context
 import android.content.Intent
-import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.Button
-import com.example.wayfindr.databinding.ActivityFavoritesBinding
 import com.example.wayfindr.databinding.ActivityProfilePageBinding
-import kotlin.math.round
 
 class Profile_page : AppCompatActivity() {
 
     private lateinit var binding : ActivityProfilePageBinding
-    private lateinit var sharedPreferences: SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,7 +35,7 @@ class Profile_page : AppCompatActivity() {
         }
 
         binding.adminButton.setOnClickListener {
-            val intent = Intent(this, adminEdit::class.java)
+            val intent = Intent(this, AdminEdit::class.java)
             startActivity(intent)
         }
     }

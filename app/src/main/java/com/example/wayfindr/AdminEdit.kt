@@ -7,7 +7,7 @@ import android.widget.Toast
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 
-class adminEdit: AppCompatActivity() {
+class AdminEdit: AppCompatActivity() {
 
     private lateinit var editName: EditText
     private lateinit var editEmail: EditText
@@ -23,11 +23,11 @@ class adminEdit: AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_admin_edit)
-
         reference = FirebaseDatabase.getInstance().getReference("users")
 
         editName = findViewById(R.id.editName)
         editEmail = findViewById(R.id.editEmail)
+        editUsername = findViewById(R.id.editUsername) // Bu satırı ekledim
         editPassword = findViewById(R.id.editPassword)
         saveButton = findViewById(R.id.saveButton)
 
@@ -35,9 +35,9 @@ class adminEdit: AppCompatActivity() {
 
         saveButton.setOnClickListener {
             if (isNameChanged() || isPasswordChanged() || isEmailChanged()) {
-                Toast.makeText(this@adminEdit, "Saved", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@AdminEdit, "Saved", Toast.LENGTH_SHORT).show()
             } else {
-                Toast.makeText(this@adminEdit, "No Changes Found", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@AdminEdit, "No Changes Found", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -77,6 +77,7 @@ class adminEdit: AppCompatActivity() {
 
         nameUser = intent.getStringExtra("name") ?: ""
         emailUser = intent.getStringExtra("email") ?: ""
+        usernameUser = intent.getStringExtra("username") ?: "" // Buradaki "username" alanını değiştirdim
         passwordUser = intent.getStringExtra("password") ?: ""
 
         editName.setText(nameUser)
