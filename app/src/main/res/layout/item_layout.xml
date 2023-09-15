@@ -22,13 +22,11 @@
         android:layout_below="@+id/imageView"
         android:layout_alignStart="@+id/imageView"
         android:layout_alignEnd="@+id/imageView"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="-55dp"
-        android:layout_marginEnd="0dp"
         android:fontFamily="@font/font1"
+        android:layout_marginTop="-20dp"
         android:text="Title"
         android:textAlignment="center"
-        android:textColor="@color/green"
+        android:textColor="@color/begie"
         android:textSize="16sp"
         android:textStyle="bold" />
 

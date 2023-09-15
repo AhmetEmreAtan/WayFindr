@@ -21,4 +21,7 @@
     <color name="light_blue_A200">#FF40C4FF</color>
     <color name="light_blue_A400">#FF00B0FF</color>
     <color name="black_overlay">#66000000</color>
+    <color name="home_icon_bg">#0E21A0</color>
+    <color name="places_icon_bg">#D2DE32</color>
+    <color name="profile_icon_bg">#952323</color>
 </resources>
