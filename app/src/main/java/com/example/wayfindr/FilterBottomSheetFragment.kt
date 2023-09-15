@@ -1,7 +1,10 @@
 package com.example.wayfindr
 
 import android.content.ContentValues.TAG
+import android.content.Context
+import android.content.pm.PackageManager
 import android.graphics.Color
+import android.location.LocationManager
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -14,10 +17,11 @@ import android.widget.SeekBar
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.cardview.widget.CardView
+import androidx.core.content.ContextCompat
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
 
-class FilterBottomSheetFragment : Fragment(){
-
+class FilterBottomSheetFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,19 +42,18 @@ class FilterBottomSheetFragment : Fragment(){
         super.onViewCreated(view, savedInstanceState)
 
 
-
         val seekBarLocation: SeekBar = view.findViewById(R.id.seekBarLocation)
         val textViewSelectedDistance: TextView = view.findViewById(R.id.textViewSelectedDistance)
         val resetButton: Button? = view.findViewById(R.id.resetButton)
         val radioGroupPricing: RadioGroup = view.findViewById(R.id.radioGroupPricing)
-        val cardView1:CardView=view.findViewById((R.id.cardview1))
-        val cardView2:CardView=view.findViewById((R.id.cardview2))
-        val cardView3:CardView=view.findViewById((R.id.cardview3))
-        val cardView4:CardView=view.findViewById((R.id.cardview4))
-        val cardView5:CardView=view.findViewById((R.id.cardview5))
+        val cardView1: CardView = view.findViewById((R.id.cardview1))
+        val cardView2: CardView = view.findViewById((R.id.cardview2))
+        val cardView3: CardView = view.findViewById((R.id.cardview3))
+        val cardView4: CardView = view.findViewById((R.id.cardview4))
+        val cardView5: CardView = view.findViewById((R.id.cardview5))
 
         val cardViews = arrayOf(cardView1, cardView2, cardView3, cardView4, cardView5)
-        var selectedCardIndex=-1
+        var selectedCardIndex = -1
 
         for (i in cardViews.indices) {
             val cardView = cardViews[i]
@@ -109,9 +112,12 @@ class FilterBottomSheetFragment : Fragment(){
                     Log.d(TAG, "Back button pressed ")
                     if (isEnabled) {
                         isEnabled = false
-                        activity?.supportFragmentManager?.beginTransaction()?.remove(this@FilterBottomSheetFragment)?.commit()
+                        activity?.supportFragmentManager?.beginTransaction()
+                            ?.remove(this@FilterBottomSheetFragment)?.commit()
                     }
                 }
             })
     }
 }
+
+
