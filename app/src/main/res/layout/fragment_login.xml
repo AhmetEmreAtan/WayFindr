@@ -130,8 +130,10 @@
                     android:text="Şifremi Unuttum"
                     android:textAlignment="textEnd"
                     android:textColor="#616161"
-                    android:textSize="11sp"
-                    android:textStyle="normal" />
+                    android:textSize="12sp"
+                    android:textStyle="normal"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="10dp"/>
             </LinearLayout>
 
 
