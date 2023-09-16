@@ -1,17 +1,16 @@
-package com.example.wayfindr.places
-
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.wayfindr.R
+import com.example.wayfindr.places.ItemClickListener
+import com.example.wayfindr.places.PlaceModel
 
 class PlacesAdapter(
-    private val placeName: ArrayList<String>,
-    private val placeDescription: ArrayList<String>,
-    private val placeImage: ArrayList<Int>,
+    private val placesList: List<PlaceModel>,
     private val itemClickListener: ItemClickListener
 ) : RecyclerView.Adapter<PlacesAdapter.PlacesViewHolder>() {
 
@@ -22,14 +21,15 @@ class PlacesAdapter(
     }
 
     override fun onBindViewHolder(holder: PlacesViewHolder, position: Int) {
-        holder.bind(placeImage[position], placeName[position], placeDescription[position])
+        val place = placesList[position]
+        holder.bind(place)
         holder.itemView.setOnClickListener {
-            itemClickListener.onItemClick(position) // Öğeye tıklama işlemini ilettik
+            itemClickListener.onItemClick(position)
         }
     }
 
     override fun getItemCount(): Int {
-        return placeName.size // Listedeki öğe sayısını döndürün
+        return placesList.size
     }
 
     inner class PlacesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -38,10 +38,18 @@ class PlacesAdapter(
         private val placesName: TextView = itemView.findViewById(R.id.placesName)
         private val placesDescription: TextView = itemView.findViewById(R.id.placesDescription)
 
-        fun bind(imageResId: Int, name: String, description: String) {
-            placesImage.setImageResource(imageResId)
-            placesName.text = name
-            placesDescription.text = description
+        fun bind(place: PlaceModel) {
+            // Resmi URL'den yüklemek için : Glide
+
+            Glide.with(itemView)
+                .load(place.placeImage)
+                .placeholder(R.drawable.placeholder_image)
+                .error(R.drawable.error_image)
+                .into(placesImage)
+
+            placesName.text = place.placeName
+            placesDescription.text = place.placeDescription
         }
     }
+
 }

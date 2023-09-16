@@ -1,10 +1,10 @@
 package com.example.wayfindr
 
+import android.Manifest
+import android.app.AlertDialog
 import android.content.ContentValues.TAG
-import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.Color
-import android.location.LocationManager
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -18,10 +18,17 @@ import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.fragment.app.Fragment
+import com.google.android.gms.location.FusedLocationProviderClient
+import com.google.android.gms.location.LocationServices
+import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.database.FirebaseDatabase
 
 class FilterBottomSheetFragment : Fragment() {
+
+    private val locationPermissionCode=123
+    private lateinit var fusedLocationClient: FusedLocationProviderClient
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -34,9 +41,15 @@ class FilterBottomSheetFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_filter_bottom_sheet_fragment, container, false)
+        val view= inflater.inflate(R.layout.fragment_filter_bottom_sheet_fragment, container, false)
+
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(requireContext())
+
+        return view
 
     }
+
+
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -55,6 +68,7 @@ class FilterBottomSheetFragment : Fragment() {
         val cardViews = arrayOf(cardView1, cardView2, cardView3, cardView4, cardView5)
         var selectedCardIndex = -1
 
+
         for (i in cardViews.indices) {
             val cardView = cardViews[i]
 
@@ -68,7 +82,7 @@ class FilterBottomSheetFragment : Fragment() {
                 selectedCardIndex = i
 
 
-                cardView.setCardBackgroundColor(resources.getColor(R.color.gradient))
+                cardView.setCardBackgroundColor(resources.getColor(R.color.vintage))
             }
         }
 
@@ -117,6 +131,99 @@ class FilterBottomSheetFragment : Fragment() {
                     }
                 }
             })
+
+        if (hasLocationPermission()) {
+            getLocation()
+        } else {
+            requestLocationPermission()
+        }
+
+
+
+
+
+    }
+
+    // Kullanıcının konum izni olduğunu kontrol edin
+    private fun hasLocationPermission(): Boolean {
+        return ContextCompat.checkSelfPermission(
+            requireContext(),
+            Manifest.permission.ACCESS_FINE_LOCATION
+        ) == PackageManager.PERMISSION_GRANTED
+    }
+
+    // Kullanıcının konum iznini isteyin
+    private fun requestLocationPermission() {
+        if (shouldShowRequestPermissionRationale(Manifest.permission.ACCESS_FINE_LOCATION)) {
+            val alertDialog = AlertDialog.Builder(requireContext())
+                .setTitle("Konum İzni Gerekli")
+                .setMessage("Uygulamamızın konum bilgilerine erişmesi gerekiyor. Bu, yakınınızdaki yerleri bulmamıza yardımcı olur.")
+                .setPositiveButton("İzin Ver") { dialog, which ->
+
+                    requestPermissions(
+                        arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                        locationPermissionCode
+                    )
+                }
+                .setNegativeButton("Reddet") { dialog, which ->
+
+                    // İzin reddedildiğinde veya iptal edildiğinde gereken işlemler
+                }
+                .create()
+
+            alertDialog.show()
+        } else {
+
+            requestPermissions(
+                arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                locationPermissionCode
+            )
+        }
+
+        requestPermissions(
+            arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+            locationPermissionCode
+        )
+    }
+
+    // İzin isteği sonucu
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        if (requestCode == locationPermissionCode) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // İzin verildi
+                getLocation()
+            } else {
+                Snackbar.make(requireView(), "Konum izni reddedildi, bu nedenle belirli özellikler kullanılamayabilir.", Snackbar.LENGTH_LONG)
+                    .show()
+
+            }
+        }
+    }
+
+    // Kullanıcının konumunu alma
+    private fun getLocation() {
+        try {
+            fusedLocationClient.lastLocation
+                .addOnSuccessListener { location ->
+                    if (location != null) {
+
+                        val enlem = location.latitude
+                        val boylam = location.longitude
+
+                        Log.d("Konum", "Enlem: $enlem, Boylam: $boylam")
+                    }
+                }
+                .addOnFailureListener { exception ->
+                    // Konum alımı başarısız olduysa bunu ele alın
+                    Log.e("Konum", "Konum alınamadı: ${exception.message}")
+                }
+        } catch (securityException: SecurityException) {
+            // İzin reddedildi
+        }
     }
 }
 

@@ -57,7 +57,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Ücretli"
-                android:buttonTint="@color/gradient"/>
+                android:buttonTint="@color/vintage"/>
 
             <RadioButton
                 android:id="@+id/radioButtonFree"
@@ -80,7 +80,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:max="100"
-            android:progressTint="@color/gradient"
+            android:progressTint="@color/vintage"
             android:thumbTint="@color/gradient"
             android:progressBackgroundTint="@color/gradient"
             android:layout_marginTop="8dp"/>
@@ -117,7 +117,7 @@
                     android:layout_width="48dp"
                     android:layout_height="48dp"
                     android:src="@drawable/tarih"
-                    android:contentDescription="Tarih Müzeleri" />
+                    android:contentDescription="Tarihi Müzeler" />
             </androidx.cardview.widget.CardView>
 
             <androidx.cardview.widget.CardView
@@ -195,13 +195,13 @@
                 android:layout_height="wrap_content"
                 android:text="Sıfırla"
                 android:layout_marginEnd="8dp"
-                android:backgroundTint="@color/gradient"/>
+                android:backgroundTint="@color/vintage"/>
 
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Filtrele"
-                android:backgroundTint="@color/gradient"/>
+                android:backgroundTint="@color/vintage"/>
         </LinearLayout>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
