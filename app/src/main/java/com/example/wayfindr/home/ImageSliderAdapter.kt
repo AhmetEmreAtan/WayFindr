@@ -11,7 +11,7 @@ import com.example.wayfindr.R
 class ImageSliderAdapter(
     private val imageList: List<Int>,
     private val captionList: List<String>,
-    private val itemClickListener: ItemClickListener // Yeni tıklama dinleyici ekledik
+    private val itemClickListener: ItemClickListener
 ) : RecyclerView.Adapter<ImageSliderAdapter.ImageSliderViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ImageSliderViewHolder {
@@ -23,7 +23,7 @@ class ImageSliderAdapter(
     override fun onBindViewHolder(holder: ImageSliderViewHolder, position: Int) {
         holder.bind(imageList[position], captionList[position])
         holder.itemView.setOnClickListener {
-            itemClickListener.onItemClick(position) // Öğeye tıklama işlemini ilettik
+            itemClickListener.onItemClick(position)
         }
     }
 

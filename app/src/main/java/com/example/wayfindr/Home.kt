@@ -1,16 +1,21 @@
 package com.example.wayfindr
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.navigation.Navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.wayfindr.home.ImageSliderAdapter
 import com.example.wayfindr.home.ItemClickListener
+import com.example.wayfindr.home.Navigation
 import com.google.android.material.bottomsheet.BottomSheetDialog
 
 
@@ -83,6 +88,12 @@ class Home : Fragment() {
 
         val imageView = bottomSheetView.findViewById<ImageView>(R.id.places_image)
         imageView.setImageResource(imageResource)
+
+        val gitButton = bottomSheetView.findViewById<Button>(R.id.gitbtn)
+        gitButton.setOnClickListener {
+            val intent = Intent(requireContext(), Navigation::class.java)
+            startActivity(intent)
+        }
 
 
         bottomSheetDialog.setContentView(bottomSheetView)
