@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:id="@+id/fragmentPlaces"
     tools:context=".FilterBottomSheetFragment"
-    android:background="@color/begie">
+    android:background="@color/white">
 
 
 
@@ -57,14 +57,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Ücretli"
-                android:buttonTint="@color/vintage"/>
+                android:buttonTint="@color/gradient"/>
 
             <RadioButton
                 android:id="@+id/radioButtonFree"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Ücretsiz"
-                android:buttonTint="@color/vintage"/>
+                android:buttonTint="@color/gradient"/>
         </RadioGroup>
 
 
@@ -108,7 +108,7 @@
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardview1"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="100dp"
                 android:layout_weight="1"
                 android:layout_margin="8dp"
                 app:cardCornerRadius="8dp">
@@ -140,7 +140,7 @@
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardview2"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="100dp"
                 android:layout_weight="1"
                 android:layout_margin="8dp"
                 app:cardCornerRadius="8dp">
@@ -172,7 +172,7 @@
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardview3"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="100dp"
                 android:layout_weight="1"
                 android:layout_margin="10dp"
                 app:cardCornerRadius="8dp">
@@ -207,7 +207,7 @@
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardview4"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="100dp"
                 android:layout_weight="1"
                 android:layout_margin="8dp"
                 app:cardCornerRadius="8dp">
@@ -242,7 +242,7 @@
             <androidx.cardview.widget.CardView
                 android:id="@+id/cardview5"
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
+                android:layout_height="100dp"
                 android:layout_weight="1"
                 android:layout_margin="8dp"
                 app:cardCornerRadius="8dp">

@@ -3,6 +3,8 @@ package com.example.wayfindr
 import PlacesAdapter
 import android.content.ContentValues
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -24,7 +26,6 @@ import com.google.firebase.database.ValueEventListener
 class Places : Fragment() {
 
     val databaseReference = FirebaseDatabase.getInstance().getReference("places")
-    
 
     private val itemClickListener = object : ItemClickListener {
         override fun onItemClick(position: Int) {
@@ -64,7 +65,7 @@ class Places : Fragment() {
         }*/
 
         //Firebase Verlerini Çekme İşlemleri
-        databaseReference.addValueEventListener(object : ValueEventListener {
+        databaseReference.orderByChild("placeName").addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val placesList= mutableListOf<PlaceModel>()
 
@@ -79,7 +80,6 @@ class Places : Fragment() {
                     }
                 }
 
-
                 val recyclerView = requireView().findViewById<RecyclerView>(R.id.recyclerViewPlaces)
                 val adapter = PlacesAdapter(placesList, itemClickListener)
                 recyclerView.adapter = adapter
@@ -91,6 +91,58 @@ class Places : Fragment() {
             }
         })
 
+        // SearchEditText
+        val searchEditText = view?.findViewById<EditText>(R.id.searchText)
+        searchEditText?.addTextChangedListener(object : TextWatcher {
+            override fun afterTextChanged(editable: Editable?) {
+
+                val query = editable.toString().trim()
+                searchInDatabase(query)
+            }
+
+            override fun beforeTextChanged(charSequence: CharSequence?, start: Int, count: Int, after: Int) {
+
+            }
+
+            override fun onTextChanged(charSequence: CharSequence?, start: Int, before: Int, count: Int) {
+
+            }
+        })
+
+
     }
+
+    private fun searchInDatabase(query: String) {
+        val placesList = mutableListOf<PlaceModel>()
+
+        databaseReference.orderByChild("placeName")
+            .startAt(query)
+            .endAt(query + "\uf8ff")
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    for (childSnapshot in snapshot.children) {
+                        val placeName = childSnapshot.child("placeName").getValue(String::class.java)
+                        val placeDescription = childSnapshot.child("placeDescription").getValue(String::class.java)
+                        val placeImage = childSnapshot.child("placeImage").getValue(String::class.java)
+
+                        if (placeName != null && placeDescription != null && placeImage != null) {
+                            val place = PlaceModel(placeName, placeDescription, placeImage)
+                            placesList.add(place)
+                        }
+                    }
+
+                    val recyclerView = requireView().findViewById<RecyclerView>(R.id.recyclerViewPlaces)
+                    val adapter = PlacesAdapter(placesList, itemClickListener)
+                    recyclerView.adapter = adapter
+                    recyclerView.layoutManager = LinearLayoutManager(requireContext())
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    Log.e(ContentValues.TAG, "Veri çekme işlemi başarısız. Hata: ${error.message}")
+                }
+            })
+    }
+
+
 
 }

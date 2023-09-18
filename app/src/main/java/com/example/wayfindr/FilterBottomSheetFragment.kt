@@ -1,5 +1,6 @@
 package com.example.wayfindr
 
+import PlacesAdapter
 import android.Manifest
 import android.app.AlertDialog
 import android.content.ContentValues.TAG
@@ -19,16 +20,32 @@ import androidx.activity.OnBackPressedCallback
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.wayfindr.places.ItemClickListener
+import com.example.wayfindr.places.PlaceModel
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
 import com.google.android.material.snackbar.Snackbar
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 
 class FilterBottomSheetFragment : Fragment() {
 
     private val locationPermissionCode=123
     private lateinit var fusedLocationClient: FusedLocationProviderClient
 
+    val recyclerView = view?.findViewById<RecyclerView>(R.id.recyclerViewPlaces)
+
+    private val databaseReference = FirebaseDatabase.getInstance().getReference("places")
+
+    private val itemClickListener = object : ItemClickListener {
+        override fun onItemClick(position: Int) {
+
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -48,7 +65,6 @@ class FilterBottomSheetFragment : Fragment() {
         return view
 
     }
-
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -112,6 +128,11 @@ class FilterBottomSheetFragment : Fragment() {
                 selectedCardIndex = -1
             }
 
+            val placesFragment = Places()
+            activity?.supportFragmentManager?.beginTransaction()
+                ?.replace(R.id.fragmentPlaces, placesFragment)
+                ?.commit()
+
         }
 
         val imageViewClose: ImageView = view.findViewById(R.id.closeButton)
@@ -137,10 +158,6 @@ class FilterBottomSheetFragment : Fragment() {
         } else {
             requestLocationPermission()
         }
-
-
-
-
 
     }
 
@@ -211,10 +228,10 @@ class FilterBottomSheetFragment : Fragment() {
                 .addOnSuccessListener { location ->
                     if (location != null) {
 
-                        val enlem = location.latitude
-                        val boylam = location.longitude
+                        val latitude = location.latitude
+                        val longitude = location.longitude
 
-                        Log.d("Konum", "Enlem: $enlem, Boylam: $boylam")
+                        Log.d("Konum", "Enlem: $latitude, Boylam: $longitude")
                     }
                 }
                 .addOnFailureListener { exception ->
@@ -224,6 +241,33 @@ class FilterBottomSheetFragment : Fragment() {
         } catch (securityException: SecurityException) {
             // İzin reddedildi
         }
+    }
+
+    private fun setupRecyclerView() {
+        databaseReference.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val placesList = mutableListOf<PlaceModel>()
+
+                for (childSnapshot in snapshot.children) {
+                    val placeName = childSnapshot.child("placeName").getValue(String::class.java)
+                    val placeDescription = childSnapshot.child("placeDescription").getValue(String::class.java)
+                    val placeImage = childSnapshot.child("placeImage").getValue(String::class.java)
+
+                    if (placeName != null && placeDescription != null && placeImage != null) {
+                        val place = PlaceModel(placeName, placeDescription, placeImage)
+                        placesList.add(place)
+                    }
+                }
+
+                val adapter = PlacesAdapter(placesList, itemClickListener)
+                recyclerView?.adapter = adapter
+                recyclerView?.layoutManager = LinearLayoutManager(requireContext())
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                // Veri çekme işlemi başarısız.
+            }
+        })
     }
 }
 
