@@ -8,8 +8,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
+import android.widget.EditText
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.wayfindr.places.ItemClickListener
@@ -23,6 +24,7 @@ import com.google.firebase.database.ValueEventListener
 class Places : Fragment() {
 
     val databaseReference = FirebaseDatabase.getInstance().getReference("places")
+    
 
     private val itemClickListener = object : ItemClickListener {
         override fun onItemClick(position: Int) {
@@ -89,9 +91,6 @@ class Places : Fragment() {
             }
         })
 
-
-
     }
-
 
 }
