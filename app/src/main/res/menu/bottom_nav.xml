@@ -17,6 +17,6 @@
     <item
         android:title="Profile"
         android:id="@+id/profile"
-        android:icon="@drawable/icon_user"
+        android:icon="@drawable/icons_user"
         app:cnb_iconColor="@color/profile_icon_bg"/>
 </menu>

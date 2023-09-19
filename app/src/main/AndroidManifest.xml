@@ -29,6 +29,9 @@
             android:resource="@color/green" />
 
         <activity
+            android:name=".home.Navigation"
+            android:exported="false" />
+        <activity
             android:name=".Register"
             android:exported="false" />
         <activity
