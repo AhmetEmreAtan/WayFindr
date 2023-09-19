@@ -22,8 +22,8 @@
 
         <ImageView
             android:id="@+id/closeButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="30dp"
+            android:layout_height="30dp"
             android:layout_marginLeft="300dp"
             android:layout_marginBottom="30dp"
             android:contentDescription="Kapat"
@@ -120,7 +120,7 @@
                     android:padding="8dp">
 
                     <ImageView
-                        android:layout_width="48dp"
+                        android:layout_width="match_parent"
                         android:layout_height="48dp"
                         android:layout_gravity="center"
                         android:src="@drawable/tarih"/>
@@ -152,7 +152,7 @@
                     android:padding="8dp">
 
                 <ImageView
-                    android:layout_width="48dp"
+                    android:layout_width="match_parent"
                     android:layout_height="48dp"
                     android:layout_gravity="center"
                     android:src="@drawable/bilim" />
@@ -184,7 +184,7 @@
                     android:padding="8dp">
 
                     <ImageView
-                        android:layout_width="48dp"
+                        android:layout_width="match_parent"
                         android:layout_height="48dp"
                         android:layout_gravity="center"
                         android:src="@drawable/antropoloji" />
@@ -219,7 +219,7 @@
                     android:padding="8dp">
 
                     <ImageView
-                        android:layout_width="48dp"
+                        android:layout_width="match_parent"
                         android:layout_height="48dp"
                         android:layout_gravity="center"
                         android:src="@drawable/art"/>
@@ -254,7 +254,7 @@
                     android:padding="8dp">
 
                     <ImageView
-                        android:layout_width="48dp"
+                        android:layout_width="match_parent"
                         android:layout_height="48dp"
                         android:layout_gravity="center"
                         android:src="@drawable/ozelmuzeler"/>
