@@ -128,11 +128,6 @@ class FilterBottomSheetFragment : Fragment() {
                 selectedCardIndex = -1
             }
 
-            val placesFragment = Places()
-            activity?.supportFragmentManager?.beginTransaction()
-                ?.replace(R.id.fragmentPlaces, placesFragment)
-                ?.commit()
-
         }
 
         val imageViewClose: ImageView = view.findViewById(R.id.closeButton)

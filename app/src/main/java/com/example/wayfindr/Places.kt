@@ -2,6 +2,7 @@ package com.example.wayfindr
 
 import PlacesAdapter
 import android.content.ContentValues
+import android.content.ContentValues.TAG
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -21,11 +22,15 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.firestore.FirebaseFirestore
 
 
 class Places : Fragment() {
 
     val databaseReference = FirebaseDatabase.getInstance().getReference("places")
+
+    val db = FirebaseFirestore.getInstance()
+    val placesCollection = db.collection("places")
 
     private val itemClickListener = object : ItemClickListener {
         override fun onItemClick(position: Int) {
@@ -65,14 +70,16 @@ class Places : Fragment() {
         }*/
 
         //Firebase Verlerini Çekme İşlemleri
-        databaseReference.orderByChild("placeName").addListenerForSingleValueEvent(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                val placesList= mutableListOf<PlaceModel>()
+        placesCollection
+            .orderBy("placeName") // placeName alanına göre sıralama
+            .get()
+            .addOnSuccessListener { querySnapshot ->
+                val placesList = mutableListOf<PlaceModel>()
 
-                for (childSnapshot in snapshot.children) {
-                    val placeName = childSnapshot.child("placeName").getValue(String::class.java)
-                    val placeDescription = childSnapshot.child("placeDescription").getValue(String::class.java)
-                    val placeImage = childSnapshot.child("placeImage").getValue(String::class.java)
+                for (document in querySnapshot.documents) {
+                    val placeName = document.getString("placeName")
+                    val placeDescription = document.getString("placeDescription")
+                    val placeImage = document.getString("placeImage")
 
                     if (placeName != null && placeDescription != null && placeImage != null) {
                         val place = PlaceModel(placeName, placeDescription, placeImage)
@@ -85,11 +92,9 @@ class Places : Fragment() {
                 recyclerView.adapter = adapter
                 recyclerView.layoutManager = LinearLayoutManager(requireContext())
             }
-
-            override fun onCancelled(error: DatabaseError) {
-                Log.e(ContentValues.TAG, "Veri çekme işlemi başarısız. Hata: ${error.message}")
+            .addOnFailureListener { exception ->
+                Log.e(TAG, "Veri çekme işlemi başarısız. Hata: $exception")
             }
-        })
 
         // SearchEditText
         val searchEditText = view?.findViewById<EditText>(R.id.searchText)
@@ -97,7 +102,7 @@ class Places : Fragment() {
             override fun afterTextChanged(editable: Editable?) {
 
                 val query = editable.toString().trim()
-                searchInDatabase(query)
+                searchInFirestore(query)
             }
 
             override fun beforeTextChanged(charSequence: CharSequence?, start: Int, count: Int, after: Int) {
@@ -112,36 +117,39 @@ class Places : Fragment() {
 
     }
 
-    private fun searchInDatabase(query: String) {
-        val placesList = mutableListOf<PlaceModel>()
 
-        databaseReference.orderByChild("placeName")
-            .startAt(query)
-            .endAt(query + "\uf8ff")
-            .addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    for (childSnapshot in snapshot.children) {
-                        val placeName = childSnapshot.child("placeName").getValue(String::class.java)
-                        val placeDescription = childSnapshot.child("placeDescription").getValue(String::class.java)
-                        val placeImage = childSnapshot.child("placeImage").getValue(String::class.java)
+    private fun searchInFirestore(query: String) {
+    val placesList = mutableListOf<PlaceModel>()
+    val db = FirebaseFirestore.getInstance()
+    val placesCollection = db.collection("places")
 
-                        if (placeName != null && placeDescription != null && placeImage != null) {
-                            val place = PlaceModel(placeName, placeDescription, placeImage)
-                            placesList.add(place)
-                        }
-                    }
+    placesCollection
+        .orderBy("placeName")
+        .startAt(query)
+        .endAt(query + "\uf8ff")
+        .get()
+        .addOnSuccessListener { querySnapshot ->
+            for (document in querySnapshot.documents) {
+                val placeName = document.getString("placeName")
+                val placeDescription = document.getString("placeDescription")
+                val placeImage = document.getString("placeImage")
 
-                    val recyclerView = requireView().findViewById<RecyclerView>(R.id.recyclerViewPlaces)
-                    val adapter = PlacesAdapter(placesList, itemClickListener)
-                    recyclerView.adapter = adapter
-                    recyclerView.layoutManager = LinearLayoutManager(requireContext())
+                if (placeName != null && placeDescription != null && placeImage != null) {
+                    val place = PlaceModel(placeName, placeDescription, placeImage)
+                    placesList.add(place)
                 }
+            }
 
-                override fun onCancelled(error: DatabaseError) {
-                    Log.e(ContentValues.TAG, "Veri çekme işlemi başarısız. Hata: ${error.message}")
-                }
-            })
-    }
+            val recyclerView = requireView().findViewById<RecyclerView>(R.id.recyclerViewPlaces)
+            val adapter = PlacesAdapter(placesList, itemClickListener)
+            recyclerView.adapter = adapter
+            recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        }
+        .addOnFailureListener { exception ->
+            Log.e(ContentValues.TAG, "Veri çekme işlemi başarısız. Hata: $exception")
+        }
+}
+
 
 
 
