@@ -43,15 +43,6 @@
                 android:hint="Name"
                 android:textColor="@color/black"/>
 
-            <EditText
-                android:layout_width="match_parent"
-                android:layout_height="50dp"
-                android:id="@+id/editUsername"
-                android:layout_marginTop="40dp"
-                android:padding="8dp"
-                android:drawablePadding="8dp"
-                android:hint="User Name"
-                android:textColor="@color/black"/>
 
             <EditText
                 android:layout_width="match_parent"

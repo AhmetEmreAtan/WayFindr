@@ -5,6 +5,7 @@ import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.core.content.ContentProviderCompat.requireContext
 import com.example.wayfindr.databinding.ActivitySettingBinding
 import com.google.firebase.auth.FirebaseAuth
 
@@ -28,7 +29,7 @@ class     Setting : AppCompatActivity() {
 
            val intent = Intent(this, Login::class.java)
            startActivity(intent)
-           finish()
+
 
        }
     }

@@ -18,7 +18,7 @@ class Profile_page : AppCompatActivity() {
         val sharedPreferences = getSharedPreferences("MY_PRE", Context.MODE_PRIVATE)
 
         val email = sharedPreferences.getString("EMAIL", "")
-        val password = sharedPreferences.getString("PASSWORD", "")
+
         binding.profileName.text = "$email"
 
 
