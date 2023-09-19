@@ -52,7 +52,7 @@ class Register : AppCompatActivity() {
                                 Toast.LENGTH_SHORT
                             ).show()
 
-                            val intent = Intent(applicationContext, Login::class.java)
+                            val intent = Intent(applicationContext, Logins::class.java)
                             startActivity(intent)
                         } else {
                             if (task.exception is FirebaseAuthUserCollisionException) {
