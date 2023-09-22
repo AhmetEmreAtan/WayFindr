@@ -36,7 +36,7 @@
             android:exported="false" />
         <activity
             android:name=".AdminEdit"
-            android:exported="false" />
+            android:exported="true" />
         <activity
             android:name=".Setting"
             android:exported="true" />

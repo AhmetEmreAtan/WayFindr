@@ -32,6 +32,7 @@ class Profile : Fragment() {
             startActivity(intent)
         }
 
+
         binding.settingButton.setOnClickListener {
             val intent = Intent(requireContext(), Setting::class.java)
             startActivity(intent)

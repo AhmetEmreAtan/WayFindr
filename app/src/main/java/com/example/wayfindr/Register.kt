@@ -1,6 +1,9 @@
 package com.example.wayfindr
 
+import android.content.Context
 import android.content.Intent
+import android.content.SharedPreferences
+
 import android.os.Bundle
 import android.widget.TextView
 import android.widget.Toast
@@ -33,6 +36,7 @@ class Register : AppCompatActivity() {
             val name = findViewById<TextView>(R.id.name).text.toString()
             val email = findViewById<TextView>(R.id.eMail2).text.toString()
             val password = findViewById<TextView>(R.id.passwords2).text.toString()
+
 
             if (name.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty()) {
 
