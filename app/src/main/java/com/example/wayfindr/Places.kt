@@ -148,7 +148,7 @@ class Places : Fragment() {
         .addOnFailureListener { exception ->
             Log.e(ContentValues.TAG, "Veri çekme işlemi başarısız. Hata: $exception")
         }
-}
+    }
 
 
 

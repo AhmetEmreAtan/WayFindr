@@ -31,6 +31,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.firestore.FirebaseFirestore
 
 class FilterBottomSheetFragment : Fragment() {
 
@@ -39,7 +40,13 @@ class FilterBottomSheetFragment : Fragment() {
 
     val recyclerView = view?.findViewById<RecyclerView>(R.id.recyclerViewPlaces)
 
-    private val databaseReference = FirebaseDatabase.getInstance().getReference("places")
+    private lateinit var firestore: FirebaseFirestore
+
+    private var isPaidSelected: Boolean = false
+    private var isFreeSelected: Boolean = false
+    private var selectedCategory: Int = -1
+    private var selectedDistance: Int = 0
+
 
     private val itemClickListener = object : ItemClickListener {
         override fun onItemClick(position: Int) {
@@ -82,50 +89,63 @@ class FilterBottomSheetFragment : Fragment() {
         val cardView5: CardView = view.findViewById((R.id.cardview5))
 
         val cardViews = arrayOf(cardView1, cardView2, cardView3, cardView4, cardView5)
-        var selectedCardIndex = -1
-
 
         for (i in cardViews.indices) {
             val cardView = cardViews[i]
 
             cardView.setOnClickListener {
-
-                if (selectedCardIndex != -1) {
-                    cardViews[selectedCardIndex].setCardBackgroundColor(Color.WHITE)
+                if (selectedCategory != i) {
+                    selectedCategory = i
+                } else {
+                    selectedCategory = -1
                 }
 
-
-                selectedCardIndex = i
-
-
-                cardView.setCardBackgroundColor(resources.getColor(R.color.vintage))
+                for (j in cardViews.indices) {
+                    val card = cardViews[j]
+                    card.setCardBackgroundColor(
+                        if (selectedCategory == j) resources.getColor(R.color.vintage)
+                        else Color.WHITE
+                    )
+                }
             }
         }
 
         seekBarLocation.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-            var selectedProgress = 0
-
             override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-
-                selectedProgress = progress
+                selectedDistance = progress
+                val selectedDistanceText = "$selectedDistance km"
+                textViewSelectedDistance.text = "Seçilen Mesafe: $selectedDistanceText"
             }
 
-            override fun onStartTrackingTouch(seekBar: SeekBar?) {
-            }
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
 
-            override fun onStopTrackingTouch(seekBar: SeekBar?) {
-                val selectedDistance = "$selectedProgress km"
-                textViewSelectedDistance.text = "Seçilen Mesafe: $selectedDistance"
-            }
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
         })
+
+        radioGroupPricing.setOnCheckedChangeListener { group, checkedId ->
+            when (checkedId) {
+                R.id.radioButtonPaid -> {
+                    isPaidSelected = true
+                    isFreeSelected = false
+                }
+                R.id.radioButtonFree -> {
+                    isPaidSelected = false
+                    isFreeSelected = true
+                }
+                else -> {
+                    isPaidSelected = false
+                    isFreeSelected = false
+                }
+            }
+        }
 
         resetButton?.setOnClickListener {
             radioGroupPricing.clearCheck()
             seekBarLocation.progress = 0
             textViewSelectedDistance.text = "Seçilen Mesafe: 0 km"
-            if (selectedCardIndex != -1) {
-                cardViews[selectedCardIndex].setCardBackgroundColor(Color.WHITE)
-                selectedCardIndex = -1
+            if (selectedCategory != -1) {
+                cardViews[selectedCategory].setCardBackgroundColor(Color.WHITE)
+                selectedCategory = -1
             }
 
         }
@@ -171,14 +191,12 @@ class FilterBottomSheetFragment : Fragment() {
                 .setTitle("Konum İzni Gerekli")
                 .setMessage("Uygulamamızın konum bilgilerine erişmesi gerekiyor. Bu, yakınınızdaki yerleri bulmamıza yardımcı olur.")
                 .setPositiveButton("İzin Ver") { dialog, which ->
-
                     requestPermissions(
                         arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
                         locationPermissionCode
                     )
                 }
                 .setNegativeButton("Reddet") { dialog, which ->
-
                     // İzin reddedildiğinde veya iptal edildiğinde gereken işlemler
                 }
                 .create()
@@ -191,7 +209,6 @@ class FilterBottomSheetFragment : Fragment() {
                 locationPermissionCode
             )
         }
-
         requestPermissions(
             arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
             locationPermissionCode
@@ -211,7 +228,6 @@ class FilterBottomSheetFragment : Fragment() {
             } else {
                 Snackbar.make(requireView(), "Konum izni reddedildi, bu nedenle belirli özellikler kullanılamayabilir.", Snackbar.LENGTH_LONG)
                     .show()
-
             }
         }
     }
@@ -225,12 +241,11 @@ class FilterBottomSheetFragment : Fragment() {
 
                         val latitude = location.latitude
                         val longitude = location.longitude
-
-                        Log.d("Konum", "Enlem: $latitude, Boylam: $longitude")
+                        //Log.d("Konum", "Enlem: $latitude, Boylam: $longitude")
                     }
                 }
                 .addOnFailureListener { exception ->
-                    // Konum alımı başarısız olduysa bunu ele alın
+                    // Konum alımı başarısız
                     Log.e("Konum", "Konum alınamadı: ${exception.message}")
                 }
         } catch (securityException: SecurityException) {
@@ -238,32 +253,6 @@ class FilterBottomSheetFragment : Fragment() {
         }
     }
 
-    private fun setupRecyclerView() {
-        databaseReference.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                val placesList = mutableListOf<PlaceModel>()
-
-                for (childSnapshot in snapshot.children) {
-                    val placeName = childSnapshot.child("placeName").getValue(String::class.java)
-                    val placeDescription = childSnapshot.child("placeDescription").getValue(String::class.java)
-                    val placeImage = childSnapshot.child("placeImage").getValue(String::class.java)
-
-                    if (placeName != null && placeDescription != null && placeImage != null) {
-                        val place = PlaceModel(placeName, placeDescription, placeImage)
-                        placesList.add(place)
-                    }
-                }
-
-                val adapter = PlacesAdapter(placesList, itemClickListener)
-                recyclerView?.adapter = adapter
-                recyclerView?.layoutManager = LinearLayoutManager(requireContext())
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                // Veri çekme işlemi başarısız.
-            }
-        })
-    }
 }
 
 
