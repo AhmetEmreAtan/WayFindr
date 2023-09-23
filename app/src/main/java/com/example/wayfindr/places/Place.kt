@@ -6,7 +6,7 @@ data class Place(
     val placeName: String,
     val placeDescription: String,
     val placeImage: String,
-    val placePrice: Boolean, //Ücretsizse true, ücretliyse false
+    val placePrice: String,
     val placeCategories: List<String>,
     val placeLocation: GeoPoint? = null
 )

@@ -23,15 +23,18 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.wayfindr.places.ItemClickListener
+import com.example.wayfindr.places.LocationCalculator
 import com.example.wayfindr.places.PlaceModel
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.GeoPoint
 
 class FilterBottomSheetFragment : Fragment() {
 
@@ -40,7 +43,8 @@ class FilterBottomSheetFragment : Fragment() {
 
     val recyclerView = view?.findViewById<RecyclerView>(R.id.recyclerViewPlaces)
 
-    private lateinit var firestore: FirebaseFirestore
+    private val firestore = FirebaseFirestore.getInstance()
+    private val placesCollection = firestore.collection("places")
 
     private var isPaidSelected: Boolean = false
     private var isFreeSelected: Boolean = false
@@ -81,6 +85,7 @@ class FilterBottomSheetFragment : Fragment() {
         val seekBarLocation: SeekBar = view.findViewById(R.id.seekBarLocation)
         val textViewSelectedDistance: TextView = view.findViewById(R.id.textViewSelectedDistance)
         val resetButton: Button? = view.findViewById(R.id.resetButton)
+        val filterButton: Button? = view.findViewById(R.id.filterButton)
         val radioGroupPricing: RadioGroup = view.findViewById(R.id.radioGroupPricing)
         val cardView1: CardView = view.findViewById((R.id.cardview1))
         val cardView2: CardView = view.findViewById((R.id.cardview2))
@@ -115,6 +120,23 @@ class FilterBottomSheetFragment : Fragment() {
                 selectedDistance = progress
                 val selectedDistanceText = "$selectedDistance km"
                 textViewSelectedDistance.text = "Seçilen Mesafe: $selectedDistanceText"
+
+                val locationCalculator = LocationCalculator()
+
+                locationCalculator.getAllPlaceLocations()
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            val placeLocations = task.result // placeLocations, GeoPoint listesi olarak burada bulunacak
+                            if (placeLocations != null && placeLocations.isNotEmpty()) {
+                                // Tüm yer konumları placeLocations listesinde bulunuyor
+                            } else {
+                                // Yer konumları alınamadı
+                            }
+                        } else {
+                            // Veriler çekilirken hata oluştu
+                            Log.e("LocationCalculator", "Veri çekme hatası: ${task.exception}")
+                        }
+                    }
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
@@ -150,8 +172,26 @@ class FilterBottomSheetFragment : Fragment() {
 
         }
 
-        val imageViewClose: ImageView = view.findViewById(R.id.closeButton)
-        imageViewClose.setOnClickListener {
+        filterButton?.setOnClickListener{
+
+            radioGroupPricing.setOnCheckedChangeListener { group, checkedId ->
+                when (checkedId) {
+                    R.id.radioButtonPaid -> {
+                        filterPlacesByPrice("Ücretli")
+                    }
+                    R.id.radioButtonFree -> {
+                        filterPlacesByPrice("Ücretsiz")
+                    }
+                    else -> {
+                        filterPlacesByPrice("")
+                    }
+                }
+            }
+
+        }
+
+        val closeButton: ImageView = view.findViewById(R.id.closeButton)
+        closeButton.setOnClickListener {
             activity?.supportFragmentManager?.beginTransaction()?.remove(this)?.commit()
         }
 
@@ -173,6 +213,9 @@ class FilterBottomSheetFragment : Fragment() {
         } else {
             requestLocationPermission()
         }
+
+
+
 
     }
 
@@ -238,10 +281,12 @@ class FilterBottomSheetFragment : Fragment() {
             fusedLocationClient.lastLocation
                 .addOnSuccessListener { location ->
                     if (location != null) {
-
                         val latitude = location.latitude
                         val longitude = location.longitude
                         //Log.d("Konum", "Enlem: $latitude, Boylam: $longitude")
+
+                        val selectedDistanceKm = selectedDistance.toDouble()
+
                     }
                 }
                 .addOnFailureListener { exception ->
@@ -252,6 +297,38 @@ class FilterBottomSheetFragment : Fragment() {
             // İzin reddedildi
         }
     }
+
+    private fun filterPlacesByPrice(price: String) {
+
+        val query = placesCollection
+            .whereEqualTo("placePrice", price)
+            .orderBy("placeName")
+
+        query.get()
+            .addOnSuccessListener { querySnapshot ->
+                val placesList = mutableListOf<PlaceModel>()
+
+                for (document in querySnapshot.documents) {
+                    val placeName = document.getString("placeName")
+                    val placeDescription = document.getString("placeDescription")
+                    val placeImage = document.getString("placeImage")
+
+                    if (placeName != null && placeDescription != null && placeImage != null) {
+                        val place = PlaceModel(placeName, placeDescription, placeImage)
+                        placesList.add(place)
+                    }
+                }
+
+                val recyclerView = requireView().findViewById<RecyclerView>(R.id.recyclerViewPlaces)
+                val adapter = PlacesAdapter(placesList, itemClickListener)
+                recyclerView.adapter = adapter
+                recyclerView.layoutManager = LinearLayoutManager(requireContext())
+            }
+            .addOnFailureListener { exception ->
+                Log.e(TAG, "placePrice veri çekme işlemi başarısız. Hata: $exception")
+            }
+    }
+
 
 }
 
