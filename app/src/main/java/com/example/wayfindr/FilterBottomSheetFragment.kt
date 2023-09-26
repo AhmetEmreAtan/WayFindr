@@ -20,26 +20,20 @@ import androidx.activity.OnBackPressedCallback
 import androidx.cardview.widget.CardView
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.wayfindr.places.ItemClickListener
-import com.example.wayfindr.places.LocationCalculator
-import com.example.wayfindr.places.PlaceModel
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
-import com.google.android.gms.tasks.OnCompleteListener
 import com.google.android.material.snackbar.Snackbar
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.GeoPoint
 
 class FilterBottomSheetFragment : Fragment() {
 
     private val locationPermissionCode=123
     private lateinit var fusedLocationClient: FusedLocationProviderClient
+
+    private var userLatitude: Double = 0.0
+    private var userLongitude: Double = 0.0
 
     val recyclerView = view?.findViewById<RecyclerView>(R.id.recyclerViewPlaces)
 
@@ -121,22 +115,6 @@ class FilterBottomSheetFragment : Fragment() {
                 val selectedDistanceText = "$selectedDistance km"
                 textViewSelectedDistance.text = "Seçilen Mesafe: $selectedDistanceText"
 
-                val locationCalculator = LocationCalculator()
-
-                locationCalculator.getAllPlaceLocations()
-                    .addOnCompleteListener { task ->
-                        if (task.isSuccessful) {
-                            val placeLocations = task.result // placeLocations, GeoPoint listesi olarak burada bulunacak
-                            if (placeLocations != null && placeLocations.isNotEmpty()) {
-                                // Tüm yer konumları placeLocations listesinde bulunuyor
-                            } else {
-                                // Yer konumları alınamadı
-                            }
-                        } else {
-                            // Veriler çekilirken hata oluştu
-                            Log.e("LocationCalculator", "Veri çekme hatası: ${task.exception}")
-                        }
-                    }
             }
 
             override fun onStartTrackingTouch(seekBar: SeekBar?) {}
@@ -173,21 +151,7 @@ class FilterBottomSheetFragment : Fragment() {
         }
 
         filterButton?.setOnClickListener{
-
-            radioGroupPricing.setOnCheckedChangeListener { group, checkedId ->
-                when (checkedId) {
-                    R.id.radioButtonPaid -> {
-                        filterPlacesByPrice("Ücretli")
-                    }
-                    R.id.radioButtonFree -> {
-                        filterPlacesByPrice("Ücretsiz")
-                    }
-                    else -> {
-                        filterPlacesByPrice("")
-                    }
-                }
-            }
-
+            fetchDataLocationFromFirestore()
         }
 
         val closeButton: ImageView = view.findViewById(R.id.closeButton)
@@ -281,11 +245,10 @@ class FilterBottomSheetFragment : Fragment() {
             fusedLocationClient.lastLocation
                 .addOnSuccessListener { location ->
                     if (location != null) {
-                        val latitude = location.latitude
-                        val longitude = location.longitude
-                        //Log.d("Konum", "Enlem: $latitude, Boylam: $longitude")
+                        userLatitude = location.latitude
+                        userLongitude = location.longitude
 
-                        val selectedDistanceKm = selectedDistance.toDouble()
+                        //Log.d("Konum", "Enlem: $latitude, Boylam: $longitude")
 
                     }
                 }
@@ -298,37 +261,82 @@ class FilterBottomSheetFragment : Fragment() {
         }
     }
 
-    private fun filterPlacesByPrice(price: String) {
+    fun fetchDataLocationFromFirestore() {
+        val db = FirebaseFirestore.getInstance()
+        val placesCollection = db.collection("places")
 
-        val query = placesCollection
-            .whereEqualTo("placePrice", price)
-            .orderBy("placeName")
+        val query = placesCollection.orderBy("placeName")
 
         query.get()
-            .addOnSuccessListener { querySnapshot ->
-                val placesList = mutableListOf<PlaceModel>()
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    for (document in task.result!!) {
+                        val placeLocation = document.getString("placeLocation")
 
-                for (document in querySnapshot.documents) {
-                    val placeName = document.getString("placeName")
-                    val placeDescription = document.getString("placeDescription")
-                    val placeImage = document.getString("placeImage")
+                        if (placeLocation != null) {
+                            val latLng = parseLatLngFromGoogleMapsUrl(placeLocation)
+                            if (latLng != null) {
+                                val (latitude, longitude) = latLng
+                                println("Enlem: $latitude, Boylam: $longitude")
 
-                    if (placeName != null && placeDescription != null && placeImage != null) {
-                        val place = PlaceModel(placeName, placeDescription, placeImage)
-                        placesList.add(place)
+                                // İki konum arasındaki mesafeyi hesapla
+                                val distanceInKilometers = calculateDistance(
+                                    userLatitude,
+                                    userLongitude,
+                                    latitude,
+                                    longitude
+                                )
+
+                                val distanceInKilometersInt = distanceInKilometers.toInt()
+
+                                Log.d("Mesafe: ", "$distanceInKilometersInt km")
+
+                            } else {
+                                println("Geçerli enlem ve boylam bilgileri alınamadı.")
+                            }
+                        } else {
+                            println("placeLocation alanı null.")
+                        }
                     }
+                } else {
+                    println("Veri alınamadı: ${task.exception}")
                 }
-
-                val recyclerView = requireView().findViewById<RecyclerView>(R.id.recyclerViewPlaces)
-                val adapter = PlacesAdapter(placesList, itemClickListener)
-                recyclerView.adapter = adapter
-                recyclerView.layoutManager = LinearLayoutManager(requireContext())
-            }
-            .addOnFailureListener { exception ->
-                Log.e(TAG, "placePrice veri çekme işlemi başarısız. Hata: $exception")
             }
     }
 
+    fun parseLatLngFromGoogleMapsUrl(url: String): Pair<Double, Double>? {
+        val regex = "(@[0-9.]+,[0-9.]+)".toRegex()
+        val matchResult = regex.find(url)
+
+        if (matchResult != null) {
+            val matchValue = matchResult.value.substring(1) // @ işaretini kaldır
+            val parts = matchValue.split(",")
+            if (parts.size == 2) {
+                val latitude = parts[0].toDoubleOrNull()
+                val longitude = parts[1].toDoubleOrNull()
+                if (latitude != null && longitude != null) {
+                    return Pair(latitude, longitude)
+                }
+            }
+        }
+
+        return null
+    }
+
+    private fun calculateDistance(
+        lat1: Double, lon1: Double,
+        lat2: Double, lon2: Double
+    ): Double {
+        val R = 6371 // Dünya'nın yarı çapı (km)
+        val dLat = Math.toRadians(lat2 - lat1)
+        val dLon = Math.toRadians(lon2 - lon1)
+        val a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
+                Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) *
+                Math.sin(dLon / 2) * Math.sin(dLon / 2)
+        val c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
+        val distance = R * c // İki nokta arasındaki mesafe (km)
+        return distance
+    }
 
 }
 
