@@ -36,7 +36,7 @@ class Logins : AppCompatActivity() {
         val getpassword = sharedPreferences.getString("PASSWORD", "")
 
         if (getemail != "" && getpassword != "") {
-            val i = Intent(this, Profile_page::class.java)
+            val i = Intent(this, Profile::class.java)
             startActivity(i)
         }
 
@@ -93,7 +93,7 @@ class Logins : AppCompatActivity() {
         }
         firebaseAuth.sendPasswordResetEmail(email.text.toString()).addOnCompleteListener { task ->
             if (task.isSuccessful) {
-                Toast.makeText(this, "E Postanızı kontrol edin.", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "E-Postanızı kontrol edin.", Toast.LENGTH_SHORT).show()
             }
         }
     }
@@ -108,13 +108,13 @@ class Logins : AppCompatActivity() {
 
                             if (userData != null && userData.password == password) {
                                 Toast.makeText(this@Logins, "Giriş işlemi gerçekleşti.", Toast.LENGTH_SHORT).show()
-                                val intent = Intent(this@Logins, Profile_page::class.java)
+                                val intent = Intent(this@Logins, MainActivity::class.java)
                                 startActivity(intent)
                                 finish()
                             }
                         }
                     }
-                    Toast.makeText(this@Logins, "Giriş işlemi gerçekleşmedi.", Toast.LENGTH_SHORT).show()
+                    else Toast.makeText(this@Logins, "Giriş işlemi gerçekleşmedi.", Toast.LENGTH_SHORT).show()
                 }
 
                 override fun onCancelled(databaseError: DatabaseError) {

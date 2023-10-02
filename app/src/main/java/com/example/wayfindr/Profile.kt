@@ -8,18 +8,18 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.example.wayfindr.databinding.ActivityProfilePageBinding
+import com.example.wayfindr.databinding.FragmentProfileBinding
 
 class Profile : Fragment() {
 
-    private lateinit var binding: ActivityProfilePageBinding
+    private lateinit var binding: FragmentProfileBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = ActivityProfilePageBinding.inflate(inflater, container, false)
+        binding = FragmentProfileBinding.inflate(inflater, container, false)
         val view = binding.root
 
         val sharedPreferences = requireActivity().getSharedPreferences("MY_PRE", Context.MODE_PRIVATE)

@@ -2,6 +2,7 @@ package com.example.wayfindr
 
 import androidx.appcompat.app.AppCompatActivity
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
@@ -47,6 +48,9 @@ class AdminEdit : AppCompatActivity() {
         editPassword.setText(password)
 
         editButton.setOnClickListener {
+
+            intent = Intent(this, MainActivity::class.java)
+            startActivity(intent)
             val name = editName.text.toString()
             val email = editEmail.text.toString()
             val password = editPassword.text.toString()
