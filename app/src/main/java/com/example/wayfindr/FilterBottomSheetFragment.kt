@@ -24,10 +24,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.wayfindr.places.ItemClickListener
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationServices
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.android.material.snackbar.Snackbar
 import com.google.firebase.firestore.FirebaseFirestore
 
-class FilterBottomSheetFragment : Fragment() {
+class FilterBottomSheetFragment : BottomSheetDialogFragment() {
 
     private val locationPermissionCode=123
     private lateinit var fusedLocationClient: FusedLocationProviderClient
@@ -109,18 +110,7 @@ class FilterBottomSheetFragment : Fragment() {
             }
         }
 
-        seekBarLocation.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                selectedDistance = progress
-                val selectedDistanceText = "$selectedDistance km"
-                textViewSelectedDistance.text = "Seçilen Mesafe: $selectedDistanceText"
 
-            }
-
-            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
-
-            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
-        })
 
         radioGroupPricing.setOnCheckedChangeListener { group, checkedId ->
             when (checkedId) {
@@ -151,7 +141,20 @@ class FilterBottomSheetFragment : Fragment() {
         }
 
         filterButton?.setOnClickListener{
-            fetchDataLocationFromFirestore()
+            seekBarLocation.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+                override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                    selectedDistance = progress
+                    val selectedDistanceText = "$selectedDistance km"
+                    textViewSelectedDistance.text = "Seçilen Mesafe: $selectedDistanceText"
+
+                    fetchDataLocationFromFirestore(selectedDistance)
+
+                }
+
+                override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+
+                override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+            })
         }
 
         val closeButton: ImageView = view.findViewById(R.id.closeButton)
@@ -253,7 +256,7 @@ class FilterBottomSheetFragment : Fragment() {
                     }
                 }
                 .addOnFailureListener { exception ->
-                    // Konum alımı başarısız
+
                     Log.e("Konum", "Konum alınamadı: ${exception.message}")
                 }
         } catch (securityException: SecurityException) {
@@ -261,7 +264,8 @@ class FilterBottomSheetFragment : Fragment() {
         }
     }
 
-    fun fetchDataLocationFromFirestore() {
+    private fun fetchDataLocationFromFirestore(selectedDistance: Int) {
+
         val db = FirebaseFirestore.getInstance()
         val placesCollection = db.collection("places")
 
@@ -277,9 +281,8 @@ class FilterBottomSheetFragment : Fragment() {
                             val latLng = parseLatLngFromGoogleMapsUrl(placeLocation)
                             if (latLng != null) {
                                 val (latitude, longitude) = latLng
-                                println("Enlem: $latitude, Boylam: $longitude")
 
-                                // İki konum arasındaki mesafeyi hesapla
+                                // İki konum arasındaki mesafe
                                 val distanceInKilometers = calculateDistance(
                                     userLatitude,
                                     userLongitude,
@@ -291,25 +294,28 @@ class FilterBottomSheetFragment : Fragment() {
 
                                 Log.d("Mesafe: ", "$distanceInKilometersInt km")
 
-                            } else {
-                                println("Geçerli enlem ve boylam bilgileri alınamadı.")
+
+                                if (distanceInKilometersInt <= selectedDistance) {
+
+                                    Log.d("Uygun Mekan: ", "Mekan adı: ${document.getString("placeName")}")
+                                }
                             }
-                        } else {
-                            println("placeLocation alanı null.")
                         }
                     }
                 } else {
-                    println("Veri alınamadı: ${task.exception}")
+                    Log.e("Veri Alınmadı: ", "${task.exception}")
                 }
             }
     }
+
+
 
     fun parseLatLngFromGoogleMapsUrl(url: String): Pair<Double, Double>? {
         val regex = "(@[0-9.]+,[0-9.]+)".toRegex()
         val matchResult = regex.find(url)
 
         if (matchResult != null) {
-            val matchValue = matchResult.value.substring(1) // @ işaretini kaldır
+            val matchValue = matchResult.value.substring(1)
             val parts = matchValue.split(",")
             if (parts.size == 2) {
                 val latitude = parts[0].toDoubleOrNull()
@@ -327,14 +333,14 @@ class FilterBottomSheetFragment : Fragment() {
         lat1: Double, lon1: Double,
         lat2: Double, lon2: Double
     ): Double {
-        val R = 6371 // Dünya'nın yarı çapı (km)
+        val R = 6371
         val dLat = Math.toRadians(lat2 - lat1)
         val dLon = Math.toRadians(lon2 - lon1)
         val a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
                 Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2)) *
                 Math.sin(dLon / 2) * Math.sin(dLon / 2)
         val c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a))
-        val distance = R * c // İki nokta arasındaki mesafe (km)
+        val distance = R * c
         return distance
     }
 

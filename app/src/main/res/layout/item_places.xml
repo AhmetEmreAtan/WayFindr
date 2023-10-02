@@ -7,15 +7,14 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
+        android:layout_margin="15dp"
         app:cardCornerRadius="8dp"
         android:background="@color/begie">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:padding="16dp">
+            android:orientation="horizontal">
 
             <ImageView
                 android:id="@+id/placesImage"
@@ -36,22 +35,31 @@
                 <TextView
                     android:id="@+id/placesName"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="8dp"
                     android:text="Kız Kulesi"
                     android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:layout_marginTop="8dp" />
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/placesDescription"
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="Kız Kulesi açıklama"
-                    android:layout_marginTop="4dp" />
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="4dp"
+                    android:text="Kız Kulesi açıklama" />
 
             </LinearLayout>
 
         </LinearLayout>
+
+        <ImageView
+            android:id="@+id/favoriteAdd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom|end"
+            android:layout_marginTop="8dp"
+            android:src="@drawable/begen"
+            android:layout_margin="10dp"/>
 
     </androidx.cardview.widget.CardView>
 

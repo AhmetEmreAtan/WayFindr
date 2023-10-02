@@ -13,8 +13,10 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.wayfindr.places.ItemClickListener
 import com.example.wayfindr.places.PlaceModel
 import com.google.firebase.firestore.FirebaseFirestore
@@ -28,6 +30,11 @@ class Places : Fragment() {
     val db = FirebaseFirestore.getInstance()
     val placesCollection = db.collection("places")
     val turkishCollator = Collator.getInstance(Locale("tr", "TR"))
+
+    private lateinit var recyclerView: RecyclerView
+    private lateinit var adapter: PlacesAdapter
+
+    private var isFavorite = false
 
     private val itemClickListener = object : ItemClickListener {
         override fun onItemClick(position: Int) {
@@ -45,27 +52,20 @@ class Places : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_places, container, false)
+        val view = inflater.inflate(R.layout.fragment_places, container, false)
+
+        recyclerView = view.findViewById(R.id.recyclerViewPlaces)
+        adapter = PlacesAdapter(emptyList(), itemClickListener)
+        recyclerView.adapter = adapter
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+
+        return view
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-        val filterImage: ImageView? = view.findViewById(R.id.filterImage)
-        filterImage?.setOnClickListener {
-            val filterBottomSheetFragment = FilterBottomSheetFragment()
-            activity?.supportFragmentManager?.beginTransaction()
-                ?.replace(R.id.fragmentPlaces, filterBottomSheetFragment)
-                ?.commit()
-        }
-
-        /*val resetButton: Button? = view.findViewById(R.id.resetButton)
-        resetButton?.setOnClickListener {
-            activity?.supportFragmentManager?.beginTransaction()?.remove(this)?.commit()
-        }*/
-
-        //Firebase Verlerini Çekme İşlemleri
+        // Firebase Verilerini Çekme İşlemleri
         fetchPlacesData()
 
         // SearchEditText
@@ -85,6 +85,13 @@ class Places : Fragment() {
             }
         })
 
+        val filterImage: ImageView? = view.findViewById(R.id.filterImage)
+        filterImage?.setOnClickListener {
+            val filterBottomSheetFragment = FilterBottomSheetFragment()
+            filterBottomSheetFragment.show(parentFragmentManager,filterBottomSheetFragment.tag)
+
+        }
+
     }
 
     private fun performSearch(searchTerm: String) {
@@ -101,7 +108,7 @@ class Places : Fragment() {
                     val placeImage = document.getString("placeImage")
 
                     if (placeName != null && placeDescription != null && placeImage != null) {
-                        // Belge içinde arama terimini içeriyorsa ekle
+
                         if (placeName.contains(searchTerm, ignoreCase = true)) {
                             val place = PlaceModel(placeName, placeDescription, placeImage)
                             placesList.add(place)
@@ -113,10 +120,7 @@ class Places : Fragment() {
                     turkishCollator.compare(place1.placeName, place2.placeName)
                 })
 
-                val recyclerView = requireView().findViewById<RecyclerView>(R.id.recyclerViewPlaces)
-                val adapter = PlacesAdapter(placesList, itemClickListener)
-                recyclerView.adapter = adapter
-                recyclerView.layoutManager = LinearLayoutManager(requireContext())
+                adapter.setPlacesList(placesList)
             }
             .addOnFailureListener { exception ->
                 Log.e(TAG, "Veri çekme işlemi başarısız. Hata: $exception")
@@ -147,10 +151,7 @@ class Places : Fragment() {
                     turkishCollator.compare(place1.placeName, place2.placeName)
                 })
 
-                val recyclerView = requireView().findViewById<RecyclerView>(R.id.recyclerViewPlaces)
-                val adapter = PlacesAdapter(placesList, itemClickListener)
-                recyclerView.adapter = adapter
-                recyclerView.layoutManager = LinearLayoutManager(requireContext())
+                adapter.setPlacesList(placesList)
             }
             .addOnFailureListener { exception ->
                 Log.e(TAG, "Veri çekme işlemi başarısız. Hata: $exception")

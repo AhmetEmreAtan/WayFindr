@@ -10,7 +10,7 @@ import com.example.wayfindr.places.ItemClickListener
 import com.example.wayfindr.places.PlaceModel
 
 class PlacesAdapter(
-    private val placesList: List<PlaceModel>,
+    private var placesList: List<PlaceModel>,
     private val itemClickListener: ItemClickListener
 ) : RecyclerView.Adapter<PlacesAdapter.PlacesViewHolder>() {
 
@@ -39,8 +39,7 @@ class PlacesAdapter(
         private val placesDescription: TextView = itemView.findViewById(R.id.placesDescription)
 
         fun bind(place: PlaceModel) {
-            // Resmi URL'den yüklemek için : Glide
-
+            // Resmi URL'den yüklemek için Glide kütüphanesini kullan
             Glide.with(itemView)
                 .load(place.placeImage)
                 .placeholder(R.drawable.placeholder_image)
@@ -52,4 +51,9 @@ class PlacesAdapter(
         }
     }
 
+    // Yeni verileri set etmek için fonksiyon
+    fun setPlacesList(newPlacesList: List<PlaceModel>) {
+        placesList = newPlacesList
+        notifyDataSetChanged()
+    }
 }
