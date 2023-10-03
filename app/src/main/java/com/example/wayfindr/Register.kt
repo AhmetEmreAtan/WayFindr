@@ -16,7 +16,6 @@ import com.google.firebase.auth.FirebaseAuthUserCollisionException
 
 class Register : AppCompatActivity() {
 
-    private lateinit var binding: FragmentProfileBinding
     private lateinit var firebaseDatabase: FirebaseDatabase
     private lateinit var databaseReference: DatabaseReference
     private lateinit var auth: FirebaseAuth
@@ -25,6 +24,9 @@ class Register : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_register)
+        var sharedPreferences = this.getSharedPreferences("MY_PRE",Context.MODE_PRIVATE)
+
+
 
         val signUpButton = findViewById<TextView>(R.id.singUp)
 
@@ -36,6 +38,8 @@ class Register : AppCompatActivity() {
             val name = findViewById<TextView>(R.id.name).text.toString()
             val email = findViewById<TextView>(R.id.eMail2).text.toString()
             val password = findViewById<TextView>(R.id.passwords2).text.toString()
+
+            sharedPreferences.edit().putString("NAME", name).apply()
 
 
             if (name.isNotEmpty() && email.isNotEmpty() && password.isNotEmpty()) {

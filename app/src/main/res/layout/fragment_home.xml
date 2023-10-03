@@ -52,6 +52,7 @@
                             android:layout_marginEnd="20dp"
                             android:layout_marginBottom="16dp"
                             android:text="İstanbul"
+                            android:fontFamily="@font/font2"
                             android:textAlignment="center"
                             android:textColor="@color/grey"
                             android:textSize="20sp"
@@ -68,6 +69,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
+                    android:fontFamily="@font/font2"
                     android:text="Popular"
                     android:textColor="@color/navy"
                     android:textSize="20sp"
@@ -99,6 +101,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:text="Categories"
+                    android:fontFamily="@font/font2"
                     android:textSize="20sp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
@@ -134,14 +137,14 @@
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
-                                    android:background="@color/grey"
+                                    android:background="@color/white"
                                     android:orientation="vertical">
 
                                     <ImageView
                                         android:id="@+id/antropoloji_img"
                                         android:layout_width="150dp"
-                                        android:layout_height="270dp"
-                                        android:background="@drawable/ant_image" />
+                                        android:layout_height="150dp"
+                                        android:background="@drawable/antropoloji1" />
 
                                     <TextView
                                         android:id="@+id/antropoloji_txt"
@@ -149,6 +152,7 @@
                                         android:layout_height="wrap_content"
                                         android:layout_marginTop="5dp"
                                         android:layout_marginBottom="5dp"
+                                        android:fontFamily="@font/font2"
                                         android:text="Antropoloji"
                                         android:textAlignment="center"
                                         android:textColor="@color/navy"
@@ -165,14 +169,14 @@
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
-                                    android:background="@color/grey"
+                                    android:background="@color/white"
                                     android:orientation="vertical">
 
                                     <ImageView
                                         android:id="@+id/BE_image"
                                         android:layout_width="150dp"
-                                        android:layout_height="270dp"
-                                        android:background="@drawable/islam_bilim_image" />
+                                        android:layout_height="150dp"
+                                        android:background="@drawable/science" />
 
                                     <TextView
                                         android:id="@+id/BE_txt"
@@ -180,6 +184,7 @@
                                         android:layout_height="wrap_content"
                                         android:layout_marginTop="5dp"
                                         android:layout_marginBottom="5dp"
+                                        android:fontFamily="@font/font2"
                                         android:text="Bilim ve Endüstri"
                                         android:textAlignment="center"
                                         android:textColor="@color/navy"
@@ -196,14 +201,14 @@
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
-                                    android:background="@color/grey"
+                                    android:background="@color/white"
                                     android:orientation="vertical">
 
                                     <ImageView
                                         android:id="@+id/ozel_image"
                                         android:layout_width="150dp"
-                                        android:layout_height="270dp"
-                                        android:background="@drawable/uralatamanmuzesi" />
+                                        android:layout_height="150dp"
+                                        android:background="@drawable/ozel" />
 
                                     <TextView
                                         android:id="@+id/ozel_txt"
@@ -211,6 +216,7 @@
                                         android:layout_height="wrap_content"
                                         android:layout_marginTop="5dp"
                                         android:layout_marginBottom="5dp"
+                                        android:fontFamily="@font/font2"
                                         android:text="Özel Müzeler"
                                         android:textAlignment="center"
                                         android:textColor="@color/navy"
@@ -227,14 +233,14 @@
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
-                                    android:background="@color/grey"
+                                    android:background="@color/white"
                                     android:orientation="vertical">
 
                                     <ImageView
                                         android:id="@+id/sanat_image"
                                         android:layout_width="150dp"
-                                        android:layout_height="270dp"
-                                        android:background="@drawable/istanbul_modern_image" />
+                                        android:layout_height="150dp"
+                                        android:background="@drawable/sanat" />
 
                                     <TextView
                                         android:id="@+id/sanat_txt"
@@ -243,6 +249,7 @@
                                         android:layout_marginTop="5dp"
                                         android:layout_marginBottom="5dp"
                                         android:text="Sanat Müzeleri"
+                                        android:fontFamily="@font/font2"
                                         android:textAlignment="center"
                                         android:textColor="@color/navy"
                                         android:textSize="14sp"
@@ -258,14 +265,14 @@
                                 <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="match_parent"
-                                    android:background="@color/grey"
+                                    android:background="@color/white"
                                     android:orientation="vertical">
 
                                     <ImageView
                                         android:id="@+id/tarih_image"
                                         android:layout_width="150dp"
-                                        android:layout_height="270dp"
-                                        android:background="@drawable/topkapi_sarayi" />
+                                        android:layout_height="150dp"
+                                        android:background="@drawable/tarih" />
 
                                     <TextView
                                         android:id="@+id/tarih_txt"
@@ -274,6 +281,7 @@
                                         android:layout_marginTop="5dp"
                                         android:layout_marginBottom="5dp"
                                         android:text="Tarih Müzeleri"
+                                        android:fontFamily="@font/font2"
                                         android:textAlignment="center"
                                         android:textColor="@color/navy"
                                         android:textSize="14sp"

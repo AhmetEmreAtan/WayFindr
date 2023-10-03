@@ -7,170 +7,162 @@
     android:background="@color/vintage"
     tools:context=".Setting">
 
-    <FrameLayout
-        android:id="@+id/settings_frame_layout"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="80dp">
 
-        <ScrollView
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
-            <LinearLayout
+            <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="vertical">
+                android:layout_height="match_parent">
 
-                <androidx.constraintlayout.widget.ConstraintLayout
+
+                <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
+                    android:layout_height="match_parent"
+                    android:orientation="vertical"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent">
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="vertical"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent">
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="24dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="24dp"
+                        android:layout_marginBottom="50dp"
+                        android:background="@drawable/border_background"
+                        android:orientation="horizontal">
 
-                        <LinearLayout
-                            android:layout_width="match_parent"
+                        <TextView
+                            android:layout_width="156dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginStart="24dp"
-                            android:layout_marginTop="16dp"
-                            android:layout_marginEnd="24dp"
-                            android:layout_marginBottom="50dp"
-                            android:background="@drawable/border_background"
-                            android:orientation="horizontal">
-
-                            <TextView
-                                android:layout_width="156dp"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="center"
-                                android:layout_weight="1"
-                                android:background="@color/vintage"
-                                android:fontFamily="@font/font1"
-                                android:gravity="center"
-                                android:paddingLeft="15dp"
-                                android:paddingTop="5dp"
-                                android:paddingRight="15dp"
-                                android:paddingBottom="5dp"
-                                android:text="AYARLAR"
-                                android:textAlignment="center"
-                                android:textColor="@color/black"
-                                android:textSize="18sp"
-                                android:textStyle="bold|normal" />
-
-                        </LinearLayout>
-
-                        <androidx.appcompat.widget.AppCompatButton
-                            android:id="@+id/entryButton"
-                            style="@android:style/Widget.Button"
-                            android:layout_width="match_parent"
-                            android:layout_height="60dp"
-                            android:layout_marginStart="32dp"
-                            android:layout_marginTop="10dp"
-                            android:layout_marginEnd="32dp"
-                            android:layout_marginBottom="5dp"
-                            android:background="@drawable/btn_background"
-                            android:backgroundTint="@color/white"
-                            android:paddingStart="20dp"
-                            android:text="Giriş Yöntemi"
-                            android:textAlignment="viewStart"
+                            android:layout_gravity="center"
+                            android:layout_weight="1"
+                            android:background="@color/vintage"
+                            android:fontFamily="@font/font1"
+                            android:gravity="center"
+                            android:paddingLeft="15dp"
+                            android:paddingTop="5dp"
+                            android:paddingRight="15dp"
+                            android:paddingBottom="5dp"
+                            android:text="AYARLAR"
+                            android:textAlignment="center"
+                            android:textColor="@color/black"
                             android:textSize="18sp"
-                            android:textStyle="bold" />
-
-                        <androidx.appcompat.widget.AppCompatButton
-                            android:id="@+id/languageButton"
-                            style="@android:style/Widget.Button"
-                            android:layout_width="match_parent"
-                            android:layout_height="60dp"
-                            android:layout_marginStart="32dp"
-                            android:layout_marginEnd="32dp"
-                            android:layout_marginBottom="5dp"
-                            android:background="@drawable/btn_background"
-                            android:backgroundTint="@color/white"
-                            android:paddingStart="20dp"
-                            android:text="Dil"
-                            android:textAlignment="viewStart"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
-
-                        <androidx.appcompat.widget.AppCompatButton
-                            android:id="@+id/contractsButton"
-                            style="@android:style/Widget.Button"
-                            android:layout_width="match_parent"
-                            android:layout_height="60dp"
-                            android:layout_marginStart="32dp"
-                            android:layout_marginEnd="32dp"
-                            android:layout_marginBottom="5dp"
-                            android:background="@drawable/btn_background"
-                            android:backgroundTint="@color/white"
-                            android:paddingStart="20dp"
-                            android:text="Sözleşmeler"
-                            android:textAlignment="viewStart"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
-
-                        <androidx.appcompat.widget.AppCompatButton
-                            android:id="@+id/aboutButton"
-                            style="@android:style/Widget.Button"
-                            android:layout_width="match_parent"
-                            android:layout_height="60dp"
-                            android:layout_marginStart="32dp"
-                            android:layout_marginEnd="32dp"
-                            android:layout_marginBottom="5dp"
-                            android:background="@drawable/btn_background"
-                            android:backgroundTint="@color/white"
-                            android:paddingStart="20dp"
-                            android:text="Hakkımızda"
-                            android:textAlignment="viewStart"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
-
-                        <androidx.appcompat.widget.AppCompatButton
-                            android:id="@+id/logOutButton"
-                            style="@android:style/Widget.Button"
-                            android:layout_width="match_parent"
-                            android:layout_height="60dp"
-                            android:layout_marginStart="32dp"
-                            android:layout_marginEnd="32dp"
-                            android:layout_marginBottom="5dp"
-                            android:background="@drawable/btn_background"
-                            android:backgroundTint="@color/white"
-                            android:paddingStart="20dp"
-                            android:text="Çıkış Yap"
-                            android:textAlignment="viewStart"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
-
-                        <androidx.appcompat.widget.AppCompatButton
-                            android:id="@+id/deleteAccountButton"
-                            style="@android:style/Widget.Button"
-                            android:layout_width="match_parent"
-                            android:layout_height="60dp"
-                            android:layout_marginStart="32dp"
-                            android:layout_marginEnd="32dp"
-                            android:layout_marginBottom="5dp"
-                            android:background="@drawable/btn_background"
-                            android:backgroundTint="@color/white"
-                            android:paddingStart="20dp"
-                            android:text="Hesap Sil"
-                            android:textAlignment="viewStart"
-                            android:textSize="18sp"
-                            android:textStyle="bold" />
-
+                            android:textStyle="bold|normal" />
 
                     </LinearLayout>
 
-                </androidx.constraintlayout.widget.ConstraintLayout>
-            </LinearLayout>
-        </ScrollView>
-    </FrameLayout>
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/entryButton"
+                        style="@android:style/Widget.Button"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginTop="10dp"
+                        android:layout_marginEnd="32dp"
+                        android:layout_marginBottom="5dp"
+                        android:background="@drawable/btn_background"
+                        android:backgroundTint="@color/white"
+                        android:paddingStart="20dp"
+                        android:text="Giriş Yöntemi"
+                        android:textAlignment="viewStart"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/languageButton"
+                        style="@android:style/Widget.Button"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginEnd="32dp"
+                        android:layout_marginBottom="5dp"
+                        android:background="@drawable/btn_background"
+                        android:backgroundTint="@color/white"
+                        android:paddingStart="20dp"
+                        android:text="Dil"
+                        android:textAlignment="viewStart"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/contractsButton"
+                        style="@android:style/Widget.Button"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginEnd="32dp"
+                        android:layout_marginBottom="5dp"
+                        android:background="@drawable/btn_background"
+                        android:backgroundTint="@color/white"
+                        android:paddingStart="20dp"
+                        android:text="Sözleşmeler"
+                        android:textAlignment="viewStart"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/aboutButton"
+                        style="@android:style/Widget.Button"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginEnd="32dp"
+                        android:layout_marginBottom="5dp"
+                        android:background="@drawable/btn_background"
+                        android:backgroundTint="@color/white"
+                        android:paddingStart="20dp"
+                        android:text="Hakkımızda"
+                        android:textAlignment="viewStart"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/logOutButton"
+                        style="@android:style/Widget.Button"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginEnd="32dp"
+                        android:layout_marginBottom="5dp"
+                        android:background="@drawable/btn_background"
+                        android:backgroundTint="@color/white"
+                        android:paddingStart="20dp"
+                        android:text="Çıkış Yap"
+                        android:textAlignment="viewStart"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+                    <androidx.appcompat.widget.AppCompatButton
+                        android:id="@+id/deleteAccountButton"
+                        style="@android:style/Widget.Button"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginEnd="32dp"
+                        android:layout_marginBottom="5dp"
+                        android:background="@drawable/btn_background"
+                        android:backgroundTint="@color/white"
+                        android:paddingStart="20dp"
+                        android:text="Hesap Sil"
+                        android:textAlignment="viewStart"
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
+
+
+                </LinearLayout>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </LinearLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

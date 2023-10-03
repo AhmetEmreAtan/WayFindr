@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:id="@+id/fragmentPlaces"
     tools:context=".FilterBottomSheetFragment"
-    android:background="@color/white">
+    android:background="@drawable/fragment_bg_desing">
 
 
 
@@ -25,7 +25,7 @@
             android:layout_width="30dp"
             android:layout_height="30dp"
             android:layout_marginLeft="300dp"
-            android:layout_marginBottom="30dp"
+            android:layout_gravity="bottom|end"
             android:contentDescription="Kapat"
             android:src="@drawable/icon_closed"
             app:layout_constraintStart_toEndOf="parent"

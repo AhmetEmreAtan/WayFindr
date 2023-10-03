@@ -7,8 +7,8 @@
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="15dp"
-        app:cardCornerRadius="8dp"
+        android:layout_margin="10dp"
+        app:cardCornerRadius="20dp"
         android:background="@color/begie">
 
         <LinearLayout
@@ -19,7 +19,7 @@
             <ImageView
                 android:id="@+id/placesImage"
                 android:layout_width="0dp"
-                android:layout_height="100dp"
+                android:layout_height="90dp"
                 android:layout_weight="1"
                 android:src="@drawable/kizkulesi"
                 android:scaleType="centerCrop"
@@ -38,13 +38,14 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
                     android:text="Kız Kulesi"
-                    android:textSize="18sp"
+                    android:textSize="15sp"
                     android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/placesDescription"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:textSize="10sp"
                     android:layout_marginTop="4dp"
                     android:text="Kız Kulesi açıklama" />
 
@@ -52,14 +53,13 @@
 
         </LinearLayout>
 
-        <ImageView
+        <CheckBox
             android:id="@+id/favoriteAdd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
-            android:layout_marginTop="8dp"
-            android:src="@drawable/begen"
-            android:layout_margin="10dp"/>
+            android:button="@drawable/selector_wishlist_item"
+            android:layout_margin="1dp"/>
 
     </androidx.cardview.widget.CardView>
 

@@ -23,7 +23,7 @@
                 android:id="@+id/textView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/font1"
+                android:fontFamily="@font/font2"
                 android:text="Yerler"
                 android:textColor="@color/navy"
                 android:textSize="24sp"
@@ -48,7 +48,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
-                android:fontFamily="@font/font1"
+                android:fontFamily="@font/font2"
                 android:text="Dolmabahçe Sarayı"
                 android:textAlignment="center"
                 android:textColor="@color/navy"
@@ -58,67 +58,54 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/places_image" />
 
-            <TextView
-                android:id="@+id/adrestitle"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:text="Adres:"
-                android:textColor="@color/navy"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/places_info_scroll" />
+
 
             <TextView
                 android:id="@+id/adres_info"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
+                android:fontFamily="@font/font2"
                 android:text="Vişnezade, Dolmabahçe Cd. No:2, 34357 Beşiktaş/İstanbul"
                 android:textSize="16sp"
-                app:layout_constraintEnd_toStartOf="@+id/ekbilgicommenttxt"
-                app:layout_constraintStart_toStartOf="@+id/adrestitle"
-                app:layout_constraintTop_toBottomOf="@+id/adrestitle" />
+                app:layout_constraintEnd_toEndOf="@+id/places_info_scroll"
+                app:layout_constraintStart_toStartOf="@+id/places_info_scroll"
+                app:layout_constraintTop_toBottomOf="@+id/places_info_scroll" />
 
-            <TextView
-                android:id="@+id/ekbilgittxt"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="100dp"
-                android:text="Ek Bilgiler:"
-                android:textColor="@color/navy"
-                android:textSize="16sp"
-                android:textStyle="bold"
-                app:layout_constraintStart_toEndOf="@+id/adrestitle"
-                app:layout_constraintTop_toTopOf="@+id/adrestitle" />
 
             <TextView
                 android:id="@+id/ekbilgicommenttxt"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp"
-                android:layout_marginEnd="16dp"
-                android:text="Açılış-Kapanış:09.00-16.00
-                Giriş Ücreti:"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="@+id/ekbilgittxt"
-                app:layout_constraintTop_toBottomOf="@+id/ekbilgittxt" />
+                android:fontFamily="@font/font2"
+                android:text="Açılış-Kapanış:09.00-16.00"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="@+id/adres_info"
+                app:layout_constraintStart_toStartOf="@+id/adres_info"
+                app:layout_constraintTop_toBottomOf="@+id/adres_info" />
+
+            <TextView
+                android:id="@+id/ekbilgicommenttxt2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/font2"
+                android:textSize="16sp"
+                android:text="Ücretli"
+                app:layout_constraintEnd_toEndOf="@+id/ekbilgicommenttxt"
+                app:layout_constraintStart_toStartOf="@+id/ekbilgicommenttxt"
+                app:layout_constraintTop_toBottomOf="@+id/ekbilgicommenttxt" />
 
             <Button
                 android:id="@+id/gitbtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:layout_marginBottom="30dp"
                 android:backgroundTint="@color/green"
-                android:fontFamily="@font/font1"
+                android:fontFamily="@font/font2"
+                android:textSize="20sp"
                 android:text="Git"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/adres_info" />
+                app:layout_constraintTop_toBottomOf="@+id/ekbilgicommenttxt2" />
 
             <ScrollView
                 android:id="@+id/places_info_scroll"
@@ -140,9 +127,10 @@
                         android:id="@+id/textView4"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:fontFamily="@font/font2"
                         android:text="Dolmabahçe Sarayı, İstanbul, Beşiktaş'ta, Kabataş'tan Beşiktaş'a uzanan Dolmabahçe Caddesi'yle İstanbul Boğazı arasında, 250.000 m²'lik bir alan üzerinde bulunan Osmanlı sarayı. Marmara Denizi'nden Boğaziçi'ne deniz yoluyla girişte sol kıyıda, Üsküdar ve Kuzguncuk'un karşısında yer alır. Sultan Abdülmecid tarafından inşa ettirilen sarayın yapımı 1843 yılında başlayıp 1856 yılında bitirilmiştir. Günümüzde müze olarak kullanılmaktadır. Dolmabahçe Sarayı'nın bugün bulunduğu alan, bundan dört yüzyıl öncesine kadar Osmanlı Kaptan-ı Derya'sının gemileri demirlediği, Boğaziçi'nin büyük bir koyu idi. Geleneksel denizcilik törenlerinin yapıldığı bu koy zamanla bir bataklık hâline geldi. 17. yüzyılda doldurulmaya başlanan koy,[3] padişahların dinlenme ve eğlenceleri için düzenlenen bir &quot;hasbahçe&quot;ye (hadayik-hassâ) dönüştürüldü. Bu bahçede çeşitli dönemlerde yapılan köşkler ve kasırlar topluluğu, uzun süre &quot;Beşiktaş Sahil Sarayı&quot; adıyla anıldı."
                         android:textAlignment="center"
-                        android:textSize="16sp" />
+                        android:textSize="14sp" />
 
                 </LinearLayout>
             </ScrollView>
