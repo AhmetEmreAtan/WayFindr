@@ -1,5 +1,6 @@
 package com.example.wayfindr
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -40,18 +41,12 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.profile -> {
                     supportFragmentManager.beginTransaction()
-                        .replace(R.id.frame_layout, Profile())
+                        .replace(R.id.frame_layout, Login())
                         .commit()
                 }
             }
         }
-
-
-
-
     }
-
-
     private fun replaceFragment(fragment: Fragment) {
 
         val fragmentManager = supportFragmentManager
