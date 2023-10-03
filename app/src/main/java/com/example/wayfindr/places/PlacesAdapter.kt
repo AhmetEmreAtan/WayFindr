@@ -56,4 +56,8 @@ class PlacesAdapter(
         placesList = newPlacesList
         notifyDataSetChanged()
     }
+
+    fun getItemAtPosition(position: Int): PlaceModel {
+        return placesList[position]
+    }
 }

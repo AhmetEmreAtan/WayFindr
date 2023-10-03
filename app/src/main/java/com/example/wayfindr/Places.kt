@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.wayfindr.places.ItemClickListener
 import com.example.wayfindr.places.PlaceModel
+import com.example.wayfindr.places.PlacesDetailFragment
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import java.text.Collator
@@ -33,8 +34,6 @@ class Places : Fragment() {
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: PlacesAdapter
-
-    private var isFavorite = false
 
     private val itemClickListener = object : ItemClickListener {
         override fun onItemClick(position: Int) {
@@ -67,6 +66,14 @@ class Places : Fragment() {
 
         // Firebase Verilerini Çekme İşlemleri
         fetchPlacesData()
+
+        adapter = PlacesAdapter(emptyList(), object : ItemClickListener {
+            override fun onItemClick(position: Int) {
+                val selectedPlace = adapter.getItemAtPosition(position)
+                showPlaceDetailFragment(selectedPlace)
+            }
+        })
+        recyclerView.adapter = adapter
 
         // SearchEditText
         val searchEditText = view?.findViewById<EditText>(R.id.searchText)
@@ -156,5 +163,16 @@ class Places : Fragment() {
             .addOnFailureListener { exception ->
                 Log.e(TAG, "Veri çekme işlemi başarısız. Hata: $exception")
             }
+    }
+
+    private fun showPlaceDetailFragment(selectedPlace: PlaceModel) {
+        val fragment = PlacesDetailFragment()
+        val bundle = Bundle()
+        bundle.putParcelable("selectedPlace", selectedPlace)
+        fragment.arguments = bundle
+
+        val placesDetailFragment = PlacesDetailFragment()
+        placesDetailFragment.show(parentFragmentManager,placesDetailFragment.tag)
+
     }
 }

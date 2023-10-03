@@ -46,13 +46,6 @@ class FilterBottomSheetFragment : BottomSheetDialogFragment() {
     private var selectedCategory: Int = -1
     private var selectedDistance: Int = 0
 
-
-    private val itemClickListener = object : ItemClickListener {
-        override fun onItemClick(position: Int) {
-
-        }
-    }
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
