@@ -41,7 +41,7 @@ class MainActivity : AppCompatActivity() {
                 }
                 R.id.profile -> {
                     supportFragmentManager.beginTransaction()
-                        .replace(R.id.frame_layout, Login())
+                        .replace(R.id.frame_layout, Profile())
                         .commit()
                 }
             }

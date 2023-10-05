@@ -108,7 +108,7 @@ class Logins : AppCompatActivity() {
 
                             if (userData != null && userData.password == password) {
                                 Toast.makeText(this@Logins, "Giriş işlemi gerçekleşti.", Toast.LENGTH_SHORT).show()
-                                val intent = Intent(this@Logins, Profile::class.java)
+                                val intent = Intent(this@Logins, MainActivity::class.java)
                                 startActivity(intent)
                                 finish()
                             }

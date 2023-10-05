@@ -27,7 +27,7 @@ class     Setting : AppCompatActivity() {
            auth.signOut()
            clearUserPreference()
 
-           val intent = Intent(this, MainActivity::class.java)
+           val intent = Intent(this, Logins::class.java)
            startActivity(intent)
 
 
