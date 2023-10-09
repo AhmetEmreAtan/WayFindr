@@ -7,7 +7,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.wayfindr.R
 import com.example.wayfindr.places.ItemClickListener
-import com.example.wayfindr.places.PlaceModel
 
 class PlacesAdapter(
     private var placesList: List<PlaceModel>,
@@ -24,7 +23,7 @@ class PlacesAdapter(
         val place = placesList[position]
         holder.bind(place)
         holder.itemView.setOnClickListener {
-            itemClickListener.onItemClick(position)
+            itemClickListener.onItemClick(place.placeId)
         }
     }
 
@@ -57,7 +56,8 @@ class PlacesAdapter(
         notifyDataSetChanged()
     }
 
-    fun getItemAtPosition(position: Int): PlaceModel {
-        return placesList[position]
+    fun getPlaceByPlaceId(placeId: String): PlaceModel? {
+        return placesList.find { it.placeId == placeId }
     }
+
 }

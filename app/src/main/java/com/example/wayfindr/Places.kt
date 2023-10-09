@@ -1,5 +1,6 @@
 package com.example.wayfindr
 
+import PlaceModel
 import PlacesAdapter
 import android.content.ContentValues
 import android.content.ContentValues.TAG
@@ -13,12 +14,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
 import android.widget.ImageView
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.bumptech.glide.Glide
 import com.example.wayfindr.places.ItemClickListener
-import com.example.wayfindr.places.PlaceModel
 import com.example.wayfindr.places.PlacesDetailFragment
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
@@ -28,29 +26,17 @@ import java.util.Locale
 
 class Places : Fragment() {
 
-    val db = FirebaseFirestore.getInstance()
-    val placesCollection = db.collection("places")
-    val turkishCollator = Collator.getInstance(Locale("tr", "TR"))
+    private val db = FirebaseFirestore.getInstance()
+    private val placesCollection = db.collection("places")
+    private val turkishCollator = Collator.getInstance(Locale("tr", "TR"))
 
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: PlacesAdapter
-
-    private val itemClickListener = object : ItemClickListener {
-        override fun onItemClick(position: Int) {
-
-        }
-    }
-
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         val view = inflater.inflate(R.layout.fragment_places, container, false)
 
         recyclerView = view.findViewById(R.id.recyclerViewPlaces)
@@ -64,45 +50,44 @@ class Places : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        // Firebase Verilerini Çekme İşlemleri
         fetchPlacesData()
 
-        adapter = PlacesAdapter(emptyList(), object : ItemClickListener {
-            override fun onItemClick(position: Int) {
-                val selectedPlace = adapter.getItemAtPosition(position)
-                showPlaceDetailFragment(selectedPlace)
-            }
-        })
+        adapter = PlacesAdapter(emptyList(), itemClickListener)
         recyclerView.adapter = adapter
 
-        // SearchEditText
-        val searchEditText = view?.findViewById<EditText>(R.id.searchText)
-        searchEditText?.addTextChangedListener(object : TextWatcher {
+        val searchEditText = view.findViewById<EditText>(R.id.searchText)
+        searchEditText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(editable: Editable?) {
                 val query = editable.toString().trim()
                 performSearch(query)
             }
 
-            override fun beforeTextChanged(charSequence: CharSequence?, start: Int, count: Int, after: Int) {
+            override fun beforeTextChanged(charSequence: CharSequence?, start: Int, count: Int, after: Int) {}
 
-            }
+            override fun onTextChanged(charSequence: CharSequence?, start: Int, before: Int, count: Int) {}
 
-            override fun onTextChanged(charSequence: CharSequence?, start: Int, before: Int, count: Int) {
-
-            }
         })
 
         val filterImage: ImageView? = view.findViewById(R.id.filterImage)
         filterImage?.setOnClickListener {
             val filterBottomSheetFragment = FilterBottomSheetFragment()
-            filterBottomSheetFragment.show(parentFragmentManager,filterBottomSheetFragment.tag)
-
+            filterBottomSheetFragment.show(parentFragmentManager, filterBottomSheetFragment.tag)
         }
+    }
 
+    private val itemClickListener = object : ItemClickListener {
+        override fun onItemClick(placeId: String) {
+            val selectedPlace = adapter.getPlaceByPlaceId(placeId)
+
+            if (selectedPlace != null) {
+                showPlaceDetailFragment(selectedPlace)
+            } else {
+                // Handle the case where selectedPlace is null, if needed
+            }
+        }
     }
 
     private fun performSearch(searchTerm: String) {
-
         placesCollection
             .orderBy("placeName")
             .get()
@@ -110,16 +95,16 @@ class Places : Fragment() {
                 val placesList = mutableListOf<PlaceModel>()
 
                 for (document in querySnapshot.documents) {
-                    val placeName = document.getString("placeName")
-                    val placeDescription = document.getString("placeDescription")
-                    val placeImage = document.getString("placeImage")
+                    // Belge ID'sini al
+                    val placeId = document.id
 
-                    if (placeName != null && placeDescription != null && placeImage != null) {
+                    // Belgeyi PlaceModel'e çevir ve placeId'yi set et
+                    val placeModel = document.toObject(PlaceModel::class.java)?.apply {
+                        this.placeId = placeId
+                    }
 
-                        if (placeName.contains(searchTerm, ignoreCase = true)) {
-                            val place = PlaceModel(placeName, placeDescription, placeImage)
-                            placesList.add(place)
-                        }
+                    if (placeModel != null && placeModel.placeName.contains(searchTerm, ignoreCase = true)) {
+                        placesList.add(placeModel)
                     }
                 }
 
@@ -136,7 +121,6 @@ class Places : Fragment() {
 
 
     private fun fetchPlacesData() {
-
         placesCollection
             .orderBy("placeName", Query.Direction.ASCENDING)
             .get()
@@ -144,13 +128,16 @@ class Places : Fragment() {
                 val placesList = mutableListOf<PlaceModel>()
 
                 for (document in querySnapshot.documents) {
-                    val placeName = document.getString("placeName")
-                    val placeDescription = document.getString("placeDescription")
-                    val placeImage = document.getString("placeImage")
+                    // Belge ID'sini al
+                    val placeId = document.id
 
-                    if (placeName != null && placeDescription != null && placeImage != null) {
-                        val place = PlaceModel(placeName, placeDescription, placeImage)
-                        placesList.add(place)
+                    // Belgeyi PlaceModel'e çevir ve placeId'yi set et
+                    val placeModel = document.toObject(PlaceModel::class.java)?.apply {
+                        this.placeId = placeId
+                    }
+
+                    if (placeModel != null) {
+                        placesList.add(placeModel)
                     }
                 }
 
@@ -171,8 +158,6 @@ class Places : Fragment() {
         bundle.putParcelable("selectedPlace", selectedPlace)
         fragment.arguments = bundle
 
-        val placesDetailFragment = PlacesDetailFragment()
-        placesDetailFragment.show(parentFragmentManager,placesDetailFragment.tag)
-
+        fragment.show(parentFragmentManager, fragment.tag)
     }
 }

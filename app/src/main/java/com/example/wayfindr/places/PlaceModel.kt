@@ -1,20 +1,21 @@
-package com.example.wayfindr.places
-
 import android.os.Parcel
 import android.os.Parcelable
 
 data class PlaceModel(
-    val placeName: String,
-    val placeDescription: String,
-    val placeImage: String
+    var placeId: String = "",
+    val placeName: String = "",
+    val placeDescription: String = "",
+    val placeImage: String = ""
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
+        parcel.readString() ?: "",
         parcel.readString() ?: "",
         parcel.readString() ?: "",
         parcel.readString() ?: ""
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeString(placeId)
         parcel.writeString(placeName)
         parcel.writeString(placeDescription)
         parcel.writeString(placeImage)
@@ -24,13 +25,16 @@ data class PlaceModel(
         return 0
     }
 
-    companion object CREATOR : Parcelable.Creator<PlaceModel> {
-        override fun createFromParcel(parcel: Parcel): PlaceModel {
-            return PlaceModel(parcel)
-        }
+    companion object {
+        @JvmField
+        val CREATOR: Parcelable.Creator<PlaceModel> = object : Parcelable.Creator<PlaceModel> {
+            override fun createFromParcel(parcel: Parcel): PlaceModel {
+                return PlaceModel(parcel)
+            }
 
-        override fun newArray(size: Int): Array<PlaceModel?> {
-            return arrayOfNulls(size)
+            override fun newArray(size: Int): Array<PlaceModel?> {
+                return arrayOfNulls(size)
+            }
         }
     }
 }

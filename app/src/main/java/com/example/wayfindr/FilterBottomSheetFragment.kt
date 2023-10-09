@@ -133,21 +133,23 @@ class FilterBottomSheetFragment : BottomSheetDialogFragment() {
 
         }
 
+        seekBarLocation.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
+                selectedDistance = progress
+                val selectedDistanceText = "$selectedDistance km"
+                textViewSelectedDistance.text = "Seçilen Mesafe: $selectedDistanceText"
+
+                fetchDataLocationFromFirestore(selectedDistance)
+
+            }
+
+            override fun onStartTrackingTouch(seekBar: SeekBar?) {}
+
+            override fun onStopTrackingTouch(seekBar: SeekBar?) {}
+        })
+
         filterButton?.setOnClickListener{
-            seekBarLocation.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
-                override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
-                    selectedDistance = progress
-                    val selectedDistanceText = "$selectedDistance km"
-                    textViewSelectedDistance.text = "Seçilen Mesafe: $selectedDistanceText"
 
-                    fetchDataLocationFromFirestore(selectedDistance)
-
-                }
-
-                override fun onStartTrackingTouch(seekBar: SeekBar?) {}
-
-                override fun onStopTrackingTouch(seekBar: SeekBar?) {}
-            })
         }
 
         val closeButton: ImageView = view.findViewById(R.id.closeButton)
