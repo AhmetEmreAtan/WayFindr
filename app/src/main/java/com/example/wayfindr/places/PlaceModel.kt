@@ -5,7 +5,9 @@ data class PlaceModel(
     var placeId: String = "",
     val placeName: String = "",
     val placeDescription: String = "",
-    val placeImage: String = ""
+    val placeImage: String = "",
+    var isFavorite: Boolean = false
+
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString() ?: "",

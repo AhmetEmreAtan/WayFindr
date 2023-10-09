@@ -4,6 +4,7 @@ import PlaceModel
 import PlacesAdapter
 import android.content.ContentValues
 import android.content.ContentValues.TAG
+import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -40,7 +41,7 @@ class Places : Fragment() {
         val view = inflater.inflate(R.layout.fragment_places, container, false)
 
         recyclerView = view.findViewById(R.id.recyclerViewPlaces)
-        adapter = PlacesAdapter(emptyList(), itemClickListener)
+        adapter = PlacesAdapter(emptyList(), itemClickListener,this)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
@@ -51,8 +52,9 @@ class Places : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         fetchPlacesData()
+        
 
-        adapter = PlacesAdapter(emptyList(), itemClickListener)
+        adapter = PlacesAdapter(emptyList(), itemClickListener,this)
         recyclerView.adapter = adapter
 
         val searchEditText = view.findViewById<EditText>(R.id.searchText)
@@ -160,4 +162,43 @@ class Places : Fragment() {
 
         fragment.show(parentFragmentManager, fragment.tag)
     }
+
+    fun updateFirestoreFavorites(placeId: String) {
+        val db = FirebaseFirestore.getInstance()
+
+        // "favorites" koleksiyonunu referans al
+        val favoritesCollection = db.collection("favorites")
+
+        // Yeni bir belge oluştur ve favori mekanı eklemek için kullan
+        val favoriteDocument = favoritesCollection.document(placeId)
+        favoriteDocument.set(mapOf("placeId" to placeId))
+            .addOnSuccessListener {
+                Log.d(TAG, "Favori mekan başarıyla eklendi")
+            }
+            .addOnFailureListener { e ->
+                Log.e(TAG, "Favori mekan eklenirken hata oluştu", e)
+            }
+
+    }
+
+    fun removeFromFirestoreFavorites(placeId: String) {
+        // Firestore veritabanına erişim sağla
+        val db = FirebaseFirestore.getInstance()
+
+        // "favorites" koleksiyonunu referans al
+        val favoritesCollection = db.collection("favorites")
+
+        // Belirli placeId'ye sahip olan favori mekanı kaldır
+        favoritesCollection.document(placeId)
+            .delete()
+            .addOnSuccessListener {
+                Log.d(TAG, "Favori mekan başarıyla kaldırıldı")
+            }
+            .addOnFailureListener { e ->
+                Log.e(TAG, "Favori mekan kaldırılırken hata oluştu", e)
+            }
+
+    }
+
+
 }
