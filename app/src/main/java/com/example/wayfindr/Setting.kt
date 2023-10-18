@@ -7,6 +7,9 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.core.content.ContentProviderCompat.requireContext
 import com.example.wayfindr.databinding.ActivitySettingBinding
+import com.example.wayfindr.setting.AboutUsFragment
+import com.example.wayfindr.setting.ContractsFragment
+import com.example.wayfindr.setting.LanguageFragment
 import com.google.firebase.auth.FirebaseAuth
 
 class     Setting : AppCompatActivity() {
@@ -23,11 +26,21 @@ class     Setting : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
         sharedPreferences = getSharedPreferences("MY_PRE", Context.MODE_PRIVATE)
 
+        binding.languageButton.setOnClickListener {
+            val intent = Intent(this, LanguageFragment::class.java)
+        }
+        binding.contractsButton.setOnClickListener {
+            val intent = Intent(this, ContractsFragment::class.java)
+        }
+        binding.aboutButton.setOnClickListener {
+            val intent = Intent(this, AboutUsFragment::class.java)
+        }
+
        binding.logOutButton.setOnClickListener {
            auth.signOut()
            clearUserPreference()
 
-           val intent = Intent(this, Logins::class.java)
+           val intent = Intent(this, Login::class.java)
            startActivity(intent)
 
 
