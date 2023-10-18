@@ -36,10 +36,7 @@
             android:name=".AdminEdit"
             android:exported="true" />
         <activity
-            android:name=".Setting"
-            android:exported="true" />
-        <activity
-            android:name=".Logins"
+            android:name="com.example.wayfindr.Setting"
             android:exported="true" />
         <activity
             android:name=".Favorites"

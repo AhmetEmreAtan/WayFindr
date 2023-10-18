@@ -16,7 +16,6 @@ class Profile : Fragment() {
 
     private lateinit var binding: FragmentProfileBinding
     private lateinit var auth : FirebaseAuth
-    private lateinit var uid : String
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -26,22 +25,23 @@ class Profile : Fragment() {
         binding = FragmentProfileBinding.inflate(layoutInflater)
         val view = binding.root
 
-
-
         auth = FirebaseAuth.getInstance()
-        uid = auth.currentUser?.uid.toString()
+        val currentUser = auth.currentUser
+
+        if (currentUser != null) {
+            val userEmail = currentUser.email
 
 
-        val sharedPreferences = requireActivity().getSharedPreferences("MY_PRE", Context.MODE_PRIVATE)
-
-        val email = sharedPreferences.getString("EMAIL", "")
-        binding.profileName.text = "$email"
+            binding.profileEmail.text = userEmail ?: "E-Posta Yok"
+        } else {
+            // Kullanıcı oturum açmamışsa, giriş yapma işlemine yönlendir
+            binding.profileEmail.text = "Giriş Yapınız"
+        }
 
         binding.favButton.setOnClickListener {
             val intent = Intent(requireContext(), Favorites::class.java)
             startActivity(intent)
         }
-
 
         binding.settingButton.setOnClickListener {
             val intent = Intent(requireContext(), Setting::class.java)
@@ -55,5 +55,4 @@ class Profile : Fragment() {
 
         return view
     }
-
 }
