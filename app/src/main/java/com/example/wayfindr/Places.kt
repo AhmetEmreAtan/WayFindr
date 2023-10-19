@@ -2,9 +2,8 @@ package com.example.wayfindr
 
 import PlaceModel
 import PlacesAdapter
-import android.content.ContentValues
 import android.content.ContentValues.TAG
-import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -13,15 +12,23 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.wayfindr.places.ItemClickListener
 import com.example.wayfindr.places.PlacesDetailFragment
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import java.text.Collator
+import java.util.HashMap
 import java.util.Locale
 
 
@@ -31,6 +38,14 @@ class Places : Fragment() {
     private val placesCollection = db.collection("places")
     private val turkishCollator = Collator.getInstance(Locale("tr", "TR"))
 
+    private var placeId=""
+
+
+
+    private var isFavorite=false
+
+    private lateinit var firebaseAuth: FirebaseAuth
+
     private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: PlacesAdapter
 
@@ -38,10 +53,11 @@ class Places : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        firebaseAuth = FirebaseAuth.getInstance()
         val view = inflater.inflate(R.layout.fragment_places, container, false)
 
         recyclerView = view.findViewById(R.id.recyclerViewPlaces)
-        adapter = PlacesAdapter(emptyList(), itemClickListener,this)
+        adapter = PlacesAdapter(emptyList(), itemClickListener,firebaseAuth)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
@@ -52,9 +68,8 @@ class Places : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         fetchPlacesData()
-        
 
-        adapter = PlacesAdapter(emptyList(), itemClickListener,this)
+        adapter = PlacesAdapter(emptyList(), itemClickListener,firebaseAuth)
         recyclerView.adapter = adapter
 
         val searchEditText = view.findViewById<EditText>(R.id.searchText)
@@ -162,43 +177,5 @@ class Places : Fragment() {
 
         fragment.show(parentFragmentManager, fragment.tag)
     }
-
-    fun updateFirestoreFavorites(placeId: String) {
-        val db = FirebaseFirestore.getInstance()
-
-        // "favorites" koleksiyonunu referans al
-        val favoritesCollection = db.collection("favorites")
-
-        // Yeni bir belge oluştur ve favori mekanı eklemek için kullan
-        val favoriteDocument = favoritesCollection.document(placeId)
-        favoriteDocument.set(mapOf("placeId" to placeId))
-            .addOnSuccessListener {
-                Log.d(TAG, "Favori mekan başarıyla eklendi")
-            }
-            .addOnFailureListener { e ->
-                Log.e(TAG, "Favori mekan eklenirken hata oluştu", e)
-            }
-
-    }
-
-    fun removeFromFirestoreFavorites(placeId: String) {
-        // Firestore veritabanına erişim sağla
-        val db = FirebaseFirestore.getInstance()
-
-        // "favorites" koleksiyonunu referans al
-        val favoritesCollection = db.collection("favorites")
-
-        // Belirli placeId'ye sahip olan favori mekanı kaldır
-        favoritesCollection.document(placeId)
-            .delete()
-            .addOnSuccessListener {
-                Log.d(TAG, "Favori mekan başarıyla kaldırıldı")
-            }
-            .addOnFailureListener { e ->
-                Log.e(TAG, "Favori mekan kaldırılırken hata oluştu", e)
-            }
-
-    }
-
 
 }

@@ -53,12 +53,14 @@
 
         </LinearLayout>
 
-        <CheckBox
+        <ImageView
             android:id="@+id/favoriteAdd"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom|end"
-            android:button="@drawable/selector_wishlist_item"
+            android:padding="10dp"
+            android:clickable="true"
+            android:src="@drawable/ic_heart_outlined"
             android:layout_margin="1dp"/>
 
     </androidx.cardview.widget.CardView>

@@ -1,63 +1,40 @@
+import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CheckBox
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
+import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.wayfindr.Places
+import com.example.wayfindr.Login
 import com.example.wayfindr.R
 import com.example.wayfindr.places.ItemClickListener
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.firestore.FieldValue
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
+
 
 class PlacesAdapter(
     private var placesList: List<PlaceModel>,
     private val itemClickListener: ItemClickListener,
-    private val placesContext: Places
+    private val firebaseAuth: FirebaseAuth
 ) : RecyclerView.Adapter<PlacesAdapter.PlacesViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlacesViewHolder {
-        val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.item_places, parent, false)
-        return PlacesViewHolder(view)
-    }
-
-    override fun onBindViewHolder(holder: PlacesViewHolder, position: Int) {
-        val place = placesList[position]
-        holder.bind(place)
-        holder.itemView.setOnClickListener {
-            itemClickListener.onItemClick(place.placeId)
-        }
-
-        holder.favoriteCheckbox.isChecked = place.isFavorite
-        holder.favoriteCheckbox.setOnCheckedChangeListener { _, isChecked ->
-            // Checkbox durumu değiştiğinde, PlaceModel'deki durumu güncelle
-            place.isFavorite = isChecked
-
-            // Eğer checkbox işaretlendi ise, Places sınıfındaki fonksiyonu çağır
-            if (isChecked) {
-                placesContext.updateFirestoreFavorites(place.placeId)
-            }
-            else {
-                // Eğer checkbox işaretlenmedi ise, favorilerden kaldırma işlemi yap
-                placesContext.removeFromFirestoreFavorites(place.placeId)
-            }
-        }
-    }
-
-    override fun getItemCount(): Int {
-        return placesList.size
-    }
-
     inner class PlacesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
         private val placesImage: ImageView = itemView.findViewById(R.id.placesImage)
         private val placesName: TextView = itemView.findViewById(R.id.placesName)
         private val placesDescription: TextView = itemView.findViewById(R.id.placesDescription)
-        val favoriteCheckbox: CheckBox = itemView.findViewById(R.id.favoriteAdd)
+        val favoriteAddButton: ImageView = itemView.findViewById(R.id.favoriteAdd)
 
         fun bind(place: PlaceModel) {
-            // Resmi URL'den yüklemek için Glide kütüphanesini kullan
             Glide.with(itemView)
                 .load(place.placeImage)
                 .placeholder(R.drawable.placeholder_image)
@@ -66,10 +43,102 @@ class PlacesAdapter(
 
             placesName.text = place.placeName
             placesDescription.text = place.placeDescription
+
+            if (place.isFavorite) {
+                favoriteAddButton.setImageResource(R.drawable.ic_heart_filled)
+            } else {
+                favoriteAddButton.setImageResource(R.drawable.ic_heart_outlined)
+            }
         }
     }
 
-    // Yeni verileri set etmek için fonksiyon
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlacesViewHolder {
+        val view = LayoutInflater.from(parent.context)
+            .inflate(R.layout.item_places, parent, false)
+
+        return PlacesViewHolder(view)
+    }
+
+    override fun onBindViewHolder(holder: PlacesViewHolder, position: Int) {
+        val place = placesList[position]
+        holder.bind(place)
+
+        holder.itemView.setOnClickListener {
+            itemClickListener.onItemClick(place.placeId)
+        }
+
+        holder.favoriteAddButton.setOnClickListener {
+            handleFavoriteButtonClick(holder,place)
+        }
+
+        updateFavoriteButton(holder,place)
+    }
+
+    private fun handleFavoriteButtonClick(holder: PlacesViewHolder, place: PlaceModel) {
+        val currentUser = firebaseAuth.currentUser
+        if (currentUser != null) {
+            val userId = currentUser.uid
+
+            // isFavoritePlace fonksiyonunu doğrudan burada bir geri çağrı ile kullan
+            place.isFavoritePlace(userId) { isFavorite ->
+                if (isFavorite) {
+                    place.removeFromFavorites(userId)
+                } else {
+                    place.addToFavorites(userId)
+                }
+
+                // Yeni favori durumuna göre UI'yi güncelle
+                updateFavoriteButton(holder, place)
+            }
+        } else {
+            Log.d("AuthState", "Geçerli kullanıcı null")
+            navigateToLoginFragment(holder.itemView.context)
+        }
+    }
+
+    fun updateFavoriteButton(holder: PlacesViewHolder, place: PlaceModel) {
+        val currentUser = firebaseAuth.currentUser
+        if (currentUser != null) {
+            val userId = currentUser.uid
+            val database = FirebaseDatabase.getInstance()
+            val userFavoritesReference = database.getReference("users").child(userId).child("favorites")
+
+            // Her bir mekanın favori olup olmadığını kontrol et
+            userFavoritesReference.child(place.placeId).addListenerForSingleValueEvent(object :
+                ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val isFavorite = snapshot.exists()
+
+                    // Favori butonunun görüntüsünü güncelle
+                    if (isFavorite) {
+                        place.isFavorite = true
+                        holder.favoriteAddButton.setImageResource(R.drawable.ic_heart_filled)
+                    } else {
+                        place.isFavorite = false
+                        holder.favoriteAddButton.setImageResource(R.drawable.ic_heart_outlined)
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    Log.e("RealtimeDatabase", "Veritabanına erişim hatası: $error")
+                }
+            })
+        }
+    }
+
+
+    private fun navigateToLoginFragment(context: Context) {
+        val loginFragment = Login()
+        val transaction = (context as FragmentActivity).supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.fragmentPlaces, loginFragment)
+        transaction.addToBackStack(null)
+        transaction.commit()
+    }
+
+    override fun getItemCount(): Int {
+        return placesList.size
+    }
+
     fun setPlacesList(newPlacesList: List<PlaceModel>) {
         placesList = newPlacesList
         notifyDataSetChanged()
@@ -78,12 +147,4 @@ class PlacesAdapter(
     fun getPlaceByPlaceId(placeId: String): PlaceModel? {
         return placesList.find { it.placeId == placeId }
     }
-
-    fun updateFavorites(favorites: Set<String>) {
-        placesList.forEach { place ->
-            place.isFavorite = favorites.contains(place.placeId)
-        }
-        notifyDataSetChanged()
-    }
-
 }
