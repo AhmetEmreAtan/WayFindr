@@ -11,10 +11,14 @@ import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContentProviderCompat.requireContext
 import com.example.wayfindr.databinding.ActivitySettingBinding
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
 
 class     Setting : AppCompatActivity() {
 
     private lateinit var binding: ActivitySettingBinding
+    private lateinit var firebaseDatabase: FirebaseDatabase
+
     private lateinit var auth: FirebaseAuth
     private lateinit var sharedPreferences: SharedPreferences
 
@@ -25,6 +29,17 @@ class     Setting : AppCompatActivity() {
 
         auth = FirebaseAuth.getInstance()
         sharedPreferences = getSharedPreferences("MY_PRE", Context.MODE_PRIVATE)
+
+        binding.aboutButton.setOnClickListener {
+
+            val builder= AlertDialog.Builder(this)
+            val view = layoutInflater.inflate(R.layout.dialog_about_us,null)
+
+            builder.setView(view)
+            val dialog = builder.create()
+            dialog.show()
+
+        }
 
        binding.logOutButton.setOnClickListener {
            auth.signOut()
@@ -43,35 +58,34 @@ class     Setting : AppCompatActivity() {
             builder.setIcon(R.drawable.baseline_delete_24)
             builder.setCancelable(false)
 
-            builder.setPositiveButton("Yes"){_ , _ ->
-                Log.d("DeleteAccount", "Hesap silme butonuna tıklandı.")
+            builder.setPositiveButton("Yes") { _, _ ->
+
                 val user = auth.currentUser
-                if (user!= null) {
-                    user?.delete()?.addOnCompleteListener {
-                        if (it.isSuccessful) {
-                            Toast.makeText(
-                                this,
-                                "Hesap silme işlemi gerçekleşti !!",
-                                Toast.LENGTH_SHORT
-                            ).show()
+
+                if (user != null) {
+                    val databaseReference = FirebaseDatabase.getInstance().getReference()
+                    val userUid = user.uid
+                    databaseReference.child("users").child(userUid).removeValue()
+
+                    user.delete().addOnCompleteListener { authTask ->
+                        if (authTask.isSuccessful) {
+                            Toast.makeText(this, "Hesap silme işlemi gerçekleşti !!", Toast.LENGTH_SHORT).show()
 
                             val transaction = supportFragmentManager.beginTransaction()
                             val loginFragment = Login()
                             transaction.replace(R.id.constraint_layout, loginFragment)
                             transaction.addToBackStack(null)
                             transaction.commit()
-
                         } else {
-                            Log.e("error:", it.exception.toString())
+                            Log.e("error:", authTask.exception.toString())
                         }
                     }
                 } else {
                     Log.e("error:", "kullanıcı yok")
                 }
             }
-            builder.setNegativeButton("No"){_ , _ ->
+            builder.setNegativeButton("No") { _, _ -> }
 
-            }
             val alertDialog = builder.create()
             alertDialog.show()
         }
