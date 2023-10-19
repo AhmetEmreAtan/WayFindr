@@ -28,15 +28,7 @@ class Profile : Fragment() {
         auth = FirebaseAuth.getInstance()
         val currentUser = auth.currentUser
 
-        if (currentUser != null) {
-            val userEmail = currentUser.email
 
-
-            binding.profileEmail.text = userEmail ?: "E-Posta Yok"
-        } else {
-            // Kullanıcı oturum açmamışsa, giriş yapma işlemine yönlendir
-            binding.profileEmail.text = "Giriş Yapınız"
-        }
 
         binding.favButton.setOnClickListener {
             val intent = Intent(requireContext(), Favorites::class.java)

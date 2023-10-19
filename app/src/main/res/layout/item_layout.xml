@@ -11,7 +11,7 @@
         android:layout_height="200dp"
         android:layout_alignParentStart="true"
         android:layout_centerVertical="true"
-        android:layout_marginEnd="2dp"
+
         android:layout_marginBottom="10dp" />
 
 
@@ -23,11 +23,11 @@
         android:layout_alignStart="@+id/imageView"
         android:layout_alignEnd="@+id/imageView"
         android:fontFamily="@font/font2"
-        android:layout_marginTop="-30dp"
-        android:layout_marginBottom="3dp"
+        android:layout_marginTop="-20dp"
+        android:background="@color/white"
         android:text="Title"
         android:textAlignment="center"
-        android:textColor="@color/navy"
+        android:textColor="@color/black"
         android:textSize="15sp"
         android:textStyle="bold" />
 

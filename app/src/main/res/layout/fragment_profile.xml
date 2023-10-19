@@ -21,61 +21,82 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:background="@color/gradient">
+                android:layout_height="250dp">
 
+
+                <ImageView
+                    android:id="@+id/imageView3"
+                    android:layout_width="303dp"
+                    android:layout_height="131dp"
+                    android:layout_marginStart="-110dp"
+                    android:layout_marginEnd="-150dp"
+                    android:src="@drawable/silindir2"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toStartOf="@+id/imageView5"
+                    app:layout_constraintHorizontal_bias="0.36"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.13" />
+
+
+                <ImageView
+                    android:id="@+id/imageView5"
+                    android:layout_width="559dp"
+                    android:layout_height="281dp"
+                    android:layout_marginStart="75dp"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginEnd="-100dp"
+                    android:src="@drawable/silindir"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.0"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="0.0" />
 
                 <TextView
                     android:id="@+id/textView8"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="32dp"
+                    android:layout_marginTop="8dp"
                     android:text="Profil"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:textSize="20sp"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/userImage"
-                    app:layout_constraintTop_toTopOf="@+id/userImage" />
-
-
-                <TextView
-                    android:id="@+id/userName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="8dp"
-                    android:text="User Name"
-                    android:textColor="@color/white"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/userImage"
-                    app:layout_constraintTop_toBottomOf="@+id/textView8" />
+                    app:layout_constraintHorizontal_bias="0.498"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/profileEmail"
+                    android:id="@+id/profileName"
                     android:layout_width="181dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginEnd="8dp"
+                    android:layout_marginTop="175dp"
                     android:text="haticesuleakinn@gmail.com"
                     android:textAlignment="center"
-                    android:textColor="@color/white"
+                    android:textColor="@color/black"
                     android:textSize="14sp"
                     android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.52"
-                    app:layout_constraintStart_toEndOf="@+id/userImage"
-                    app:layout_constraintTop_toBottomOf="@+id/userName" />
+                    app:layout_constraintHorizontal_bias="0.46"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/textView8" />
 
                 <ImageView
                     android:id="@+id/userImage"
                     android:layout_width="100dp"
-                    android:layout_height="120dp"
-                    android:layout_marginStart="16dp"
+                    android:layout_height="100dp"
+                    android:layout_marginTop="38dp"
+                    android:layout_marginBottom="38dp"
                     android:background="@drawable/btn_background"
-                    android:src="@drawable/icon_user"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:src="@drawable/icons_user"
+                    app:layout_constraintBottom_toTopOf="@+id/profileName"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.498"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    app:layout_constraintTop_toBottomOf="@+id/textView8"
+                    app:layout_constraintVertical_bias="0.13999999" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 

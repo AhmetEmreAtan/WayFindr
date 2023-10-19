@@ -34,7 +34,7 @@ class Home : Fragment() {
         recyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
 
         val imageList = listOf(
-            R.drawable.galatakulesi, R.drawable.dolmabahce_deneme, R.drawable.arkeoloji_muzesi_deneme,
+            R.drawable.galatakulesi, R.drawable.dolmabahce, R.drawable.arkeoloji_muzesi_deneme,
             R.drawable.kizkulesiimage, R.drawable.topkapi_sarayi, R.drawable.rahmi_koc,
             R.drawable.kariye_muzesi, R.drawable.istanbul_modern_deneme, R.drawable.uralatamanmuzesi,
             R.drawable.sakip_sabanci_image, R.drawable.masumiyet_image, R.drawable.turkveislam_image
@@ -133,7 +133,7 @@ class Home : Fragment() {
     private fun getImageResourceByCaption(caption: String): Int {
         return when (caption) {
             "Galata Kulesi" -> R.drawable.galatakulesi
-            "Dolmabahçe Sarayı" -> R.drawable.dolmabahce_deneme
+            "Dolmabahçe Sarayı" -> R.drawable.dolmabahce
             "İstanbul Arkeoloji Müzesi" -> R.drawable.arkeoloji_muzesi_deneme
             "Kız Kulesi" -> R.drawable.kizkulesiimage
             "İstanbul Topkapı Sarayı" -> R.drawable.topkapi_sarayi

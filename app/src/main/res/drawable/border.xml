@@ -7,7 +7,7 @@
         android:radius="20dp"/>
 
     <stroke
-        android:color="@color/pinkColor"
+        android:color="@color/gradient"
         android:width="2dp"/>
 
     <solid

@@ -5,11 +5,11 @@ import android.content.Intent
 import android.content.SharedPreferences
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.core.content.ContentProviderCompat.requireContext
 import com.example.wayfindr.databinding.ActivitySettingBinding
-import com.example.wayfindr.setting.AboutUsFragment
-import com.example.wayfindr.setting.ContractsFragment
-import com.example.wayfindr.setting.LanguageFragment
 import com.google.firebase.auth.FirebaseAuth
 
 class     Setting : AppCompatActivity() {
@@ -26,25 +26,55 @@ class     Setting : AppCompatActivity() {
         auth = FirebaseAuth.getInstance()
         sharedPreferences = getSharedPreferences("MY_PRE", Context.MODE_PRIVATE)
 
-        binding.languageButton.setOnClickListener {
-            val intent = Intent(this, LanguageFragment::class.java)
-        }
-        binding.contractsButton.setOnClickListener {
-            val intent = Intent(this, ContractsFragment::class.java)
-        }
-        binding.aboutButton.setOnClickListener {
-            val intent = Intent(this, AboutUsFragment::class.java)
-        }
-
        binding.logOutButton.setOnClickListener {
            auth.signOut()
            clearUserPreference()
 
-           val intent = Intent(this, MainActivity::class.java)
-           startActivity(intent)
-
-
+           val transaction = supportFragmentManager.beginTransaction()
+           val loginFragment = Login()
+           transaction.replace(R.id.constraint_layout, loginFragment)
+           transaction.addToBackStack(null)
+           transaction.commit()
        }
+        binding.deleteAccountButton.setOnClickListener {
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle("Kullanıcı Sil")
+            builder.setMessage("Kullanıcı silinsin mi ?")
+            builder.setIcon(R.drawable.baseline_delete_24)
+            builder.setCancelable(false)
+
+            builder.setPositiveButton("Yes"){_ , _ ->
+                Log.d("DeleteAccount", "Hesap silme butonuna tıklandı.")
+                val user = auth.currentUser
+                if (user!= null) {
+                    user?.delete()?.addOnCompleteListener {
+                        if (it.isSuccessful) {
+                            Toast.makeText(
+                                this,
+                                "Hesap silme işlemi gerçekleşti !!",
+                                Toast.LENGTH_SHORT
+                            ).show()
+
+                            val transaction = supportFragmentManager.beginTransaction()
+                            val loginFragment = Login()
+                            transaction.replace(R.id.constraint_layout, loginFragment)
+                            transaction.addToBackStack(null)
+                            transaction.commit()
+
+                        } else {
+                            Log.e("error:", it.exception.toString())
+                        }
+                    }
+                } else {
+                    Log.e("error:", "kullanıcı yok")
+                }
+            }
+            builder.setNegativeButton("No"){_ , _ ->
+
+            }
+            val alertDialog = builder.create()
+            alertDialog.show()
+        }
     }
     private fun clearUserPreference(){
         val editor = sharedPreferences.edit()
