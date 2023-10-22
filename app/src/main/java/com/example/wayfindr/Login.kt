@@ -52,7 +52,6 @@ class Login : Fragment() {
 
         val letRegisterTxt = binding.signUp
         letRegisterTxt.setOnClickListener {
-            // Kayıt sayfasına yönlendirme kodu
             val intent = Intent(requireContext(), Register::class.java)
             startActivity(intent)
         }
