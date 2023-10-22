@@ -28,7 +28,7 @@ class Register : AppCompatActivity() {
 
 
 
-        val signUpButton = findViewById<TextView>(R.id.singUp)
+        val signUpButton = findViewById<TextView>(R.id.signUp)
 
         firebaseDatabase = FirebaseDatabase.getInstance()
         databaseReference = firebaseDatabase.reference.child("users")
