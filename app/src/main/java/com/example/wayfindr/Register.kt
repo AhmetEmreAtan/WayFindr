@@ -27,7 +27,6 @@ class Register : AppCompatActivity() {
         var sharedPreferences = this.getSharedPreferences("MY_PRE",Context.MODE_PRIVATE)
 
 
-
         val signUpButton = findViewById<TextView>(R.id.signUp)
 
         firebaseDatabase = FirebaseDatabase.getInstance()
@@ -38,6 +37,7 @@ class Register : AppCompatActivity() {
             val name = findViewById<TextView>(R.id.name).text.toString()
             val email = findViewById<TextView>(R.id.eMail2).text.toString()
             val password = findViewById<TextView>(R.id.passwords2).text.toString()
+            val userName = findViewById<TextView>(R.id.userName).text.toString()
 
             sharedPreferences.edit().putString("NAME", name).apply()
 
@@ -51,7 +51,7 @@ class Register : AppCompatActivity() {
                             val user = auth.currentUser
                             val id = user?.uid
 
-                            val userData = UserData(id, name, email, password)
+                            val userData = UserData(id, name, email, password, userName)
                             databaseReference.child(id!!).setValue(userData)
 
                             Toast.makeText(

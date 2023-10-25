@@ -99,12 +99,21 @@ class Profile : Fragment() {
             }
 
             databaseReference.child("name").get().addOnSuccessListener { dataSnapshot ->
+                val name = dataSnapshot.value as? String
+                if (name != null && !name.isBlank()) {
+                    val profileName = view.findViewById<TextView>(R.id.profileName)
+                    profileName.text = name
+                }
+            }
+
+            databaseReference.child("userName").get().addOnSuccessListener { dataSnapshot ->
                 val username = dataSnapshot.value as? String
                 if (username != null && !username.isBlank()) {
-                    val profileName = view.findViewById<TextView>(R.id.profileName)
+                    val profileName = view.findViewById<TextView>(R.id.profileUserName)
                     profileName.text = username
                 }
             }
+
         }
 
         return view
