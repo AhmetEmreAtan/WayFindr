@@ -34,7 +34,6 @@ data class PlaceModel(
             }
 
             override fun onCancelled(error: DatabaseError) {
-                // Gerekirse hatayı işle
                 callback(false)
             }
         })

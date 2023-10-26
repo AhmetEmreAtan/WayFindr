@@ -3,7 +3,6 @@ package com.example.wayfindr
 import PlaceModel
 import PlacesAdapter
 import android.content.ContentValues.TAG
-import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -12,68 +11,46 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.CheckBox
-import android.widget.EditText
-import android.widget.ImageView
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
+import com.example.wayfindr.databinding.FragmentPlacesBinding
 import com.example.wayfindr.places.ItemClickListener
 import com.example.wayfindr.places.PlacesDetailFragment
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import java.text.Collator
-import java.util.HashMap
 import java.util.Locale
-
 
 class Places : Fragment() {
 
+    private lateinit var binding: FragmentPlacesBinding
     private val db = FirebaseFirestore.getInstance()
     private val placesCollection = db.collection("places")
     private val turkishCollator = Collator.getInstance(Locale("tr", "TR"))
 
-    private var placeId=""
-
-
-
-    private var isFavorite=false
-
     private lateinit var firebaseAuth: FirebaseAuth
-
-    private lateinit var recyclerView: RecyclerView
     private lateinit var adapter: PlacesAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        firebaseAuth = FirebaseAuth.getInstance()
-        val view = inflater.inflate(R.layout.fragment_places, container, false)
-
-        recyclerView = view.findViewById(R.id.recyclerViewPlaces)
-        adapter = PlacesAdapter(emptyList(), itemClickListener,firebaseAuth)
-        recyclerView.adapter = adapter
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
-
-        return view
+    ): View {
+        binding = FragmentPlacesBinding.inflate(inflater, container, false)
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        firebaseAuth = FirebaseAuth.getInstance()
+        adapter = PlacesAdapter(emptyList(), itemClickListener, firebaseAuth)
+
+        binding.recyclerViewPlaces.adapter = adapter
+        binding.recyclerViewPlaces.layoutManager = LinearLayoutManager(requireContext())
+
         fetchPlacesData()
 
-        adapter = PlacesAdapter(emptyList(), itemClickListener,firebaseAuth)
-        recyclerView.adapter = adapter
-
-        val searchEditText = view.findViewById<EditText>(R.id.searchText)
-        searchEditText.addTextChangedListener(object : TextWatcher {
+        binding.searchText.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(editable: Editable?) {
                 val query = editable.toString().trim()
                 performSearch(query)
@@ -82,11 +59,9 @@ class Places : Fragment() {
             override fun beforeTextChanged(charSequence: CharSequence?, start: Int, count: Int, after: Int) {}
 
             override fun onTextChanged(charSequence: CharSequence?, start: Int, before: Int, count: Int) {}
-
         })
 
-        val filterImage: ImageView? = view.findViewById(R.id.filterImage)
-        filterImage?.setOnClickListener {
+        binding.filterImage.setOnClickListener {
             val filterBottomSheetFragment = FilterBottomSheetFragment()
             filterBottomSheetFragment.show(parentFragmentManager, filterBottomSheetFragment.tag)
         }
@@ -98,8 +73,6 @@ class Places : Fragment() {
 
             if (selectedPlace != null) {
                 showPlaceDetailFragment(selectedPlace)
-            } else {
-                // Handle the case where selectedPlace is null, if needed
             }
         }
     }
@@ -112,10 +85,7 @@ class Places : Fragment() {
                 val placesList = mutableListOf<PlaceModel>()
 
                 for (document in querySnapshot.documents) {
-                    // Belge ID'sini al
                     val placeId = document.id
-
-                    // Belgeyi PlaceModel'e çevir ve placeId'yi set et
                     val placeModel = document.toObject(PlaceModel::class.java)?.apply {
                         this.placeId = placeId
                     }
@@ -136,7 +106,6 @@ class Places : Fragment() {
             }
     }
 
-
     private fun fetchPlacesData() {
         placesCollection
             .orderBy("placeName", Query.Direction.ASCENDING)
@@ -145,10 +114,7 @@ class Places : Fragment() {
                 val placesList = mutableListOf<PlaceModel>()
 
                 for (document in querySnapshot.documents) {
-                    // Belge ID'sini al
                     val placeId = document.id
-
-                    // Belgeyi PlaceModel'e çevir ve placeId'yi set et
                     val placeModel = document.toObject(PlaceModel::class.java)?.apply {
                         this.placeId = placeId
                     }
@@ -174,8 +140,6 @@ class Places : Fragment() {
         val bundle = Bundle()
         bundle.putParcelable("selectedPlace", selectedPlace)
         fragment.arguments = bundle
-
         fragment.show(parentFragmentManager, fragment.tag)
     }
-
 }

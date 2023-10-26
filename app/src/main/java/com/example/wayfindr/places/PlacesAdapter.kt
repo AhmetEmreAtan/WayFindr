@@ -1,4 +1,3 @@
-import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -6,21 +5,16 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.wayfindr.Login
 import com.example.wayfindr.R
+import com.example.wayfindr.databinding.ItemPlacesBinding
 import com.example.wayfindr.places.ItemClickListener
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import com.google.firebase.firestore.FieldValue
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
-
 
 class PlacesAdapter(
     private var placesList: List<PlaceModel>,
@@ -44,11 +38,6 @@ class PlacesAdapter(
             placesName.text = place.placeName
             placesDescription.text = place.placeDescription
 
-            if (place.isFavorite) {
-                favoriteAddButton.setImageResource(R.drawable.ic_heart_filled)
-            } else {
-                favoriteAddButton.setImageResource(R.drawable.ic_heart_outlined)
-            }
         }
     }
 
@@ -92,7 +81,9 @@ class PlacesAdapter(
             }
         } else {
             Log.d("AuthState", "Geçerli kullanıcı null")
-            navigateToLoginFragment(holder.itemView.context)
+            Toast.makeText(holder.itemView.context, "Lütfen giriş yapınız!", Toast.LENGTH_SHORT).show()
+
+
         }
     }
 
@@ -124,15 +115,6 @@ class PlacesAdapter(
                 }
             })
         }
-    }
-
-
-    private fun navigateToLoginFragment(context: Context) {
-        val loginFragment = Login()
-        val transaction = (context as FragmentActivity).supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.fragmentPlaces, loginFragment)
-        transaction.addToBackStack(null)
-        transaction.commit()
     }
 
     override fun getItemCount(): Int {
