@@ -8,7 +8,7 @@
     android:orientation="vertical"
     android:gravity="center"
     android:background="@color/white"
-    tools:context=".AdminEdit">
+    tools:context=".ProfileEdit">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"

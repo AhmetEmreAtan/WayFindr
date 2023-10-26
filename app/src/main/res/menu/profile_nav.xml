@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:title="Anılar"
+        android:id="@+id/anilar"
+        android:icon="@drawable/baseline_image_24"
+        app:cnb_iconColor="@color/home_icon_bg"/>
+
+    <item
+        android:title="Favoriler"
+        android:id="@+id/favorites"
+        android:icon="@drawable/favorite"
+        app:cnb_iconColor="@color/gradient"/>
+</menu>

@@ -16,6 +16,8 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import com.example.wayfindr.databinding.FragmentProfileBinding
+import com.example.wayfindr.setting.AboutUsFragment
+import com.ismaeldivita.chipnavigation.ChipNavigationBar
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
@@ -31,6 +33,7 @@ class Profile : Fragment() {
     private lateinit var storageReference: StorageReference
     private var selectedImageUri: Uri? = null
     private lateinit var fragmentContext: Context
+    private lateinit var profileNavBar: ChipNavigationBar
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -45,23 +48,42 @@ class Profile : Fragment() {
         binding = FragmentProfileBinding.inflate(layoutInflater)
         val view = binding.root
 
+        profileNavBar = view.findViewById(R.id.profile_nav_bar)
+
+
         auth = FirebaseAuth.getInstance()
         storage = FirebaseStorage.getInstance()
         storageReference = storage.reference
 
         val currentUser = auth.currentUser
 
-        binding.favButton.setOnClickListener {
-            val intent = Intent(context, Favorites::class.java)
-            startActivity(intent)
+        profileNavBar.setOnItemSelectedListener { itemId ->
+            when (itemId) {
+                R.id.anilar -> {
+                    replaceFragment(AboutUsFragment())
+                }
+                R.id.favorites -> {
+                    replaceFragment(Favorites())
+                }
+            }
         }
-        binding.adminButton.setOnClickListener {
-            val intent = Intent(context, AdminEdit::class.java)
-            startActivity(intent)
+
+        binding.btnprofileedit.setOnClickListener {
+            val fragment = ProfileEdit()
+            requireActivity().supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.frame_layout, fragment)
+                .addToBackStack(null)
+                .commit()
         }
-        binding.settingButton.setOnClickListener {
-            val intent = Intent(context, Setting::class.java)
-            startActivity(intent)
+
+        binding.btnsetting.setOnClickListener {
+            val fragment = Settings()
+            requireActivity().supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.frame_layout, fragment)
+                .addToBackStack(null)
+                .commit()
         }
 
         binding.selectProfilePictureButton.setOnClickListener {
@@ -78,6 +100,7 @@ class Profile : Fragment() {
         binding.saveProfilePictureButton.setOnClickListener {
             if (selectedImageUri != null) {
                 uploadProfileImage()
+                Toast.makeText(fragmentContext, "Profil fotoğrafınız başarı ile kaydedildi.", Toast.LENGTH_SHORT).show()
             } else {
                 Toast.makeText(fragmentContext, "Lütfen bir profil resmi seçin.", Toast.LENGTH_SHORT).show()
             }
@@ -113,7 +136,6 @@ class Profile : Fragment() {
                     profileName.text = username
                 }
             }
-
         }
 
         return view
@@ -159,5 +181,13 @@ class Profile : Fragment() {
 
     companion object {
         private const val REQUEST_CODE = 123 // Kendi isteğinize göre bir değer belirleyebilirsiniz
+    }
+
+    private fun replaceFragment(fragment: Fragment) {
+        requireActivity().supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.profile_frame_layout, fragment)
+            .addToBackStack(null)
+            .commit()
     }
 }
