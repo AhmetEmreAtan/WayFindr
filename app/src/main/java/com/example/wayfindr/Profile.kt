@@ -60,7 +60,7 @@ class Profile : Fragment() {
         profileNavBar.setOnItemSelectedListener { itemId ->
             when (itemId) {
                 R.id.anilar -> {
-                    replaceFragment(AboutUsFragment())
+                    replaceFragment(Memories())
                 }
                 R.id.favorites -> {
                     replaceFragment(Favorites())
