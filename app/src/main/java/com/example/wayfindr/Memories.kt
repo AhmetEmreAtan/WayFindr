@@ -1,15 +1,20 @@
 package com.example.wayfindr
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+
 import com.example.wayfindr.memories.Memory
 import com.example.wayfindr.memories.MemoryAdapter
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import org.checkerframework.checker.signature.qual.Identifier
 
 class Memories : Fragment() {
 
@@ -17,7 +22,9 @@ class Memories : Fragment() {
     private lateinit var adapter: MemoryAdapter
     private lateinit var memoriesList: MutableList<Memory>
     private val db = FirebaseFirestore.getInstance()
-    private val memoriesCollection = db.collection("memories")
+    private val memoriesCollection = db.collection("user_photos")
+
+    private var documentIds = mutableListOf<String>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -26,38 +33,40 @@ class Memories : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_memories, container, false)
 
-        
         recyclerView = view.findViewById(R.id.recyclerView_memories)
         memoriesList = mutableListOf()
         adapter = MemoryAdapter(requireContext(), memoriesList)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
         recyclerView.adapter = adapter
+        val auth = FirebaseAuth.getInstance()
 
-        fetchMemoriesFromFirebase()
 
-
+        auth.currentUser?.uid?.let { fetchAllMemoriesFromFirebase(it) }
 
         return view
     }
 
-    private fun fetchMemoriesFromFirebase() {
-        memoriesCollection.get()
-            .addOnSuccessListener { querySnapshot ->
-                if (querySnapshot != null) {
-                    for (document in querySnapshot) {
-                        val userComment = document.getString("userComment")
-                        val photoLocation = document.getString("photoLocation")
-                        val photoUrl = document.getString("photoUrl")
+    private fun fetchAllMemoriesFromFirebase(Identifier: String) {
+        val userPhotosCollection = db.collection("user_photos").document(Identifier).collection("memories")
 
-                        if (userComment != null && photoLocation != null && photoUrl != null) {
-                            val memory = Memory(userComment, photoLocation, photoUrl)
-                            memoriesList.add(memory)
-                        }
-                    }
-                    adapter.notifyDataSetChanged()
+        userPhotosCollection.get().addOnSuccessListener { documents ->
+            for (document in documents) {
+                val userComment = document.getString("userComment")
+                val photoLocation = document.getString("photoLocation")
+                val imageUrl = document.getString("imageUrl")
+
+                if (userComment != null && photoLocation != null && imageUrl != null) {
+                    memoriesList.add(Memory(userComment!!, photoLocation!!, imageUrl!!))
                 }
             }
-            .addOnFailureListener { exception ->
-            }
+
+
+            adapter.notifyDataSetChanged()
+        }.addOnFailureListener { exception ->
+            Toast.makeText(context, "Firestore'dan veri alınamadı: ${exception.message}", Toast.LENGTH_SHORT).show()
+            Log.e("Firestore", "Hata: ${exception.message}")
+        }
     }
+
+
 }

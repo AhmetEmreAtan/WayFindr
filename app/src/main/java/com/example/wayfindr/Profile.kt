@@ -57,6 +57,7 @@ class Profile : Fragment() {
 
         val currentUser = auth.currentUser
 
+
         profileNavBar.setOnItemSelectedListener { itemId ->
             when (itemId) {
                 R.id.anilar -> {
@@ -67,6 +68,11 @@ class Profile : Fragment() {
                 }
             }
         }
+
+        val initialFragment = Memories()
+        childFragmentManager.beginTransaction()
+            .replace(R.id.profile_frame_layout, initialFragment)
+            .commit()
 
         binding.btnprofileedit.setOnClickListener {
             val fragment = ProfileEdit()

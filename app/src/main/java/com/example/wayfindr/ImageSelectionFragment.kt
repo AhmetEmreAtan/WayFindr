@@ -28,6 +28,7 @@ class ImageSelectionFragment : Fragment() {
     private var selectedImageUri: Uri? = null
     private lateinit var storageReference: StorageReference
     private lateinit var addImageButton: FloatingActionButton
+    private lateinit var addPhotoLocation: EditText
     private lateinit var textView2: View
     private lateinit var db: FirebaseFirestore
     private lateinit var auth: FirebaseAuth
@@ -46,6 +47,7 @@ class ImageSelectionFragment : Fragment() {
         userCommentEditText = view.findViewById(R.id.user_comment_edittxt)
         addImageButton = view.findViewById(R.id.add_image_button)
         textView2 = view.findViewById(R.id.textView2)
+        addPhotoLocation = view.findViewById(R.id.photo_location_text)
 
         uploadImageButton.setOnClickListener {
             if (userCommentEditText.text.toString().isEmpty()) {
@@ -70,11 +72,12 @@ class ImageSelectionFragment : Fragment() {
         startActivityForResult(galleryIntent, PICK_IMAGE_REQUEST)
     }
 
-    private fun uploadDataToUserSpecificFirestore(imageUrl: String, comment: String, userId: String) {
-        val userPhotosCollection = db.collection("user_photos").document(userId).collection("memories")
+    private fun uploadDataToUserSpecificFirestore(imageUrl: String, comment: String, Identifier: String, photoLocation: String) {
+        val userPhotosCollection = db.collection("user_photos").document(Identifier).collection("memories")
         val photoData = hashMapOf(
             "imageUrl" to imageUrl,
-            "userComment" to comment
+            "userComment" to comment,
+            "photoLocation" to photoLocation
         )
 
         userPhotosCollection
@@ -99,7 +102,8 @@ class ImageSelectionFragment : Fragment() {
                         val userId = user?.uid
 
                         if (userId != null) {
-                            uploadDataToUserSpecificFirestore(imageUrl, userCommentEditText.text.toString(), userId)
+                            val location = addPhotoLocation.text.toString()
+                            uploadDataToUserSpecificFirestore(imageUrl, userCommentEditText.text.toString(), userId, location)
                         } else {
                             Toast.makeText(requireContext(), "Kullanıcı oturumu açılmamış.", Toast.LENGTH_SHORT).show()
                         }

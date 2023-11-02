@@ -64,13 +64,13 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
             android:text="Yükle"
-            app:layout_constraintEnd_toEndOf="@+id/editTextText2"
+            app:layout_constraintEnd_toEndOf="@+id/photo_location_text"
             app:layout_constraintHorizontal_bias="0.498"
-            app:layout_constraintStart_toStartOf="@+id/editTextText2"
-            app:layout_constraintTop_toBottomOf="@+id/editTextText2" />
+            app:layout_constraintStart_toStartOf="@+id/photo_location_text"
+            app:layout_constraintTop_toBottomOf="@+id/photo_location_text" />
 
         <EditText
-            android:id="@+id/editTextText2"
+            android:id="@+id/photo_location_text"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"

@@ -8,6 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.wayfindr.R
+import com.bumptech.glide.Glide
 
 class MemoryAdapter(private val context: Context, private val memoriesList: List<Memory>) : RecyclerView.Adapter<MemoryAdapter.MemoryViewHolder>() {
 
@@ -19,11 +20,16 @@ class MemoryAdapter(private val context: Context, private val memoriesList: List
     override fun onBindViewHolder(holder: MemoryViewHolder, position: Int) {
         val currentMemory = memoriesList[position]
 
-
         holder.userComment.text = currentMemory.userComment
         holder.photoLocation.text = currentMemory.photoLocation
 
 
+        Glide.with(context)
+            .load(currentMemory.imageUrl)
+            .centerCrop()
+            .placeholder(R.drawable.placeholder_image)
+            .error(R.drawable.error_image)
+            .into(holder.imageView)
     }
 
     override fun getItemCount(): Int {
@@ -36,4 +42,3 @@ class MemoryAdapter(private val context: Context, private val memoriesList: List
         val photoLocation: TextView = itemView.findViewById(R.id.photo_location)
     }
 }
-
