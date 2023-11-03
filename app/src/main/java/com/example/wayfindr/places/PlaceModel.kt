@@ -1,5 +1,6 @@
 import android.os.Parcel
 import android.os.Parcelable
+import com.example.wayfindr.R
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
@@ -10,9 +11,19 @@ data class PlaceModel(
     val placeName: String = "",
     val placeDescription: String = "",
     val placeImage: String = "",
-    var isFavorite: Boolean
+    val placeCategories: String? = "",
+    val placeAddress: String,
+    val placeOpeningHours: String,
+    val placeDetails: String,
+    val placePrice: String? = "",
+    var isFavorite: Boolean = false
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
+        parcel.readString() ?: "",
+        parcel.readString() ?: "",
+        parcel.readString() ?: "",
+        parcel.readString() ?: "",
+        parcel.readString() ?: "",
         parcel.readString() ?: "",
         parcel.readString() ?: "",
         parcel.readString() ?: "",
@@ -20,7 +31,7 @@ data class PlaceModel(
         parcel.readByte() != 0.toByte()
     )
 
-    constructor() : this("", "", "", "", false)
+    constructor() : this("", "", "", "", "", "", "", "", "", false)
 
     fun isFavoritePlace(userId: String, callback: (Boolean) -> Unit) {
         val database = FirebaseDatabase.getInstance()

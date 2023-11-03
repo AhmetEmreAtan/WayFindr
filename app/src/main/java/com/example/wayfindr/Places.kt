@@ -13,6 +13,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.wayfindr.databinding.FragmentPlacesBinding
+import com.example.wayfindr.places.FilterBottomSheetFragment
+import com.example.wayfindr.places.FilterResultListener
 import com.example.wayfindr.places.ItemClickListener
 import com.example.wayfindr.places.PlacesDetailFragment
 import com.google.firebase.auth.FirebaseAuth
@@ -21,7 +23,7 @@ import com.google.firebase.firestore.Query
 import java.text.Collator
 import java.util.Locale
 
-class Places : Fragment() {
+class Places : Fragment(), FilterResultListener {
 
     private lateinit var binding: FragmentPlacesBinding
     private val db = FirebaseFirestore.getInstance()
@@ -42,6 +44,12 @@ class Places : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        binding.filterImage.setOnClickListener {
+            val filterBottomSheetFragment = FilterBottomSheetFragment()
+            filterBottomSheetFragment.filterResultListener = this
+            filterBottomSheetFragment.show(parentFragmentManager, filterBottomSheetFragment.tag)
+        }
+
         firebaseAuth = FirebaseAuth.getInstance()
         adapter = PlacesAdapter(emptyList(), itemClickListener, firebaseAuth)
 
@@ -60,11 +68,6 @@ class Places : Fragment() {
 
             override fun onTextChanged(charSequence: CharSequence?, start: Int, before: Int, count: Int) {}
         })
-
-        binding.filterImage.setOnClickListener {
-            val filterBottomSheetFragment = FilterBottomSheetFragment()
-            filterBottomSheetFragment.show(parentFragmentManager, filterBottomSheetFragment.tag)
-        }
     }
 
     private val itemClickListener = object : ItemClickListener {
@@ -142,4 +145,11 @@ class Places : Fragment() {
         fragment.arguments = bundle
         fragment.show(parentFragmentManager, fragment.tag)
     }
+
+    override fun onFilterResult(places: List<PlaceModel>) {
+        Log.d("Filter", "onFilterResult is called with ${places.size} places.")
+        adapter.setPlacesList(places)
+        adapter.notifyDataSetChanged()
+    }
+
 }

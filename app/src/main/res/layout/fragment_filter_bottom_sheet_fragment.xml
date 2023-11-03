@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/fragmentPlaces"
-    tools:context=".FilterBottomSheetFragment"
+    tools:context=".places.FilterBottomSheetFragment"
     android:background="@drawable/fragment_bg_desing">
 
 

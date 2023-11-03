@@ -2,7 +2,6 @@ package com.example.wayfindr.places
 
 import PlaceModel
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -58,7 +57,7 @@ class PlacesDetailFragment : BottomSheetDialogFragment() {
                     .addOnSuccessListener { document ->
                         if (document != null && document.exists()) {
                             // Firestore'dan çekilen belgeyi PlacesDetailsModel'e dönüştür
-                            val placeModel = document.toObject(PlacesDetailsModel::class.java)
+                            val placeModel = document.toObject(PlaceModel::class.java)
 
                             // Ardından bu verileri UI elemanlarına yerleştir
                             placesName?.text = placeModel?.placeName
@@ -89,7 +88,6 @@ class PlacesDetailFragment : BottomSheetDialogFragment() {
             println("Belge ID'si null")
         }
     }
-
 }
 
 
