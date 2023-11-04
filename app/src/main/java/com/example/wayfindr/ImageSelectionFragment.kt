@@ -32,6 +32,7 @@ class ImageSelectionFragment : Fragment() {
     private lateinit var textView2: View
     private lateinit var db: FirebaseFirestore
     private lateinit var auth: FirebaseAuth
+    private lateinit var button:Button
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
