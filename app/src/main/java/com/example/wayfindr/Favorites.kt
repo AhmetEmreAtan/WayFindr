@@ -2,23 +2,18 @@ package com.example.wayfindr
 
 import PlaceModel
 import PlacesAdapter
-import android.content.ContentValues
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.example.wayfindr.places.ItemClickListener
+import com.example.wayfindr.favorites.FavoritesAdapter
+import com.example.wayfindr.favorites.ItemClickListener
 import com.example.wayfindr.places.PlacesDetailFragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.Query
-import java.text.Collator
-import java.util.Locale
 
 class Favorites: Fragment() {
 
@@ -26,7 +21,6 @@ class Favorites: Fragment() {
     private lateinit var favoritesRecyclerView: RecyclerView
     private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var adapter: PlacesAdapter
-
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,20 +35,14 @@ class Favorites: Fragment() {
         favoritesAdapter = FavoritesAdapter(emptyList(), itemClickListener, firebaseAuth)
         favoritesRecyclerView.adapter = favoritesAdapter
 
-        firebaseAuth = FirebaseAuth.getInstance()
-        adapter = PlacesAdapter(emptyList(), itemClickListener, firebaseAuth)
-
-
         fetchFavoritePlaces()
-
 
         return view
     }
 
     private val itemClickListener = object : ItemClickListener {
         override fun onItemClick(placeId: String) {
-            val selectedPlace = adapter.getPlaceByPlaceId(placeId)
-
+            val selectedPlace = favoritesAdapter.getPlaceByPlaceId(placeId)
             if (selectedPlace != null) {
                 showPlaceDetailFragment(selectedPlace)
             }
