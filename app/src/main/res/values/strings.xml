@@ -47,4 +47,5 @@
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
     <string name="title_activity_maps_nav">MapsNav</string>
+    <string name="title_activity_memories_detail">MemoriesDetail</string>
 </resources>

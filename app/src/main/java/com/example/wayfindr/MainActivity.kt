@@ -69,10 +69,7 @@ class MainActivity : AppCompatActivity() {
 
         addImageBtn.setOnClickListener {
             val fragment = ImageSelectionFragment()
-            supportFragmentManager.beginTransaction()
-                .replace(R.id.frame_layout, fragment)
-                .addToBackStack(null)
-                .commit()
+            fragment.show(supportFragmentManager, "ImageSelectionDialogFragment")
         }
     }
 

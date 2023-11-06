@@ -8,6 +8,17 @@
     tools:context=".Profile">
 
 
+    <FrameLayout
+        android:id="@+id/profile_frame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    </FrameLayout>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -25,36 +36,6 @@
                 android:layout_height="wrap_content">
 
 
-                <ImageView
-                    android:id="@+id/imageView3"
-                    android:layout_width="303dp"
-                    android:layout_height="80dp"
-                    android:layout_marginStart="-110dp"
-                    android:layout_marginEnd="-150dp"
-                    android:src="@drawable/silindir2"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/imageView5"
-                    app:layout_constraintHorizontal_bias="0.36"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.13" />
-
-
-                <ImageView
-                    android:id="@+id/imageView5"
-                    android:layout_width="559dp"
-                    android:layout_height="200dp"
-                    android:layout_marginStart="75dp"
-                    android:layout_marginTop="24dp"
-                    android:layout_marginEnd="-100dp"
-                    android:src="@drawable/silindir"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.0"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.4" />
-
                 <TextView
                     android:id="@+id/textView8"
                     android:layout_width="wrap_content"
@@ -71,10 +52,11 @@
                 <TextView
                     android:id="@+id/profileName"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="20dp"
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="16dp"
                     android:text=""
+                    android:background="@drawable/btn_background"
                     android:textAlignment="textStart"
                     android:textColor="@color/black"
                     android:textSize="14sp"
@@ -86,11 +68,12 @@
                 <TextView
                     android:id="@+id/profileUserName"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="20dp"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="5dp"
                     android:layout_marginEnd="16dp"
                     android:text=""
+                    android:background="@drawable/btn_background"
                     android:textAlignment="textStart"
                     android:textColor="@color/black_overlay"
                     android:textSize="14sp"
@@ -127,11 +110,13 @@
                 <Button
                     android:id="@+id/saveProfilePictureButton"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="50dp"
+                    android:textSize="12sp"
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="16dp"
                     android:text="Fotoğraf Kaydet"
                     android:textColor="@color/black"
+                    app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintEnd_toStartOf="@+id/btnprofileedit"
                     app:layout_constraintStart_toStartOf="@+id/userImage"
                     app:layout_constraintTop_toBottomOf="@+id/userImage" />
@@ -139,10 +124,12 @@
                 <Button
                     android:id="@+id/btnprofileedit"
                     android:layout_width="0dp"
-                    android:layout_height="wrap_content"
+                    android:layout_height="50dp"
+                    android:textSize="12sp"
                     android:layout_marginEnd="16dp"
                     android:text="Profili Düzenle"
                     android:textColor="@color/black"
+                    app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintEnd_toStartOf="@+id/btnsetting"
                     app:layout_constraintTop_toTopOf="@+id/saveProfilePictureButton" />
 
@@ -162,7 +149,8 @@
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp">
 
                 <com.ismaeldivita.chipnavigation.ChipNavigationBar
                     android:id="@+id/profile_nav_bar"

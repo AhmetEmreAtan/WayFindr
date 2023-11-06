@@ -50,13 +50,11 @@ class Profile : Fragment() {
 
         profileNavBar = view.findViewById(R.id.profile_nav_bar)
 
-
         auth = FirebaseAuth.getInstance()
         storage = FirebaseStorage.getInstance()
         storageReference = storage.reference
 
         val currentUser = auth.currentUser
-
 
         profileNavBar.setOnItemSelectedListener { itemId ->
             when (itemId) {
@@ -78,6 +76,7 @@ class Profile : Fragment() {
             val fragment = ProfileEdit()
             requireActivity().supportFragmentManager
                 .beginTransaction()
+                .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left)
                 .replace(R.id.frame_layout, fragment)
                 .addToBackStack(null)
                 .commit()
@@ -91,6 +90,14 @@ class Profile : Fragment() {
                 .addToBackStack(null)
                 .commit()
         }
+
+        val circularImageView = view.findViewById<ImageView>(R.id.userImage)
+        val placeholderImage = R.drawable.blurimage
+        Glide.with(requireContext())
+            .load(placeholderImage)
+            .transform(CircleCrop())
+            .into(circularImageView)
+
 
         binding.selectProfilePictureButton.setOnClickListener {
             val permission = Manifest.permission.READ_EXTERNAL_STORAGE
@@ -116,30 +123,41 @@ class Profile : Fragment() {
             val userId = currentUser.uid
             val databaseReference = FirebaseDatabase.getInstance().getReference("users/$userId")
 
+            Glide.with(requireContext())
+                .load(placeholderImage)
+                .into(circularImageView)
+
             databaseReference.child("profileImage").get().addOnSuccessListener { dataSnapshot ->
                 val imageUrl = dataSnapshot.value as? String
                 if (imageUrl != null && !imageUrl.isBlank()) {
-                    val circularImageView = view.findViewById<ImageView>(R.id.userImage)
-                    Glide.with(fragmentContext)
+                    Glide.with(requireContext())
                         .load(imageUrl)
+                        .placeholder(placeholderImage)
+                        .error(placeholderImage)
                         .transform(CircleCrop())
                         .into(circularImageView)
                 }
             }
 
+            val profileNameTextView = view.findViewById<TextView>(R.id.profileName)
+            val profileUserNameTextView = view.findViewById<TextView>(R.id.profileUserName)
+            profileNameTextView.setBackgroundResource(placeholderImage)
+            profileUserNameTextView.setBackgroundResource(placeholderImage)
+
             databaseReference.child("name").get().addOnSuccessListener { dataSnapshot ->
                 val name = dataSnapshot.value as? String
                 if (name != null && !name.isBlank()) {
-                    val profileName = view.findViewById<TextView>(R.id.profileName)
-                    profileName.text = name
+                    profileNameTextView.text = name
+                    profileNameTextView.setBackgroundResource(0)
                 }
             }
 
             databaseReference.child("userName").get().addOnSuccessListener { dataSnapshot ->
-                val username = dataSnapshot.value as? String
-                if (username != null && !username.isBlank()) {
-                    val profileName = view.findViewById<TextView>(R.id.profileUserName)
-                    profileName.text = username
+                val userName = dataSnapshot.value as? String
+                if (userName != null && !userName.isBlank()) {
+                    val formattedUserName = "@$userName"
+                    profileUserNameTextView.text = formattedUserName
+                    profileUserNameTextView.setBackgroundResource(0)
                 }
             }
         }
@@ -185,15 +203,15 @@ class Profile : Fragment() {
         startActivityForResult(intent, REQUEST_CODE)
     }
 
-    companion object {
-        private const val REQUEST_CODE = 123 // Kendi isteğinize göre bir değer belirleyebilirsiniz
-    }
-
     private fun replaceFragment(fragment: Fragment) {
         requireActivity().supportFragmentManager
             .beginTransaction()
             .replace(R.id.profile_frame_layout, fragment)
             .addToBackStack(null)
             .commit()
+    }
+
+    companion object {
+        private const val REQUEST_CODE = 123
     }
 }

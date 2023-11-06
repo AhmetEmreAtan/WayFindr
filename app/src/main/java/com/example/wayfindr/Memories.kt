@@ -1,5 +1,6 @@
 package com.example.wayfindr
 
+import com.example.wayfindr.memories.MemoryAdapter
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -11,10 +12,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
 import com.example.wayfindr.memories.Memory
-import com.example.wayfindr.memories.MemoryAdapter
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import org.checkerframework.checker.signature.qual.Identifier
 
 class Memories : Fragment() {
 

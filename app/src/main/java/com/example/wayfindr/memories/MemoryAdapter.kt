@@ -1,6 +1,7 @@
 package com.example.wayfindr.memories
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,7 +11,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.wayfindr.R
 import com.bumptech.glide.Glide
 
-class MemoryAdapter(private val context: Context, private val memoriesList: List<Memory>) : RecyclerView.Adapter<MemoryAdapter.MemoryViewHolder>() {
+class MemoryAdapter(
+    private val context: Context,
+    private val memoriesList: List<Memory>
+) : RecyclerView.Adapter<MemoryAdapter.MemoryViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MemoryViewHolder {
         val view = LayoutInflater.from(context).inflate(R.layout.item_memories, parent, false)
@@ -22,7 +26,6 @@ class MemoryAdapter(private val context: Context, private val memoriesList: List
 
         holder.userComment.text = currentMemory.userComment
         holder.photoLocation.text = currentMemory.photoLocation
-
 
         Glide.with(context)
             .load(currentMemory.imageUrl)
@@ -40,5 +43,24 @@ class MemoryAdapter(private val context: Context, private val memoriesList: List
         val imageView: ImageView = itemView.findViewById(R.id.image_view)
         val userComment: TextView = itemView.findViewById(R.id.userComment)
         val photoLocation: TextView = itemView.findViewById(R.id.photo_location)
+
+        init {
+            itemView.setOnClickListener {
+                val position = adapterPosition
+                if (position != RecyclerView.NO_POSITION) {
+                    val currentMemory = memoriesList[position]
+                    openMemoriesDetailActivity(currentMemory.userComment, currentMemory.photoLocation, currentMemory.imageUrl)
+                }
+            }
+        }
+    }
+
+    private fun openMemoriesDetailActivity(userComment: String, photoLocation: String, imageUrl: String) {
+        val intent = Intent(context, MemoriesDetail::class.java).apply {
+            putExtra("userComment", userComment)
+            putExtra("photoLocation", photoLocation)
+            putExtra("imageUrl", imageUrl)
+        }
+        context.startActivity(intent)
     }
 }

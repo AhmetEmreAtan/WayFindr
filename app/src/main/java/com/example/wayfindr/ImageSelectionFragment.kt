@@ -12,14 +12,14 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
 import android.widget.Toast
-import androidx.fragment.app.Fragment
+import androidx.fragment.app.DialogFragment
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 
-class ImageSelectionFragment : Fragment() {
+class ImageSelectionFragment : DialogFragment() {
 
     private lateinit var imagePreview: ImageView
     private lateinit var uploadImageButton: Button
@@ -32,12 +32,8 @@ class ImageSelectionFragment : Fragment() {
     private lateinit var textView2: View
     private lateinit var db: FirebaseFirestore
     private lateinit var auth: FirebaseAuth
-    private lateinit var button:Button
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_image_selection, container, false)
 
         db = FirebaseFirestore.getInstance()
@@ -51,8 +47,8 @@ class ImageSelectionFragment : Fragment() {
         addPhotoLocation = view.findViewById(R.id.photo_location_text)
 
         uploadImageButton.setOnClickListener {
-            if (userCommentEditText.text.toString().isEmpty()) {
-                Toast.makeText(requireContext(), "Lütfen yorum ekleyin.", Toast.LENGTH_SHORT).show()
+            if (addPhotoLocation.text.toString().isEmpty()) {
+                Toast.makeText(requireContext(), "Lütfen konum ekleyin.", Toast.LENGTH_SHORT).show()
             } else {
                 uploadImageWithComment()
             }
@@ -68,13 +64,23 @@ class ImageSelectionFragment : Fragment() {
         return view
     }
 
+    override fun onStart() {
+        super.onStart()
+        dialog?.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+    }
+
     private fun openGallery() {
         val galleryIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
         startActivityForResult(galleryIntent, PICK_IMAGE_REQUEST)
     }
 
     private fun uploadDataToUserSpecificFirestore(imageUrl: String, comment: String, Identifier: String, photoLocation: String) {
+        if (!isAdded) {
+            return
+        }
+
         val userPhotosCollection = db.collection("user_photos").document(Identifier).collection("memories")
+
         val photoData = hashMapOf(
             "imageUrl" to imageUrl,
             "userComment" to comment,
@@ -84,12 +90,18 @@ class ImageSelectionFragment : Fragment() {
         userPhotosCollection
             .add(photoData)
             .addOnSuccessListener { documentReference ->
-                requireActivity().supportFragmentManager.popBackStack()
+                if (isAdded) {
+                    requireActivity().supportFragmentManager.popBackStack()
+                }
             }
             .addOnFailureListener { e ->
-                Toast.makeText(requireContext(), "Yükleme başarısız: ${e.message}", Toast.LENGTH_SHORT).show()
+                if (isAdded) {
+                    Toast.makeText(requireContext(), "Yükleme başarısız: ${e.message}", Toast.LENGTH_SHORT).show()
+                }
             }
     }
+
+
 
     private fun uploadImageWithComment() {
         selectedImageUri?.let { uri ->
@@ -114,8 +126,7 @@ class ImageSelectionFragment : Fragment() {
                         addImageButton.visibility = View.GONE
                         textView2.visibility = View.GONE
                         Toast.makeText(requireContext(), "Resim yüklendi.", Toast.LENGTH_SHORT).show()
-                        val fragmentTransaction = requireActivity().supportFragmentManager.beginTransaction()
-                        fragmentTransaction.remove(this).commit()
+                        dismiss()
                     }
                 }
                 .addOnFailureListener { exception ->
