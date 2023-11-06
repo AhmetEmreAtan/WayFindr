@@ -28,6 +28,9 @@ class PlacesAdapter(
         val favoriteAddButton: ImageView = itemView.findViewById(R.id.favoriteAdd)
 
         fun bind(place: PlaceModel) {
+
+
+
             Glide.with(itemView)
                 .load(place.placeImage)
                 .placeholder(R.drawable.placeholder_image)

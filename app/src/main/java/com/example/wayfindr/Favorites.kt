@@ -34,13 +34,11 @@ class Favorites: Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_favorites, container, false)
 
-        // Firebase Authentication referansını al
         firebaseAuth = FirebaseAuth.getInstance()
 
-        // RecyclerView ve Adapter'ı ayarla
         favoritesRecyclerView = view.findViewById(R.id.recyclerViewFavorite)
         favoritesRecyclerView.layoutManager = LinearLayoutManager(context)
-        favoritesAdapter = FavoritesAdapter(emptyList(), itemClickListener)
+        favoritesAdapter = FavoritesAdapter(emptyList(), itemClickListener, firebaseAuth)
         favoritesRecyclerView.adapter = favoritesAdapter
 
         firebaseAuth = FirebaseAuth.getInstance()
@@ -68,9 +66,8 @@ class Favorites: Fragment() {
         val bundle = Bundle()
         bundle.putParcelable("selectedPlace", selectedPlace)
         fragment.arguments = bundle
-        fragment.show(parentFragmentManager, fragment.tag)
+        fragment.show(parentFragmentManager,fragment.tag)
     }
-
 
     private fun fetchFavoritePlaces() {
         val currentUser = firebaseAuth.currentUser
