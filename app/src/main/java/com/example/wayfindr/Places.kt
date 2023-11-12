@@ -13,10 +13,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.wayfindr.databinding.FragmentPlacesBinding
+import com.example.wayfindr.places.AddPlacesFragment
 import com.example.wayfindr.places.FilterBottomSheetFragment
 import com.example.wayfindr.places.FilterResultListener
 import com.example.wayfindr.places.ItemClickListener
 import com.example.wayfindr.places.PlacesDetailFragment
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
@@ -43,6 +45,14 @@ class Places : Fragment(), FilterResultListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        //Add Places Button
+        binding.addPlacesBtn.setOnClickListener {
+            val fragment = AddPlacesFragment()
+            val transaction = parentFragmentManager.beginTransaction()
+            transaction.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left)
+            transaction.add(android.R.id.content, fragment).addToBackStack(null).commit()
+        }
 
         binding.filterImage.setOnClickListener {
             val filterBottomSheetFragment = FilterBottomSheetFragment()

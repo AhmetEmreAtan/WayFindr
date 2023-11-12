@@ -9,61 +9,85 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".Places">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:paddingBottom="8dp">
+        android:layout_height="match_parent">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/add_places_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="right"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:clickable="true"
+            android:src="@drawable/icons_add_properties"
+            app:backgroundTint="@color/green"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginEnd="24dp"
-            android:background="@drawable/border_background"
-            android:orientation="horizontal">
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingBottom="8dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
 
-            <EditText
-                android:id="@+id/searchText"
-                android:layout_width="0dp"
-                android:layout_height="50dp"
-                android:layout_margin="3dp"
-                android:layout_weight="1"
-                android:background="@color/white"
-                android:drawableStart="@drawable/search"
-                android:drawablePadding="8dp"
-                android:ems="10"
-                android:hint="Arama Yapın..."
-                android:inputType="text"
-                android:padding="8dp"
-                android:paddingStart="16dp"
-                android:paddingEnd="16dp"
-                android:textSize="15sp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="24dp"
+                android:background="@drawable/border_background"
+                android:orientation="horizontal">
 
-            <View
-                android:id="@+id/view"
-                android:layout_width="1dp"
-                android:layout_height="match_parent"
-                android:layout_marginTop="8dp"
-                android:layout_marginBottom="8dp"
-                android:background="@color/grey" />
+                <EditText
+                    android:id="@+id/searchText"
+                    android:layout_width="0dp"
+                    android:layout_height="50dp"
+                    android:layout_margin="3dp"
+                    android:layout_weight="1"
+                    android:background="@color/white"
+                    android:drawableStart="@drawable/search"
+                    android:drawablePadding="8dp"
+                    android:ems="10"
+                    android:hint="Arama Yapın..."
+                    android:inputType="text"
+                    android:padding="8dp"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:textSize="15sp" />
 
-            <ImageView
-                android:id="@+id/filterImage"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_gravity="center"
-                android:layout_margin="8dp"
-                android:onClick="goToFilterPage"
-                android:src="@drawable/filter" />
+                <View
+                    android:id="@+id/view"
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp"
+                    android:background="@color/grey" />
+
+                <ImageView
+                    android:id="@+id/filterImage"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+                    android:layout_margin="8dp"
+                    android:onClick="goToFilterPage"
+                    android:src="@drawable/filter" />
+            </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerViewPlaces"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:layout_marginTop="20dp"
+                android:layout_weight="1" />
+
         </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerViewPlaces"
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            android:layout_marginTop="20dp" />
-    </LinearLayout>
 </FrameLayout>

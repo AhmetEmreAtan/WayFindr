@@ -8,6 +8,18 @@
     tools:context=".Profile">
 
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/add_image_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:clickable="true"
+        android:src="@drawable/baseline_add_photo_alternate_24"
+        app:backgroundTint="@color/green"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
     <FrameLayout
         android:id="@+id/profile_frame"
         android:layout_width="match_parent"
@@ -15,15 +27,15 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-    </FrameLayout>
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="16dp">
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -55,8 +67,8 @@
                     android:layout_height="20dp"
                     android:layout_marginStart="16dp"
                     android:layout_marginEnd="16dp"
-                    android:text=""
                     android:background="@drawable/btn_background"
+                    android:text=""
                     android:textAlignment="textStart"
                     android:textColor="@color/black"
                     android:textSize="14sp"
@@ -72,8 +84,8 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="5dp"
                     android:layout_marginEnd="16dp"
-                    android:text=""
                     android:background="@drawable/btn_background"
+                    android:text=""
                     android:textAlignment="textStart"
                     android:textColor="@color/black_overlay"
                     android:textSize="14sp"
@@ -111,13 +123,13 @@
                     android:id="@+id/saveProfilePictureButton"
                     android:layout_width="0dp"
                     android:layout_height="50dp"
-                    android:textSize="12sp"
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="16dp"
                     android:text="Fotoğraf Kaydet"
                     android:textColor="@color/black"
-                    app:layout_constraintHorizontal_bias="0.5"
+                    android:textSize="12sp"
                     app:layout_constraintEnd_toStartOf="@+id/btnprofileedit"
+                    app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintStart_toStartOf="@+id/userImage"
                     app:layout_constraintTop_toBottomOf="@+id/userImage" />
 
@@ -125,12 +137,12 @@
                     android:id="@+id/btnprofileedit"
                     android:layout_width="0dp"
                     android:layout_height="50dp"
-                    android:textSize="12sp"
                     android:layout_marginEnd="16dp"
                     android:text="Profili Düzenle"
                     android:textColor="@color/black"
-                    app:layout_constraintHorizontal_bias="0.5"
+                    android:textSize="12sp"
                     app:layout_constraintEnd_toStartOf="@+id/btnsetting"
+                    app:layout_constraintHorizontal_bias="0.5"
                     app:layout_constraintTop_toTopOf="@+id/saveProfilePictureButton" />
 
                 <ImageButton

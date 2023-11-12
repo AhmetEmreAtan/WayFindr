@@ -10,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.EditText
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.Toast
 import androidx.fragment.app.DialogFragment
@@ -18,7 +19,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
-
 class ImageSelectionFragment : DialogFragment() {
 
     private lateinit var imagePreview: ImageView
@@ -32,6 +32,7 @@ class ImageSelectionFragment : DialogFragment() {
     private lateinit var textView2: View
     private lateinit var db: FirebaseFirestore
     private lateinit var auth: FirebaseAuth
+    private lateinit var back_btn: ImageButton
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_image_selection, container, false)
@@ -45,6 +46,7 @@ class ImageSelectionFragment : DialogFragment() {
         addImageButton = view.findViewById(R.id.add_image_button)
         textView2 = view.findViewById(R.id.textView2)
         addPhotoLocation = view.findViewById(R.id.photo_location_text)
+        back_btn = view.findViewById(R.id.back_btn)
 
         uploadImageButton.setOnClickListener {
             if (addPhotoLocation.text.toString().isEmpty()) {
@@ -59,6 +61,14 @@ class ImageSelectionFragment : DialogFragment() {
 
         addImageButton.setOnClickListener {
             openGallery()
+        }
+
+        back_btn.setOnClickListener {
+            requireActivity().supportFragmentManager.beginTransaction()
+                .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_right)
+                .remove(this)
+                .addToBackStack(null)
+                .commit()
         }
 
         return view

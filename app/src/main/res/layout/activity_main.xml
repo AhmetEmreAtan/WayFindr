@@ -6,17 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/add_image_btn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="16dp"
-        android:clickable="true"
-        android:src="@drawable/baseline_add_photo_alternate_24"
-        app:layout_constraintBottom_toBottomOf="@+id/frame_layout"
-        app:layout_constraintEnd_toEndOf="parent" />
-
     <FrameLayout
         android:id="@+id/frame_layout"
         android:layout_width="0dp"
