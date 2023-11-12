@@ -13,13 +13,14 @@ import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.Toast
-import androidx.fragment.app.DialogFragment
+import androidx.fragment.app.Fragment
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
-class ImageSelectionFragment : DialogFragment() {
+
+class ImageSelectionFragment : Fragment() {
 
     private lateinit var imagePreview: ImageView
     private lateinit var uploadImageButton: Button
@@ -34,7 +35,10 @@ class ImageSelectionFragment : DialogFragment() {
     private lateinit var auth: FirebaseAuth
     private lateinit var back_btn: ImageButton
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
         val view = inflater.inflate(R.layout.fragment_image_selection, container, false)
 
         db = FirebaseFirestore.getInstance()
@@ -48,6 +52,9 @@ class ImageSelectionFragment : DialogFragment() {
         addPhotoLocation = view.findViewById(R.id.photo_location_text)
         back_btn = view.findViewById(R.id.back_btn)
 
+        val storage = FirebaseStorage.getInstance()
+        storageReference = storage.reference
+
         uploadImageButton.setOnClickListener {
             if (addPhotoLocation.text.toString().isEmpty()) {
                 Toast.makeText(requireContext(), "Lütfen konum ekleyin.", Toast.LENGTH_SHORT).show()
@@ -55,9 +62,6 @@ class ImageSelectionFragment : DialogFragment() {
                 uploadImageWithComment()
             }
         }
-
-        val storage = FirebaseStorage.getInstance()
-        storageReference = storage.reference
 
         addImageButton.setOnClickListener {
             openGallery()
@@ -76,7 +80,8 @@ class ImageSelectionFragment : DialogFragment() {
 
     override fun onStart() {
         super.onStart()
-        dialog?.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
+        // Eğer bir dialog gibi çalıştırılacaksa bu kısmı kullanabilirsiniz.
+        // dialog?.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
     }
 
     private fun openGallery() {
@@ -111,8 +116,6 @@ class ImageSelectionFragment : DialogFragment() {
             }
     }
 
-
-
     private fun uploadImageWithComment() {
         selectedImageUri?.let { uri ->
             val imagesRef = storageReference.child("images/${System.currentTimeMillis()}")
@@ -136,7 +139,7 @@ class ImageSelectionFragment : DialogFragment() {
                         addImageButton.visibility = View.GONE
                         textView2.visibility = View.GONE
                         Toast.makeText(requireContext(), "Resim yüklendi.", Toast.LENGTH_SHORT).show()
-                        dismiss()
+                        requireActivity().supportFragmentManager.popBackStack()
                     }
                 }
                 .addOnFailureListener { exception ->

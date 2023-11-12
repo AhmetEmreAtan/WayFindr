@@ -19,6 +19,7 @@ import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.example.wayfindr.databinding.FragmentProfileBinding
+import com.example.wayfindr.places.AddPlacesFragment
 import com.ismaeldivita.chipnavigation.ChipNavigationBar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
@@ -39,9 +40,12 @@ class Profile : Fragment() {
     private lateinit var selectedImageUri: Uri
     private lateinit var addImageBtn: FloatingActionButton
 
+    private lateinit var imageSelectionFragment: ImageSelectionFragment
+
     override fun onAttach(context: Context) {
         super.onAttach(context)
         fragmentContext = context
+        imageSelectionFragment = ImageSelectionFragment()
     }
 
     override fun onCreateView(
@@ -66,6 +70,15 @@ class Profile : Fragment() {
             .load(placeholderImage)
             .transform(CircleCrop())
             .into(circularImageView)
+
+        binding.btnsetting.setOnClickListener {
+            val fragment = Settings()
+            requireActivity().supportFragmentManager
+                .beginTransaction()
+                .replace(R.id.frame_layout, fragment)
+                .addToBackStack(null)
+                .commit()
+        }
 
         binding.selectProfilePictureButton.setOnClickListener {
             val permission = Manifest.permission.READ_EXTERNAL_STORAGE
@@ -163,13 +176,11 @@ class Profile : Fragment() {
                 .commit()
         }
 
-        binding.btnsetting.setOnClickListener {
-            val fragment = Settings()
-            requireActivity().supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.frame_layout, fragment)
-                .addToBackStack(null)
-                .commit()
+        binding.addImageBtn.setOnClickListener {
+            val fragment = AddPlacesFragment()
+            val transaction = parentFragmentManager.beginTransaction()
+            transaction.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left)
+            transaction.add(android.R.id.content, fragment).addToBackStack(null).commit()
         }
 
         return view
@@ -179,7 +190,7 @@ class Profile : Fragment() {
         val fragment = ImageSelectionFragment()
         requireActivity().supportFragmentManager
             .beginTransaction()
-            .replace(android.R.id.content, fragment)
+            .replace(R.id.frame_layout, fragment)
             .addToBackStack(null)
             .commit()
     }
