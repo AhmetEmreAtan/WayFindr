@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.wayfindr.R
 import com.example.wayfindr.places.ItemClickListener
+import com.example.wayfindr.places.PlaceModel
+import com.example.wayfindr.places.PlacesRepository
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -18,7 +20,8 @@ import com.google.firebase.database.ValueEventListener
 class PlacesAdapter(
     private var placesList: List<PlaceModel>,
     private val itemClickListener: ItemClickListener,
-    private val firebaseAuth: FirebaseAuth
+    private val firebaseAuth: FirebaseAuth,
+    private val placesRepository: PlacesRepository
 ) : RecyclerView.Adapter<PlacesAdapter.PlacesViewHolder>() {
 
     inner class PlacesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -71,14 +74,13 @@ class PlacesAdapter(
             val userId = currentUser.uid
 
             // isFavoritePlace fonksiyonunu doğrudan burada bir geri çağrı ile kullan
-            place.isFavoritePlace(userId) { isFavorite ->
+            placesRepository.isPlaceFavorite(userId, place.placeId) { isFavorite ->
                 if (isFavorite) {
-                    place.removeFromFavorites(userId)
+                    placesRepository.removeFromFavorites(userId, place.placeId)
                 } else {
-                    place.addToFavorites(userId)
+                    placesRepository.addToFavorites(userId, place)
                 }
 
-                // Yeni favori durumuna göre UI'yi güncelle
                 updateFavoriteButton(holder, place)
             }
         } else {

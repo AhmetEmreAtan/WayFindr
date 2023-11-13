@@ -1,9 +1,10 @@
 package com.example.wayfindr
 
-import PlaceModel
+import com.example.wayfindr.places.PlaceModel
 import PlacesAdapter
 import android.content.ContentValues.TAG
 import android.os.Bundle
+import android.os.Parcelable
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -18,7 +19,7 @@ import com.example.wayfindr.places.FilterBottomSheetFragment
 import com.example.wayfindr.places.FilterResultListener
 import com.example.wayfindr.places.ItemClickListener
 import com.example.wayfindr.places.PlacesDetailFragment
-import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.example.wayfindr.places.PlacesRepository
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
@@ -55,13 +56,21 @@ class Places : Fragment(), FilterResultListener {
         }
 
         binding.filterImage.setOnClickListener {
-            val filterBottomSheetFragment = FilterBottomSheetFragment()
-            filterBottomSheetFragment.filterResultListener = this
-            filterBottomSheetFragment.show(parentFragmentManager, filterBottomSheetFragment.tag)
+            val tag = "FilterBottomSheetFragment"
+
+            val existingFragment = parentFragmentManager.findFragmentByTag(tag)
+
+            if (existingFragment == null) {
+                val filterBottomSheetFragment = FilterBottomSheetFragment()
+                filterBottomSheetFragment.filterResultListener = this
+                filterBottomSheetFragment.show(parentFragmentManager, tag)
+            }
         }
 
+
         firebaseAuth = FirebaseAuth.getInstance()
-        adapter = PlacesAdapter(emptyList(), itemClickListener, firebaseAuth)
+        val placesRepository=PlacesRepository()
+        adapter = PlacesAdapter(emptyList(), itemClickListener, firebaseAuth,placesRepository)
 
         binding.recyclerViewPlaces.adapter = adapter
         binding.recyclerViewPlaces.layoutManager = LinearLayoutManager(requireContext())
@@ -149,12 +158,19 @@ class Places : Fragment(), FilterResultListener {
     }
 
     private fun showPlaceDetailFragment(selectedPlace: PlaceModel) {
-        val fragment = PlacesDetailFragment()
-        val bundle = Bundle()
-        bundle.putParcelable("selectedPlace", selectedPlace)
-        fragment.arguments = bundle
-        fragment.show(parentFragmentManager, fragment.tag)
+        val tag = "PlacesDetailFragment"
+
+        val existingFragment = parentFragmentManager.findFragmentByTag(tag)
+
+        if (existingFragment == null) {
+            val fragment = PlacesDetailFragment()
+            val bundle = Bundle()
+            bundle.putSerializable("selectedPlace", selectedPlace)
+            fragment.arguments = bundle
+            fragment.show(parentFragmentManager, tag)
+        }
     }
+
 
     override fun onFilterResult(places: List<PlaceModel>) {
         Log.d("Filter", "onFilterResult is called with ${places.size} places.")

@@ -9,36 +9,25 @@
     android:background="@drawable/fragment_bg_desing">
 
 
-
     <LinearLayout
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp"
-        app:layout_constraintStart_toStartOf="parent"
+        android:layout_margin="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-        <ImageView
-            android:id="@+id/closeButton"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginLeft="300dp"
-            android:layout_gravity="bottom|end"
-            android:contentDescription="Kapat"
-            android:src="@drawable/icon_closed"
-            app:layout_constraintStart_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginBottom="16dp"
             android:text="Filtreleme Seçenekleri"
             android:textSize="18sp"
-            android:textStyle="bold"
-            android:layout_gravity="center"
-            android:layout_marginBottom="16dp" />
+            android:textStyle="bold" />
 
         <TextView
             android:layout_width="wrap_content"
@@ -56,49 +45,63 @@
                 android:id="@+id/radioButtonPaid"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Ücretli"
-                android:buttonTint="@color/gradient"/>
+                android:buttonTint="@color/gradient"
+                android:text="Ücretli" />
 
             <RadioButton
                 android:id="@+id/radioButtonFree"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Ücretsiz"
-                android:buttonTint="@color/gradient"/>
+                android:buttonTint="@color/gradient"
+                android:text="Ücretsiz" />
         </RadioGroup>
 
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:text="Konum Aralığı"
-            android:textStyle="bold"
-            android:layout_marginTop="16dp" />
+            android:textStyle="bold" />
 
         <SeekBar
             android:id="@+id/seekBarLocation"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
             android:max="50"
-            android:progressTint="@color/vintage"
-            android:thumbTint="@color/gradient"
             android:progressBackgroundTint="@color/gradient"
-            android:layout_marginTop="8dp"/>
+            android:progressTint="@color/vintage"
+            android:thumbTint="@color/gradient" />
 
         <TextView
             android:id="@+id/textViewSelectedDistance"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:text="Seçilen Mesafe: 0 km"
-            android:layout_marginTop="8dp"/>
+            android:layout_marginTop="8dp"
+            android:text="Seçilen Mesafe: 0 km" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="İlçeler"
+            android:textStyle="bold" />
+
+            <Spinner
+                android:id="@+id/spinnerDistricts"
+                android:layout_width="180dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"
+                android:layout_weight="1" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
             android:text="Kategoriler"
-            android:textStyle="bold"
-            android:layout_marginTop="16dp" />
+            android:textStyle="bold" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -109,8 +112,8 @@
                 android:id="@+id/cardview1"
                 android:layout_width="0dp"
                 android:layout_height="100dp"
-                android:layout_weight="1"
                 android:layout_margin="8dp"
+                android:layout_weight="1"
                 app:cardCornerRadius="8dp">
 
                 <LinearLayout
@@ -123,16 +126,16 @@
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
                         android:layout_gravity="center"
-                        android:src="@drawable/tarih"/>
+                        android:src="@drawable/tarih" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Tarihi Müzeler"
                         android:layout_gravity="center"
+                        android:layout_marginTop="8dp"
+                        android:text="Tarihi Müzeler"
                         android:textAlignment="center"
-                        android:textSize="8sp"
-                        android:layout_marginTop="8dp" />
+                        android:textSize="8sp" />
                 </LinearLayout>
 
             </androidx.cardview.widget.CardView>
@@ -141,8 +144,8 @@
                 android:id="@+id/cardview2"
                 android:layout_width="0dp"
                 android:layout_height="100dp"
-                android:layout_weight="1"
                 android:layout_margin="8dp"
+                android:layout_weight="1"
                 app:cardCornerRadius="8dp">
 
                 <LinearLayout
@@ -151,20 +154,20 @@
                     android:orientation="vertical"
                     android:padding="8dp">
 
-                <ImageView
-                    android:layout_width="match_parent"
-                    android:layout_height="48dp"
-                    android:layout_gravity="center"
-                    android:src="@drawable/bilim" />
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="48dp"
+                        android:layout_gravity="center"
+                        android:src="@drawable/bilim" />
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Bilim ve Endüstri Müzeleri"
-                    android:layout_gravity="center"
-                    android:textAlignment="center"
-                    android:textSize="8sp"
-                    android:layout_marginTop="8dp" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginTop="8dp"
+                        android:text="Bilim ve Endüstri Müzeleri"
+                        android:textAlignment="center"
+                        android:textSize="8sp" />
 
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
@@ -173,8 +176,8 @@
                 android:id="@+id/cardview3"
                 android:layout_width="0dp"
                 android:layout_height="100dp"
-                android:layout_weight="1"
                 android:layout_margin="10dp"
+                android:layout_weight="1"
                 app:cardCornerRadius="8dp">
 
                 <LinearLayout
@@ -192,14 +195,13 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Antropoloji Müzeleri"
                         android:layout_gravity="center"
+                        android:layout_marginTop="8dp"
+                        android:text="Antropoloji Müzeleri"
                         android:textAlignment="center"
-                        android:textSize="8sp"
-                        android:layout_marginTop="8dp" />
+                        android:textSize="8sp" />
 
                 </LinearLayout>
-
 
 
             </androidx.cardview.widget.CardView>
@@ -208,8 +210,8 @@
                 android:id="@+id/cardview4"
                 android:layout_width="0dp"
                 android:layout_height="100dp"
-                android:layout_weight="1"
                 android:layout_margin="8dp"
+                android:layout_weight="1"
                 app:cardCornerRadius="8dp">
 
                 <LinearLayout
@@ -222,19 +224,18 @@
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
                         android:layout_gravity="center"
-                        android:src="@drawable/art"/>
+                        android:src="@drawable/art" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Sanat Müzeleri"
                         android:layout_gravity="center"
-                        android:textSize="8sp"
+                        android:layout_marginTop="8sp"
+                        android:text="Sanat Müzeleri"
                         android:textAlignment="center"
-                        android:layout_marginTop="8sp" />
+                        android:textSize="8sp" />
 
                 </LinearLayout>
-
 
 
             </androidx.cardview.widget.CardView>
@@ -243,8 +244,8 @@
                 android:id="@+id/cardview5"
                 android:layout_width="0dp"
                 android:layout_height="100dp"
-                android:layout_weight="1"
                 android:layout_margin="8dp"
+                android:layout_weight="1"
                 app:cardCornerRadius="8dp">
 
                 <LinearLayout
@@ -257,18 +258,18 @@
                         android:layout_width="match_parent"
                         android:layout_height="48dp"
                         android:layout_gravity="center"
-                        android:src="@drawable/ozelmuzeler"/>
+                        android:src="@drawable/ozelmuzeler" />
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Özel Müzeler"
                         android:layout_gravity="center"
+                        android:layout_marginTop="8sp"
+                        android:text="Özel Müzeler"
                         android:textAlignment="center"
-                        android:textSize="8sp"
-                        android:layout_marginTop="8sp" />
+                        android:textSize="8sp" />
 
                 </LinearLayout>
-
 
 
             </androidx.cardview.widget.CardView>
@@ -277,24 +278,24 @@
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:layout_gravity="center"
             android:layout_marginTop="16dp"
-            android:layout_gravity="center">
+            android:orientation="horizontal">
 
             <Button
                 android:id="@+id/resetButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Sıfırla"
                 android:layout_marginEnd="8dp"
-                android:backgroundTint="@color/vintage"/>
+                android:backgroundTint="@color/vintage"
+                android:text="Sıfırla" />
 
             <Button
                 android:id="@+id/filterButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Filtrele"
-                android:backgroundTint="@color/vintage"/>
+                android:backgroundTint="@color/vintage"
+                android:text="Filtrele" />
         </LinearLayout>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

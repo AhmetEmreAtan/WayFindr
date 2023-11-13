@@ -1,20 +1,22 @@
 package com.example.wayfindr.places
 
-import PlaceModel
 import android.Manifest
 import android.app.AlertDialog
 import android.content.ContentValues.TAG
 import android.content.pm.PackageManager
 import android.graphics.Color
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.Button
-import android.widget.ImageView
+import android.widget.RadioButton
 import android.widget.RadioGroup
 import android.widget.SeekBar
+import android.widget.Spinner
 import android.widget.TextView
 import androidx.activity.OnBackPressedCallback
 import androidx.cardview.widget.CardView
@@ -77,8 +79,21 @@ class FilterBottomSheetFragment : BottomSheetDialogFragment() {
         val resetButton: Button? = view.findViewById(R.id.resetButton)
         val filterButton: Button? = view.findViewById(R.id.filterButton)
 
+        val radioGroupPricing: RadioGroup? = view.findViewById(R.id.radioGroupPricing)
+        val radioButtonFree: RadioButton? = view.findViewById(R.id.radioButtonFree)
+        val radioButtonPaid: RadioButton? = view.findViewById(R.id.radioButtonPaid)
 
-        //val categoryNames = arrayOf("Tarihi Müzeler", "Bilim ve Endüstri", "Antropoloji", "Sanat", "Özel")
+        val selectedPricing = when (radioGroupPricing?.checkedRadioButtonId) {
+            R.id.radioButtonPaid -> "Ücretli"
+            R.id.radioButtonFree -> "Ücretsiz"
+            else -> null
+        }
+
+        val spinnerDistricts: Spinner? = view.findViewById(R.id.spinnerDistricts)
+        val districtAdapter = ArrayAdapter<String>(requireContext(), android.R.layout.simple_spinner_item, resources.getStringArray(R.array.istanbul_districts))
+        districtAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        spinnerDistricts?.adapter = districtAdapter
+
 
         val cardViews = arrayOf(
             view.findViewById<CardView>(R.id.cardview1),
@@ -94,10 +109,6 @@ class FilterBottomSheetFragment : BottomSheetDialogFragment() {
             cardView.setOnClickListener {
                 if (selectedCategory != i) {
                     selectedCategory = i
-                    //val selectedCategoryName = categoryNames[i]
-
-                    // Seçilen kategori ismi
-                    //Log.d("Filter", "Selected Category: $selectedCategoryName")
 
                 } else {
                     selectedCategory = -1
@@ -122,7 +133,8 @@ class FilterBottomSheetFragment : BottomSheetDialogFragment() {
                 cardViews[selectedCategory].setCardBackgroundColor(Color.WHITE)
                 selectedCategory = -1
             }
-
+            radioButtonFree?.isChecked = false
+            radioButtonPaid?.isChecked = false
         }
 
         seekBarLocation.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
@@ -141,11 +153,6 @@ class FilterBottomSheetFragment : BottomSheetDialogFragment() {
             performFiltering()
         }
 
-
-        val closeButton: ImageView = view.findViewById(R.id.closeButton)
-        closeButton.setOnClickListener {
-            activity?.supportFragmentManager?.beginTransaction()?.remove(this)?.commit()
-        }
 
         requireActivity()
             .onBackPressedDispatcher
@@ -249,21 +256,21 @@ class FilterBottomSheetFragment : BottomSheetDialogFragment() {
     }
 
     fun parseLatLngFromGoogleMapsUrl(url: String): Pair<Double, Double>? {
-        val regex = "(@[0-9.]+,[0-9.]+)".toRegex()
-        val matchResult = regex.find(url)
+        val uri = Uri.parse(url)
+        val latitude = uri.getQueryParameter("q")?.split(",")?.get(0)?.toDoubleOrNull()
+        val longitude = uri.getQueryParameter("q")?.split(",")?.get(1)?.toDoubleOrNull()
 
-        if (matchResult != null) {
-            val matchValue = matchResult.value.substring(1)
-            val parts = matchValue.split(",")
-            if (parts.size == 2) {
-                val latitude = parts[0].toDoubleOrNull()
-                val longitude = parts[1].toDoubleOrNull()
-                if (latitude != null && longitude != null) {
-                    return Pair(latitude, longitude)
-                }
-            }
+        if (latitude != null && longitude != null && isValidLatitude(latitude) && isValidLongitude(longitude)) {
+            return Pair(latitude, longitude)
         }
         return null
+    }
+    fun isValidLatitude(latitude: Double): Boolean {
+        return latitude in -90.0..90.0
+    }
+
+    fun isValidLongitude(longitude: Double): Boolean {
+        return longitude in -180.0..180.0
     }
 
     private fun calculateDistance(
@@ -281,8 +288,36 @@ class FilterBottomSheetFragment : BottomSheetDialogFragment() {
         return distance
     }
 
+    private fun filterPlacesByDistance(
+        places: List<PlaceModel>,
+        selectedDistance: Int,
+        userLatitude: Double,
+        userLongitude: Double
+    ): List<PlaceModel> {
+        val filteredPlaces = mutableListOf<PlaceModel>()
+
+        for (place in places) {
+            val latLng = parseLatLngFromGoogleMapsUrl(place.placeLocation)
+            if (latLng != null) {
+                val (latitude, longitude) = latLng
+                val distanceInKilometers = calculateDistance(
+                    userLatitude,
+                    userLongitude,
+                    latitude,
+                    longitude
+                )
+
+                if (distanceInKilometers <= selectedDistance) {
+                    filteredPlaces.add(place)
+                    Log.d("Mesafe: ", "$distanceInKilometers km")
+                }
+            }
+        }
+        return filteredPlaces
+    }
+
     //Konuma göre filtreleme yap
-    private fun fetchPlacesbyLocation(
+    private fun fetchPlacesByLocation(
         selectedDistance: Int,
         onComplete: (List<PlaceModel>) -> Unit
     ) {
@@ -294,6 +329,7 @@ class FilterBottomSheetFragment : BottomSheetDialogFragment() {
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     for (document in task.result!!) {
+
                         val placeLocation = document.getString("placeLocation")
 
                         if (placeLocation != null) {
@@ -307,13 +343,12 @@ class FilterBottomSheetFragment : BottomSheetDialogFragment() {
                                     userLongitude,
                                     latitude,
                                     longitude
-                                )
+                                ).toInt()
 
-                                val distanceInKilometersInt = distanceInKilometers.toInt()
+                                if (distanceInKilometers <= selectedDistance) {
 
-                                Log.d("Mesafe: ", "$distanceInKilometersInt km")
+                                    Log.d("Mesafe: ", "$distanceInKilometers km")
 
-                                if (distanceInKilometersInt <= selectedDistance) {
                                     val placeId = document.getString("placeId") ?: ""
                                     val placeName = document.getString("placeName") ?: ""
                                     val placeDescription =
@@ -325,6 +360,7 @@ class FilterBottomSheetFragment : BottomSheetDialogFragment() {
                                     val placeOpeningHours =
                                         document.getString("placeOpeningHours") ?: ""
                                     val placeDetails = document.getString("placeDetails") ?: ""
+                                    val placeLocationn = document.getString("placeLocation") ?: ""
                                     val placePrice = document.getString("placePrice") ?: ""
                                     val isFavorite = document.getBoolean("isFavorite") ?: false
 
@@ -337,24 +373,44 @@ class FilterBottomSheetFragment : BottomSheetDialogFragment() {
                                         placeAddress,
                                         placeOpeningHours,
                                         placeDetails,
+                                        placeLocationn,
                                         placePrice,
                                         isFavorite
                                     )
                                     placesList.add(place)
-                                    for (place in placesList) {
-                                        Log.d(
-                                            "PlaceByLocation",
-                                            "Name: ${place.placeName}, Category: ${place.placeCategories}, Pricing: ${place.placePrice}"
-                                        )
-                                    }
                                 }
                             }
                         }
                     }
+
+                    val filteredList = filterPlacesByDistance(
+                        placesList,
+                        selectedDistance,
+                        userLatitude,
+                        userLongitude
+                    )
+
+                    // Loglama işlemini burada gerçekleştiriyoruz
+                    if (filteredList.isNotEmpty()) {
+                        for (place in filteredList) {
+                            Log.d(
+                                "PlaceByLocation",
+                                "Name: ${place.placeName}, Category: ${place.placeCategories}, Pricing: ${place.placePrice}"
+                            )
+                        }
+                    } else {
+                        // Filtrelenmiş liste boşsa bir hata olabilir
+                        Log.e("PlaceByLocation", "Filtrelenmiş liste boş.")
+                    }
+
+                    // Sonuçları onComplete ile iletiyoruz
+                    onComplete(filteredList)
                 } else {
                     Log.e("Veri Alınmadı: ", "${task.exception}")
+
+                    // Hata durumunda onComplete ile boş bir liste gönderiyoruz
+                    onComplete(emptyList())
                 }
-                onComplete(placesList)
             }
     }
 
@@ -384,6 +440,7 @@ class FilterBottomSheetFragment : BottomSheetDialogFragment() {
                         val placeAddress = document.getString("placeAddress") ?: ""
                         val placeOpeningHours = document.getString("placeOpeningHours") ?: ""
                         val placeDetails = document.getString("placeDetails") ?: ""
+                        val placeLocation = document.getString("placeLocation") ?: ""
                         val placePrice = document.getString("placePrice") ?: ""
                         val isFavorite = document.getBoolean("isFavorite") ?: false
 
@@ -396,6 +453,7 @@ class FilterBottomSheetFragment : BottomSheetDialogFragment() {
                             placeAddress,
                             placeOpeningHours,
                             placeDetails,
+                            placeLocation,
                             placePrice,
                             isFavorite
                         )
@@ -416,7 +474,6 @@ class FilterBottomSheetFragment : BottomSheetDialogFragment() {
                 }
             }
     }
-
 
     // Ücretlendirmeye göre filtreleme yap
     private fun fetchPlacesByPricing(
@@ -444,6 +501,7 @@ class FilterBottomSheetFragment : BottomSheetDialogFragment() {
                         val placeAddress = document.getString("placeAddress") ?: ""
                         val placeOpeningHours = document.getString("placeOpeningHours") ?: ""
                         val placeDetails = document.getString("placeDetails") ?: ""
+                        val placeLocation = document.getString("placeLocation") ?: ""
                         val placePrice = document.getString("placePrice") ?: ""
                         val isFavorite = document.getBoolean("isFavorite") ?: false
 
@@ -456,6 +514,7 @@ class FilterBottomSheetFragment : BottomSheetDialogFragment() {
                             placeAddress,
                             placeOpeningHours,
                             placeDetails,
+                            placeLocation,
                             placePrice,
                             isFavorite
                         )
@@ -482,20 +541,16 @@ class FilterBottomSheetFragment : BottomSheetDialogFragment() {
         list2: List<PlaceModel>,
         list3: List<PlaceModel>
     ): List<PlaceModel> {
-        val commonPlaces = mutableListOf<PlaceModel>()
+        // Her filtre tipi için özel bir küme oluştur
+        val set1 = list1.map { it.placeId }.toSet()
+        val set2 = list2.map { it.placeId }.toSet()
+        val set3 = list3.map { it.placeId }.toSet()
 
-        for (place1 in list1) {
-            for (place2 in list2) {
-                for (place3 in list3) {
-                    // Üç listeye de aynı anda bulunan bir yer varsa, commonPlaces listesine ekle
-                    if (place1.placeId == place2.placeId && place1.placeId == place3.placeId) {
-                        commonPlaces.add(place1)
-                    }
-                }
-            }
-        }
+        // Kümeleri kesiştirerek ortak olan yerleri bul
+        val commonIds = set1.intersect(set2).intersect(set3)
 
-        return commonPlaces
+        // Ortak olan yerleri filtrele
+        return list1.filter { it.placeId in commonIds }
     }
 
     private fun performFiltering() {
@@ -514,51 +569,36 @@ class FilterBottomSheetFragment : BottomSheetDialogFragment() {
             else -> null
         }
 
-        fetchPlacesbyLocation(selectedDistance) { byLocationList ->
-            Log.d("Filter", "byLocationList size: ${byLocationList.size}")
+        fetchPlacesByCategory(selectedCategoryName) { byCategoryList ->
+            Log.d("Filter", "byCategoryList size: ${byCategoryList.size}")
 
             if (!selectedPricing.isNullOrBlank()) {
                 fetchPlacesByPricing(selectedPricing) { byPriceList ->
                     Log.d("Filter", "byPriceList size: ${byPriceList.size}")
 
-                    if (selectedCategoryName != null) {
-                        fetchPlacesByCategory(selectedCategoryName) { byCategoryList ->
-                            Log.d("Filter", "byCategoryList size: ${byCategoryList.size}")
+                    fetchPlacesByLocation(selectedDistance) { byLocationList ->
+                        Log.d("Filter", "byLocationList size: ${byLocationList.size}")
 
-                            val filteredPlaces = findCommonPlaces(byCategoryList, byPriceList, byLocationList)
+                        val filteredPlaces = findCommonPlaces(byCategoryList, byPriceList, byLocationList)
 
-                            // Sonuçları FilterResultListener üzerinden Places fragment'ına iletiyoruz
-                            notifyFilterResults(filteredPlaces)
-                        }
-                    } else {
-                        // Eğer kategori seçilmemişse, sadece ücretlendirme filtresini kullan
-                        notifyFilterResults(byPriceList)
+                        // Sonuçları FilterResultListener üzerinden Places fragment'ına iletiyoruz
+                        notifyFilterResults(filteredPlaces)
+
+                        // Alt sayfayı kapat
+                        dismiss()
                     }
                 }
             } else {
                 // Eğer ücretlendirme belirtilmemişse, sadece kategori filtresini kullan
-                if (selectedCategoryName != null) {
-                    fetchPlacesByCategory(selectedCategoryName) { byCategoryList ->
-                        Log.d("Filter", "byCategoryList size: ${byCategoryList.size}")
+                notifyFilterResults(byCategoryList)
 
-                        // Sonuçları FilterResultListener üzerinden Places fragment'ına iletiyoruz
-                        notifyFilterResults(byCategoryList)
-                    }
-                } else {
-                    // Eğer hiçbir filtreleme yapılmamışsa, tüm yerleri görüntüle
-                    notifyFilterResults(byLocationList)
-                }
+                // Alt sayfayı kapat
+                dismiss()
             }
         }
-
-        // Alt sayfayı kapat
-        dismiss()
     }
-
 
     private fun notifyFilterResults(places: List<PlaceModel>) {
         filterResultListener?.onFilterResult(places)
     }
-
-
 }

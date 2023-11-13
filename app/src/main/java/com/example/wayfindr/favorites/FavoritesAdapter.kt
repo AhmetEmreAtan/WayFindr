@@ -1,6 +1,6 @@
 package com.example.wayfindr.favorites
 
-import PlaceModel
+import com.example.wayfindr.places.PlaceModel
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -11,6 +11,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.wayfindr.R
+import com.example.wayfindr.places.PlacesRepository
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -21,7 +22,8 @@ import java.io.Serializable
 class FavoritesAdapter(
     private var favoritesList: List<PlaceModel>,
     private val itemClickListener: ItemClickListener,
-    private val firebaseAuth: FirebaseAuth
+    private val firebaseAuth: FirebaseAuth,
+    private val placesRepository: PlacesRepository
 ) : RecyclerView.Adapter<FavoritesAdapter.FavoritesViewHolder>(), Serializable {
 
     inner class FavoritesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -68,14 +70,13 @@ class FavoritesAdapter(
             val userId = currentUser.uid
 
             // isFavoritePlace fonksiyonunu doğrudan burada bir geri çağrı ile kullan
-            place.isFavoritePlace(userId) { isFavorite ->
+            placesRepository.isPlaceFavorite(userId, place.placeId) { isFavorite ->
                 if (isFavorite) {
-                    place.removeFromFavorites(userId)
+                    placesRepository.removeFromFavorites(userId, place.placeId)
                 } else {
-                    place.addToFavorites(userId)
+                    placesRepository.addToFavorites(userId, place)
                 }
 
-                // Yeni favori durumuna göre UI'yi güncelle
                 updateFavoriteButton(holder, place)
             }
         } else {

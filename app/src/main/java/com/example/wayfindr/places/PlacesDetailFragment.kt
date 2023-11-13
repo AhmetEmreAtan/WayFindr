@@ -1,7 +1,7 @@
 package com.example.wayfindr.places
 
-import PlaceModel
 import android.os.Bundle
+import android.os.Parcelable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -45,7 +45,7 @@ class PlacesDetailFragment : BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         // Burada belge ID'sini al
-        val selectedPlace = arguments?.getParcelable<PlaceModel>("selectedPlace")
+        val selectedPlace = arguments?.getSerializable("selectedPlace") as? PlaceModel
 
         if (selectedPlace != null) {
             val placeId = selectedPlace.placeId
