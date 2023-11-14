@@ -120,30 +120,18 @@
 
 
                 <Button
-                    android:id="@+id/saveProfilePictureButton"
-                    android:layout_width="0dp"
-                    android:layout_height="50dp"
-                    android:layout_marginTop="10dp"
-                    android:layout_marginEnd="16dp"
-                    android:text="Fotoğraf Kaydet"
-                    android:textColor="@color/black"
-                    android:textSize="12sp"
-                    app:layout_constraintEnd_toStartOf="@+id/btnprofileedit"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintStart_toStartOf="@+id/userImage"
-                    app:layout_constraintTop_toBottomOf="@+id/userImage" />
-
-                <Button
                     android:id="@+id/btnprofileedit"
                     android:layout_width="0dp"
                     android:layout_height="50dp"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="5dp"
                     android:layout_marginEnd="16dp"
                     android:text="Profili Düzenle"
                     android:textColor="@color/black"
                     android:textSize="12sp"
                     app:layout_constraintEnd_toStartOf="@+id/btnsetting"
-                    app:layout_constraintHorizontal_bias="0.5"
-                    app:layout_constraintTop_toTopOf="@+id/saveProfilePictureButton" />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/userImage" />
 
                 <ImageButton
                     android:id="@+id/btnsetting"

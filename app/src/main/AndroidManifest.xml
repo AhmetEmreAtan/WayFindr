@@ -30,6 +30,9 @@
             android:resource="@color/green" />
 
         <activity
+            android:name=".memories.MemoriesDetail"
+            android:exported="false"/>
+        <activity
             android:name=".home.Navigation"
             android:exported="false" />
         <activity
@@ -39,7 +42,7 @@
             android:name=".AdminEdit"
             android:exported="true" />
         <activity
-            android:name="com.example.wayfindr.Setting"
+            android:name=".Setting"
             android:exported="true" />
         <activity
             android:name=".Favorites"

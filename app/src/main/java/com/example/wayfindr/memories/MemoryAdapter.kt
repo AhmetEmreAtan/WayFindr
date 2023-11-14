@@ -24,6 +24,7 @@ class MemoryAdapter(
     override fun onBindViewHolder(holder: MemoryViewHolder, position: Int) {
         val currentMemory = memoriesList[position]
 
+
         holder.userComment.text = currentMemory.userComment
         holder.photoLocation.text = currentMemory.photoLocation
 

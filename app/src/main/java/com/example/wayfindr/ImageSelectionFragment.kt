@@ -34,6 +34,7 @@ class ImageSelectionFragment : Fragment() {
     private lateinit var db: FirebaseFirestore
     private lateinit var auth: FirebaseAuth
     private lateinit var back_btn: ImageButton
+    private var isUploading = false
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -59,7 +60,12 @@ class ImageSelectionFragment : Fragment() {
             if (addPhotoLocation.text.toString().isEmpty()) {
                 Toast.makeText(requireContext(), "Lütfen konum ekleyin.", Toast.LENGTH_SHORT).show()
             } else {
-                uploadImageWithComment()
+                if (!isUploading) {
+                    isUploading = true
+                    uploadImageWithComment()
+                } else {
+                    Toast.makeText(requireContext(), "Yükleme zaten devam ediyor.", Toast.LENGTH_SHORT).show()
+                }
             }
         }
 
@@ -76,12 +82,6 @@ class ImageSelectionFragment : Fragment() {
         }
 
         return view
-    }
-
-    override fun onStart() {
-        super.onStart()
-        // Eğer bir dialog gibi çalıştırılacaksa bu kısmı kullanabilirsiniz.
-        // dialog?.window?.setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT)
     }
 
     private fun openGallery() {
@@ -140,9 +140,11 @@ class ImageSelectionFragment : Fragment() {
                         textView2.visibility = View.GONE
                         Toast.makeText(requireContext(), "Resim yüklendi.", Toast.LENGTH_SHORT).show()
                         requireActivity().supportFragmentManager.popBackStack()
+                        isUploading = false
                     }
                 }
                 .addOnFailureListener { exception ->
+                    isUploading = false
                     Toast.makeText(requireContext(), "Yükleme başarısız: ${exception.message}", Toast.LENGTH_SHORT).show()
                 }
         }
