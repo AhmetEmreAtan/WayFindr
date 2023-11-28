@@ -10,7 +10,6 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-
 import com.example.wayfindr.memories.Memory
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
@@ -30,13 +29,14 @@ class Memories : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        memoriesList = mutableListOf()
         val view = inflater.inflate(R.layout.fragment_memories, container, false)
 
-        recyclerView = view.findViewById(R.id.recyclerView_memories)
-        memoriesList = mutableListOf()
-        adapter = MemoryAdapter(requireContext(), memoriesList)
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerView_memories)
+        val memoryAdapter = MemoryAdapter(requireContext(), memoriesList)
+        adapter = memoryAdapter
         recyclerView.adapter = adapter
+        recyclerView.layoutManager = LinearLayoutManager(requireContext())
         val auth = FirebaseAuth.getInstance()
 
 

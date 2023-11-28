@@ -1,15 +1,18 @@
 package com.example.wayfindr.memories
 
 import android.content.ContentValues.TAG
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.MotionEvent
+import android.view.View
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.LinearLayout
+import android.widget.PopupMenu
 import android.widget.TextView
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -20,12 +23,14 @@ import com.google.firebase.firestore.firestore
 
 class MemoriesDetail : AppCompatActivity() {
 
+    private var selectedMemoryId: String? = null
     private lateinit var editText: EditText
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_memories_detail)
 
+        selectedMemoryId = intent.getStringExtra("memoryId")
 
         val userComment = intent.getStringExtra("userComment")
         val photoLocation = intent.getStringExtra("photoLocation")
@@ -37,6 +42,10 @@ class MemoriesDetail : AppCompatActivity() {
             Comment("2", "userId2", "Yorum 2"),
         )
 
+        val btnMemoriesOptions: ImageButton = findViewById(R.id.btn_memories_options)
+        btnMemoriesOptions.setOnClickListener {
+            showPopupMenu(btnMemoriesOptions)
+        }
 
         val adapter = CommentsAdapter(commentsList) { selectedComment ->
             Log.d("SelectedComment", "Selected comment: ${selectedComment.commentText}")
@@ -46,11 +55,9 @@ class MemoriesDetail : AppCompatActivity() {
         recyclerView.layoutManager = LinearLayoutManager(this)
         recyclerView.adapter = adapter
 
-
         val userCommentTextView: TextView = findViewById(R.id.memories_user_comment)
         val photoLocationTextView: TextView = findViewById(R.id.memories_location)
         val imageView: ImageView = findViewById(R.id.memories_user_image)
-
 
         userCommentTextView.text = userComment
         photoLocationTextView.text = photoLocation
@@ -70,13 +77,12 @@ class MemoriesDetail : AppCompatActivity() {
     private fun showEditTextForComment(comment: Comment) {
         val parentLayout: LinearLayout = findViewById(R.id.comment_linearlayout)
 
-        val editText = EditText(this)
+        editText = EditText(this)
         editText.hint = "Yorumunuzu buraya girin"
         editText.layoutParams = LinearLayout.LayoutParams(
             LinearLayout.LayoutParams.MATCH_PARENT,
             LinearLayout.LayoutParams.WRAP_CONTENT
         )
-
 
         val widthInDp = 20
         val heightInDp = 20
@@ -92,31 +98,10 @@ class MemoriesDetail : AppCompatActivity() {
         editText.setCompoundDrawablesWithIntrinsicBounds(null, null, drawableRight, null)
         editText.compoundDrawablePadding = marginRight
 
-
-
         parentLayout.addView(editText)
-
-
-        editText.setOnTouchListener { v, event ->
-            if (event.action == MotionEvent.ACTION_UP) {
-                if (event.rawX >= (editText.right - editText.compoundDrawables[2].bounds.width())) {
-                    val userComment = editText.text.toString()
-                    val userName = "KullanıcıAdı"
-
-                    saveComment(userComment, userName)
-                    return@setOnTouchListener true
-                }
-            }
-            false
-        }
     }
 
     private fun saveComment(commentText: String, userName: String) {
-        val userComment = editText.text.toString()
-        val userName = "KullanıcıAdı"
-
-        saveComment(userComment, userName)
-
         val db = Firebase.firestore
         val commentsCollection = db.collection("yorumlar")
 
@@ -134,5 +119,47 @@ class MemoriesDetail : AppCompatActivity() {
             }
     }
 
+    private fun showPopupMenu(view: View) {
+        val popupMenu = PopupMenu(this, view)
+        popupMenu.menuInflater.inflate(R.menu.memories_options_menu, popupMenu.menu)
 
+        popupMenu.setOnMenuItemClickListener { item ->
+            when (item.itemId) {
+                R.id.menu_delete -> {
+                    deleteMemory()
+                    true
+                }
+                R.id.menu_report -> {
+                    // Raport etme işlemleri buraya eklenebilir
+                    true
+                }
+                else -> false
+            }
+        }
+
+        popupMenu.show()
+    }
+
+
+    private fun deleteMemory() {
+        if (selectedMemoryId != null) {
+            val db = Firebase.firestore
+            val memoriesCollection = db.collection("user_photos").document("user_id").collection("memories")
+
+            memoriesCollection.document(selectedMemoryId!!)
+                .delete()
+                .addOnSuccessListener {
+                    Log.d(TAG, "Öğe başarıyla silindi.")
+                    finish()
+                }
+                .addOnFailureListener { e ->
+                    Log.w(TAG, "Öğe silme işlemi başarısız oldu", e)
+                }
+        }
+    }
+
+
+    private fun showToast(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
 }

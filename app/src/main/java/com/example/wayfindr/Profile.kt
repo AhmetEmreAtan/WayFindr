@@ -66,10 +66,28 @@ class Profile : Fragment() {
 
         val circularImageView = view.findViewById<ImageView>(R.id.userImage)
         val placeholderImage = R.drawable.blurimage
+
         Glide.with(requireContext())
             .load(placeholderImage)
             .transform(CircleCrop())
             .into(circularImageView)
+
+        if (currentUser != null) {
+            val userId = currentUser.uid
+            val databaseReference = FirebaseDatabase.getInstance().getReference("users/$userId")
+
+            databaseReference.child("profileImage").get().addOnSuccessListener { dataSnapshot ->
+                val imageUrl = dataSnapshot.value as? String
+                if (imageUrl != null && !imageUrl.isBlank()) {
+                    Glide.with(requireContext())
+                        .load(imageUrl)
+                        .placeholder(placeholderImage)
+                        .error(placeholderImage)
+                        .transform(CircleCrop())
+                        .into(circularImageView)
+                }
+            }
+        }
 
         binding.btnsetting.setOnClickListener {
             val fragment = Settings()
@@ -91,21 +109,17 @@ class Profile : Fragment() {
             }
         }
 
-        binding.saveProfilePictureButton.setOnClickListener {
-            if (::selectedImageUri.isInitialized) {
-                uploadProfileImage()
-                Toast.makeText(fragmentContext, "Profil fotoğrafınız başarı ile kaydedildi.", Toast.LENGTH_SHORT).show()
-            } else {
-                Toast.makeText(fragmentContext, "Lütfen bir profil resmi seçin.", Toast.LENGTH_SHORT).show()
-            }
-        }
-
         // Add Memories
         addImageBtn = view.findViewById(R.id.add_image_btn)
 
-        addImageBtn.setOnClickListener {
-            openImageSelectionFragment()
+        binding.addImageBtn.setOnClickListener {
+            val fragment = ImageSelectionFragment()
+            val transaction = parentFragmentManager.beginTransaction()
+            transaction.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left)
+            transaction.add(android.R.id.content, fragment).addToBackStack(null).commit()
         }
+
+
 
         if (currentUser != null) {
             val userId = currentUser.uid
@@ -176,23 +190,7 @@ class Profile : Fragment() {
                 .commit()
         }
 
-        binding.addImageBtn.setOnClickListener {
-            val fragment = AddPlacesFragment()
-            val transaction = parentFragmentManager.beginTransaction()
-            transaction.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left)
-            transaction.add(android.R.id.content, fragment).addToBackStack(null).commit()
-        }
-
         return view
-    }
-
-    private fun openImageSelectionFragment() {
-        val fragment = ImageSelectionFragment()
-        requireActivity().supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.frame_layout, fragment)
-            .addToBackStack(null)
-            .commit()
     }
 
     private fun openGallery() {
@@ -207,6 +205,8 @@ class Profile : Fragment() {
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null && data.data != null) {
             selectedImageUri = data.data!!
             binding.userImage.setImageURI(selectedImageUri)
+
+            uploadProfileImage()
         }
     }
 
@@ -230,7 +230,16 @@ class Profile : Fragment() {
                 .addOnFailureListener { e ->
                     Toast.makeText(fragmentContext, "Profil resmi güncellenirken hata oluştu: ${e.message}", Toast.LENGTH_SHORT).show()
                 }
+            refreshPage()
         }
+    }
+
+    private fun refreshPage() {
+        val currentFragment = requireFragmentManager().findFragmentById(R.id.frame_layout)
+        val transaction = requireFragmentManager().beginTransaction()
+        transaction.detach(currentFragment!!)
+        transaction.attach(currentFragment)
+        transaction.commit()
     }
 
     private fun replaceFragment(fragment: Fragment) {

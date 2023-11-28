@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/menu_delete"
+        android:title="Sil"
+        android:icon="@drawable/baseline_delete_24"/>
+    <item
+        android:id="@+id/menu_report"
+        android:title="Şikayet Et"
+        android:icon="@drawable/baseline_dangerous_24"/>
+</menu>

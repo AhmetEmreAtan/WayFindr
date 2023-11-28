@@ -59,9 +59,10 @@
                 android:layout_height="30dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginEnd="16dp"
-                android:background="@drawable/icons_options"
+                android:background="@drawable/ucnokta"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/MemoriesTitle" />
+                app:layout_constraintTop_toBottomOf="@+id/MemoriesTitle"
+                android:contentDescription="Options Menu"/>
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/memories_cardview"
