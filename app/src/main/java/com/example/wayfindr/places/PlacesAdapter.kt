@@ -31,9 +31,6 @@ class PlacesAdapter(
         val favoriteAddButton: ImageView = itemView.findViewById(R.id.favoriteAdd)
 
         fun bind(place: PlaceModel) {
-
-
-
             Glide.with(itemView)
                 .load(place.placeImage)
                 .placeholder(R.drawable.placeholder_image)
@@ -86,8 +83,6 @@ class PlacesAdapter(
         } else {
             Log.d("AuthState", "Geçerli kullanıcı null")
             Toast.makeText(holder.itemView.context, "Lütfen giriş yapınız!", Toast.LENGTH_SHORT).show()
-
-
         }
     }
 
@@ -106,10 +101,8 @@ class PlacesAdapter(
 
                     // Favori butonunun görüntüsünü güncelle
                     if (isFavorite) {
-                        place.isFavorite = true
                         holder.favoriteAddButton.setImageResource(R.drawable.ic_heart_filled)
                     } else {
-                        place.isFavorite = false
                         holder.favoriteAddButton.setImageResource(R.drawable.ic_heart_outlined)
                     }
                 }
