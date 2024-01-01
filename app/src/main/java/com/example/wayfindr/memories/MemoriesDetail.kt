@@ -25,6 +25,8 @@ class MemoriesDetail : AppCompatActivity() {
 
     private var selectedMemoryId: String? = null
     private lateinit var editText: EditText
+    private var documentIds = mutableListOf<String>()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -107,18 +109,21 @@ class MemoriesDetail : AppCompatActivity() {
 
         val newComment = hashMapOf(
             "yorumMetni" to commentText,
-            "userName" to userName
+            "userName" to userName,
+            "memoryId" to selectedMemoryId
         )
 
         commentsCollection.add(newComment)
             .addOnSuccessListener { documentReference ->
-                Log.d(TAG, "Yorum başarıyla eklendi, eklenen yorumun ID'si: ${documentReference.id}")
+                Log.d(
+                    TAG,
+                    "Yorum başarıyla eklendi, eklenen yorumun ID'si: ${documentReference.id}"
+                )
             }
             .addOnFailureListener { e ->
                 Log.w(TAG, "Yorum ekleme işlemi başarısız oldu", e)
             }
     }
-
     private fun showPopupMenu(view: View) {
         val popupMenu = PopupMenu(this, view)
         popupMenu.menuInflater.inflate(R.menu.memories_options_menu, popupMenu.menu)
@@ -126,11 +131,14 @@ class MemoriesDetail : AppCompatActivity() {
         popupMenu.setOnMenuItemClickListener { item ->
             when (item.itemId) {
                 R.id.menu_delete -> {
-                    deleteMemory()
+                    if (documentIds.isNotEmpty()) {
+                        deleteDocument(documentIds[0])
+                    } else {
+                        showToast("Silinecek belge bulunamadı.")
+                    }
                     true
                 }
                 R.id.menu_report -> {
-                    // Raport etme işlemleri buraya eklenebilir
                     true
                 }
                 else -> false
@@ -141,25 +149,30 @@ class MemoriesDetail : AppCompatActivity() {
     }
 
 
-    private fun deleteMemory() {
-        if (selectedMemoryId != null) {
-            val db = Firebase.firestore
-            val memoriesCollection = db.collection("user_photos").document("user_id").collection("memories")
 
-            memoriesCollection.document(selectedMemoryId!!)
-                .delete()
-                .addOnSuccessListener {
-                    Log.d(TAG, "Öğe başarıyla silindi.")
-                    finish()
-                }
-                .addOnFailureListener { e ->
-                    Log.w(TAG, "Öğe silme işlemi başarısız oldu", e)
-                }
-        }
+    private fun deleteDocument(documentId: String) {
+        val db = Firebase.firestore
+        val userPhotosCollection = db.collection("user_photos").document("user_id").collection("memories")
+
+        userPhotosCollection.document(documentId)
+            .delete()
+            .addOnSuccessListener {
+                Log.d(TAG, "Belge başarıyla silindi.")
+                showToast("Belge başarıyla silindi.")
+                finish()
+            }
+            .addOnFailureListener { e ->
+                Log.w(TAG, "Belge silme işlemi başarısız oldu", e)
+                showToast("Belge silinemedi. Lütfen tekrar deneyin.")
+            }
     }
+
+
+
 
 
     private fun showToast(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
+
 }

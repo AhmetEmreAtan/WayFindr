@@ -49,23 +49,28 @@ class Memories : Fragment() {
         val userPhotosCollection = db.collection("user_photos").document(Identifier).collection("memories")
 
         userPhotosCollection.get().addOnSuccessListener { documents ->
+            val newMemoriesList = mutableListOf<Memory>()
+
             for (document in documents) {
                 val userComment = document.getString("userComment")
                 val photoLocation = document.getString("photoLocation")
                 val imageUrl = document.getString("imageUrl")
 
                 if (userComment != null && photoLocation != null && imageUrl != null) {
-                    memoriesList.add(Memory(userComment!!, photoLocation!!, imageUrl!!))
+                    newMemoriesList.add(Memory(userComment!!, photoLocation!!, imageUrl!!))
+                    documentIds.add(document.id)
                 }
             }
 
-
+            memoriesList.clear()
+            memoriesList.addAll(newMemoriesList)
             adapter.notifyDataSetChanged()
         }.addOnFailureListener { exception ->
             Toast.makeText(context, "Firestore'dan veri alınamadı: ${exception.message}", Toast.LENGTH_SHORT).show()
             Log.e("Firestore", "Hata: ${exception.message}")
         }
     }
+
 
 
 }

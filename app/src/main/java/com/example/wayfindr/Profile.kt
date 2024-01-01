@@ -253,4 +253,17 @@ class Profile : Fragment() {
     companion object {
         private const val PERMISSION_REQUEST_CODE = 123
     }
+
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+
+        if (requestCode == PERMISSION_REQUEST_CODE) {
+            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                openGallery()
+            } else {
+                Toast.makeText(requireContext(), "Galeriye erişim izni verilmedi.", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
 }

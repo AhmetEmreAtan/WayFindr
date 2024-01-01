@@ -1,10 +1,12 @@
 package com.example.wayfindr
 
 import android.app.Activity
+import android.content.ContentValues.TAG
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -19,6 +21,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import android.provider.DocumentsContract
 
 class ImageSelectionFragment : Fragment() {
 
@@ -96,25 +99,24 @@ class ImageSelectionFragment : Fragment() {
 
         val userPhotosCollection = db.collection("user_photos").document(Identifier).collection("memories")
 
-        val photoData = hashMapOf(
+        val newMemory = hashMapOf(
             "imageUrl" to imageUrl,
-            "userComment" to comment,
-            "photoLocation" to photoLocation
+            "userComment" to userCommentEditText.text.toString(),
+            "photoLocation" to addPhotoLocation.text.toString()
         )
 
         userPhotosCollection
-            .add(photoData)
+            .add(newMemory)
             .addOnSuccessListener { documentReference ->
-                if (isAdded) {
-                    requireActivity().supportFragmentManager.popBackStack()
-                }
+                val addedDocumentId = documentReference.id
+                Log.d(TAG, "Belge başarıyla eklendi, eklenen belgenin ID'si: $addedDocumentId")
             }
             .addOnFailureListener { e ->
-                if (isAdded) {
-                    Toast.makeText(requireContext(), "Yükleme başarısız: ${e.message}", Toast.LENGTH_SHORT).show()
-                }
+                Log.w(TAG, "Belge ekleme işlemi başarısız oldu", e)
             }
     }
+
+
 
     private fun uploadImageWithComment() {
         selectedImageUri?.let { uri ->

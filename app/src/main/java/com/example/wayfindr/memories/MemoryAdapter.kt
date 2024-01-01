@@ -50,7 +50,11 @@ class MemoryAdapter(
                 val position = adapterPosition
                 if (position != RecyclerView.NO_POSITION) {
                     val currentMemory = memoriesList[position]
-                    openMemoriesDetailActivity(currentMemory.userComment, currentMemory.photoLocation, currentMemory.imageUrl)
+                    openMemoriesDetailActivity(
+                        currentMemory.userComment,
+                        currentMemory.photoLocation,
+                        currentMemory.imageUrl
+                    )
                 }
             }
         }
