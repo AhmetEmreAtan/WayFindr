@@ -13,13 +13,15 @@
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
             android:id="@+id/places_layout"
-            android:layout_height="match_parent"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_gravity="center">
 
             <TextView
@@ -28,6 +30,7 @@
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/font2"
                 android:text="Detaylar"
+                android:layout_margin="30dp"
                 android:textColor="@color/navy"
                 android:textSize="24sp"
                 app:layout_constraintBottom_toTopOf="@+id/placesImage"
@@ -42,6 +45,7 @@
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="50dp"
                 android:layout_marginEnd="16dp"
+                android:src="@drawable/kizkulesi"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -52,7 +56,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:fontFamily="@font/font2"
-                android:text=""
+                android:text="Place Name"
                 android:textAlignment="center"
                 android:textColor="@color/navy"
                 android:textSize="24sp"
@@ -60,55 +64,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/placesImage" />
-
-
-
-            <TextView
-                android:id="@+id/placesAddress"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/font2"
-                android:text=""
-                android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="@+id/places_info_scroll"
-                app:layout_constraintStart_toStartOf="@+id/places_info_scroll"
-                app:layout_constraintTop_toBottomOf="@+id/places_info_scroll" />
-
-
-            <TextView
-                android:id="@+id/placesOpeningHours"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/font2"
-                android:text=""
-                android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="@+id/placesAddress"
-                app:layout_constraintStart_toStartOf="@+id/placesAddress"
-                app:layout_constraintTop_toBottomOf="@+id/placesAddress" />
-
-            <TextView
-                android:id="@+id/placesPrice"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/font2"
-                android:textSize="16sp"
-                android:text=""
-                app:layout_constraintEnd_toEndOf="@+id/placesOpeningHours"
-                app:layout_constraintStart_toStartOf="@+id/placesOpeningHours"
-                app:layout_constraintTop_toBottomOf="@+id/placesOpeningHours" />
-
-            <Button
-                android:id="@+id/gitbtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:backgroundTint="@color/green"
-                android:fontFamily="@font/font2"
-                android:textSize="20sp"
-                android:text="Git"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/placesPrice" />
 
             <ScrollView
                 android:id="@+id/places_info_scroll"
@@ -118,6 +73,7 @@
                 android:layout_marginTop="16dp"
                 android:layout_marginEnd="16dp"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/placesName">
 
@@ -136,7 +92,111 @@
                         android:textSize="14sp" />
 
                 </LinearLayout>
+
             </ScrollView>
+
+
+            <TextView
+                android:id="@+id/placesAddress"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/font2"
+                android:text="Place Address"
+                android:textSize="16sp"
+                app:layout_constraintEnd_toEndOf="@+id/places_info_scroll"
+                app:layout_constraintStart_toStartOf="@+id/places_info_scroll"
+                app:layout_constraintTop_toBottomOf="@+id/places_info_scroll"
+                app:layout_constraintBottom_toTopOf="@+id/placesOpeningHours"/>
+
+
+            <TextView
+                android:id="@+id/placesOpeningHours"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/font2"
+                android:text="Place Openning Hours"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toTopOf="@+id/placesPrice"
+                app:layout_constraintEnd_toEndOf="@+id/placesAddress"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@+id/placesAddress"
+                app:layout_constraintTop_toBottomOf="@+id/placesAddress" />
+
+            <TextView
+                android:id="@+id/placesPrice"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="3dp"
+                android:fontFamily="@font/font2"
+                android:text="Place Price"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toTopOf="@+id/gitbtn"
+                app:layout_constraintEnd_toEndOf="@+id/placesOpeningHours"
+                app:layout_constraintStart_toStartOf="@+id/placesOpeningHours"
+                app:layout_constraintTop_toBottomOf="@+id/placesOpeningHours" />
+
+
+            <Button
+                android:id="@+id/gitbtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/green"
+                android:fontFamily="@font/font2"
+                android:text="Git"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.498"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/placesAddress"
+                app:layout_constraintBottom_toTopOf="@+id/commentCardView"/>
+
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/commentCardView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                app:cardCornerRadius="20dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/gitbtn">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="10dp"
+                    android:orientation="vertical">
+
+                    <MultiAutoCompleteTextView
+                        android:id="@+id/commentDetail"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_margin="8dp"
+                        android:background="@drawable/custom_edittext"
+                        android:hint="Yorumunuz"
+                        android:textColor="@color/black"
+                        android:textSize="12sp" />
+
+                    <Button
+                        android:id="@+id/commentSend"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="right"
+                        android:layout_margin="8dp"
+                        android:text="Gönder" />
+
+                </LinearLayout>
+
+            </androidx.cardview.widget.CardView>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_margin="8dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/commentCardView" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>

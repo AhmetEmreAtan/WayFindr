@@ -4,7 +4,6 @@ import com.example.wayfindr.places.PlaceModel
 import PlacesAdapter
 import android.content.ContentValues.TAG
 import android.os.Bundle
-import android.os.Parcelable
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -15,7 +14,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.wayfindr.databinding.FragmentPlacesBinding
 import com.example.wayfindr.places.AddPlacesFragment
-import com.example.wayfindr.places.FilterBottomSheetFragment
+import com.example.wayfindr.places.FilterFragment
 import com.example.wayfindr.places.FilterResultListener
 import com.example.wayfindr.places.ItemClickListener
 import com.example.wayfindr.places.PlacesDetailFragment
@@ -28,7 +27,8 @@ import java.util.Locale
 
 class Places : Fragment(), FilterResultListener {
 
-    private lateinit var binding: FragmentPlacesBinding
+    private var _binding: FragmentPlacesBinding? = null
+    private val binding get() = _binding!!
     private val db = FirebaseFirestore.getInstance()
     private val placesCollection = db.collection("places")
     private val turkishCollator = Collator.getInstance(Locale("tr", "TR"))
@@ -40,7 +40,7 @@ class Places : Fragment(), FilterResultListener {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        binding = FragmentPlacesBinding.inflate(inflater, container, false)
+        _binding = FragmentPlacesBinding.inflate(inflater, container, false)
         return binding.root
     }
 
@@ -61,9 +61,9 @@ class Places : Fragment(), FilterResultListener {
             val existingFragment = parentFragmentManager.findFragmentByTag(tag)
 
             if (existingFragment == null) {
-                val filterBottomSheetFragment = FilterBottomSheetFragment()
-                filterBottomSheetFragment.filterResultListener = this
-                filterBottomSheetFragment.show(parentFragmentManager, tag)
+                val filterFragment = FilterFragment()
+                filterFragment.filterResultListener = this
+                filterFragment.show(parentFragmentManager, tag)
             }
         }
 
@@ -176,6 +176,11 @@ class Places : Fragment(), FilterResultListener {
         Log.d("Filter", "onFilterResult is called with ${places.size} places.")
         adapter.setPlacesList(places)
         adapter.notifyDataSetChanged()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
 }
