@@ -1,24 +1,19 @@
 package com.example.wayfindr.places
 
 import android.os.Bundle
-import android.os.Parcelable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import android.widget.Toast
+import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.wayfindr.R
 import com.example.wayfindr.databinding.FragmentPlacesDetailBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.SetOptions
 
 class PlacesDetailFragment : BottomSheetDialogFragment() {
 
@@ -29,7 +24,6 @@ class PlacesDetailFragment : BottomSheetDialogFragment() {
     private val auth = FirebaseAuth.getInstance()
     private val currentUser = auth.currentUser
     private val userId = currentUser?.uid
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -93,66 +87,105 @@ class PlacesDetailFragment : BottomSheetDialogFragment() {
             println("Belge ID'si null")
         }
 
+        val commentList = mutableListOf<CommentPlacesModel>()
+        val layoutManager = LinearLayoutManager(requireContext())
+        binding.commentRecyclerView.layoutManager = layoutManager
+        val commentAdapter = CommentPlacesAdapter(commentList)
+        binding.commentRecyclerView.adapter = commentAdapter
+
+        if (selectedPlace != null) {
+            val placeId = selectedPlace.placeId
+
+            if (!placeId.isNullOrBlank()) {
+                val placeRef =
+                    FirebaseFirestore.getInstance().collection("places").document(placeId)
+
+                placeRef.collection("comments")
+                    .get()
+                    .addOnSuccessListener { commentsQuerySnapshot ->
+                        for (commentDocument in commentsQuerySnapshot.documents) {
+                            val commentModel =
+                                commentDocument.toObject(CommentPlacesModel::class.java)
+                            commentModel?.let {
+                                commentList.add(it)
+                            }
+                        }
+
+                        commentAdapter.notifyDataSetChanged()
+                    }
+                    .addOnFailureListener { e ->
+                        Log.e("asas", "Firestore'dan comment verilerini alma hatası: $e")
+                    }
+            } else {
+                Log.i("asas", "Yer ID'si boş")
+            }
+        } else {
+            Log.i("asas", "Belge ID'si null")
+        }
+
         addedComment.setOnClickListener {
             val commentText = commentDetail.text.toString()
             val placeId = selectedPlace?.placeId
-            val userId = auth.currentUser?.uid
+            val user = auth.currentUser
 
-            if (!userId.isNullOrBlank() && !placeId.isNullOrBlank()) {
-                val userRef = FirebaseDatabase.getInstance().getReference("users").child(userId)
-                userRef.addListenerForSingleValueEvent(object : ValueEventListener {
-                    override fun onDataChange(dataSnapshot: DataSnapshot) {
-                        if (dataSnapshot.exists()) {
-                            val userSubDoc = dataSnapshot.value as? Map<String, Any>
+            if (user != null && !placeId.isNullOrBlank()) {
+                val userId = user.uid
+                val userRef = FirebaseFirestore.getInstance().collection("users").document(userId)
+                val placeRef =
+                    FirebaseFirestore.getInstance().collection("places").document(placeId)
 
-                            val placeSubDoc = hashMapOf(
-                                "placeName" to selectedPlace?.placeName,
-                                "placeDescription" to selectedPlace?.placeDescription,
-                                "placeImage" to selectedPlace?.placeImage,
-                                "placeCategories" to selectedPlace?.placeCategories,
-                                "placeAddress" to selectedPlace?.placeAddress,
-                                "placeLocation" to selectedPlace?.placeLocation,
-                                "placeOpeningHours" to selectedPlace?.placeOpeningHours,
-                                "placeDetails" to selectedPlace?.placeDetails,
-                                "placePrice" to selectedPlace?.placePrice
-                            )
+                val userData = hashMapOf(
+                    "userId" to userId,
+                    "userName" to user.displayName,
+                    "userEmail" to user.email,
+                    "userImage" to user.photoUrl.toString()
+                )
 
-                            val commentData = hashMapOf(
-                                "commentText" to commentText,
-                                "user" to userSubDoc,
-                                "place" to placeSubDoc
-                            )
+                userRef.set(userData, SetOptions.merge())
+                    .addOnSuccessListener {
+                        Log.i("asas", "Kullanıcı belgesi güncellendi: $userData")
 
-                            db.collection("commentsPlaces")
-                                .add(commentData)
-                                .addOnSuccessListener { documentReference ->
-                                    Toast.makeText(
-                                        requireContext(),
-                                        "Yorumunuz başarıyla eklendi",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                    Log.i("asas", "Yorum eklendi ${documentReference.id}")
-                                }
-                                .addOnFailureListener { e ->
-                                    Toast.makeText(
-                                        requireContext(),
-                                        "Yorumunuz eklenmedi",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-                                    Log.e("sa", "yorum ekleme hatası $e")
-                                }
-                        } else {
-                            println("Kullanıcı belgesi bulunamadı")
-                        }
+                        val commentData = hashMapOf(
+                            "commentText" to commentText,
+                            "user" to userData
+                        )
+
+                        placeRef.collection("comments").add(commentData)
+                            .addOnSuccessListener { documentReference ->
+                                Toast.makeText(
+                                    requireContext(),
+                                    "Yorumunuz başarıyla eklendi",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                Log.i("asas", "Yorum eklendi ${documentReference.id}")
+
+                                val newComment = CommentPlacesModel(
+                                    commentText,
+                                    user.displayName,
+                                    user.email,
+                                    user.photoUrl.toString()
+                                )
+                                commentList.add(newComment)
+
+                                commentAdapter.notifyDataSetChanged()
+
+                                layoutManager.scrollToPositionWithOffset(0, 0)
+                            }
+                            .addOnFailureListener { e ->
+                                Toast.makeText(
+                                    requireContext(),
+                                    "Yorumunuz eklenmedi",
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                                Log.e("sa", "yorum ekleme hatası $e")
+                            }
+                    }
+                    .addOnFailureListener { e ->
+                        Log.e("asas", "Kullanıcı belgesini güncelleme hatası: $e")
                     }
 
-                    override fun onCancelled(databaseError: DatabaseError) {
-                        println("Realtime Database'den kullanıcı bilgilerini alma hatası: $databaseError")
-                    }
-                })
             } else {
-                // Hata durumunda işlemler
-                println("Kullanıcı ID'si veya Yer ID'si boş veya null")
+                Log.i("asas", "Kullanıcı girişi yapmamış veya Yer ID'si boş veya null")
             }
         }
     }
