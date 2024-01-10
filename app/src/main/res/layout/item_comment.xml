@@ -8,7 +8,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="10dp"
-        app:cardCornerRadius="20dp">
+        app:cardCornerRadius="20dp"
+        android:background="@color/begie">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -39,14 +40,14 @@
                     android:id="@+id/commentUser"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Kadersu"
+                    android:text=""
                     android:textSize="10dp"/>
 
                 <TextView
                     android:id="@+id/commentUserName"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="kadersutlu"
+                    android:text=""
                     android:textSize="8dp" />
 
             </LinearLayout>
@@ -58,7 +59,7 @@
             android:id="@+id/commentText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Yorum"/>
+            android:text=""/>
 
         </LinearLayout>
 

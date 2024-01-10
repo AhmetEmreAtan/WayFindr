@@ -1,8 +1,8 @@
 package com.example.wayfindr.places
 
-data class CommentPlacesModel (
+import com.example.wayfindr.UserData
+
+data class CommentPlacesModel(
     val commentText: String? = null,
-    val commentProfile:String?=null,
-    val commentUser:String?=null,
-    val commentUserName:String?=null
+    val user: UserData? = null
 )
