@@ -9,10 +9,12 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.navigation.Navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.wayfindr.home.CategoryDetailFragment
 import com.example.wayfindr.home.ImageSliderAdapter
 import com.example.wayfindr.home.ItemClickListener
 import com.example.wayfindr.home.Navigation
@@ -29,6 +31,31 @@ class Home : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val rootView = inflater.inflate(R.layout.fragment_home, container, false)
+
+        val antropolojicw1 = rootView.findViewById<CardView>(R.id.antropolıjicw)
+        antropolojicw1.setOnClickListener {
+            openCategoryDetailFragment("Antropoloji")
+        }
+
+        val bilimendustricw1 = rootView.findViewById<CardView>(R.id.bilim_endustricw)
+        bilimendustricw1.setOnClickListener {
+            openCategoryDetailFragment("Bilim ve Endüstri")
+        }
+
+        val ozelcw1 = rootView.findViewById<CardView>(R.id.ozelcw)
+        ozelcw1.setOnClickListener {
+            openCategoryDetailFragment("Özel")
+        }
+
+        val sanatcw1 = rootView.findViewById<CardView>(R.id.sanatcw)
+        sanatcw1.setOnClickListener {
+            openCategoryDetailFragment("Sanat")
+        }
+
+        val tarihcw1 = rootView.findViewById<CardView>(R.id.tarihcw)
+        tarihcw1.setOnClickListener {
+            openCategoryDetailFragment("Tarih")
+        }
 
         recyclerView = rootView.findViewById(R.id.recyclerView)
         recyclerView.layoutManager = LinearLayoutManager(requireContext(), LinearLayoutManager.HORIZONTAL, false)
@@ -165,6 +192,14 @@ class Home : Fragment() {
             "Türk ve İslam Eserleri Müzesi" -> "Binbirdirek, At Meydanı Cd No:12, 34122 Fatih/İstanbul"
             else -> "Konum Hatası."
         }
+    }
+
+    private fun openCategoryDetailFragment(category: String) {
+        val fragment = CategoryDetailFragment.newInstance(category)
+        val transaction = requireActivity().supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.home_fragment_FL, fragment)
+        transaction.addToBackStack(null)
+        transaction.commit()
     }
 
 

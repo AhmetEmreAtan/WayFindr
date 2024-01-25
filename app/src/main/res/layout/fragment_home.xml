@@ -2,6 +2,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/home_fragment_FL"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/white"
@@ -138,9 +139,9 @@
 
                     <HorizontalScrollView
                         android:id="@+id/kat_scroll_view"
-                        android:background="@color/white"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content">
+                        android:layout_height="wrap_content"
+                        android:background="@color/white">
 
                         <LinearLayout
                             android:layout_width="wrap_content"
@@ -148,6 +149,7 @@
                             android:orientation="horizontal">
 
                             <androidx.cardview.widget.CardView
+                                android:id="@+id/antropolıjicw"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_margin="10dp">
@@ -181,10 +183,11 @@
                             </androidx.cardview.widget.CardView>
 
                             <androidx.cardview.widget.CardView
+                                android:id="@+id/bilim_endustricw"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
-                                android:background="@color/black"
-                                android:layout_margin="10dp">
+                                android:layout_margin="10dp"
+                                android:background="@color/black">
 
                                 <LinearLayout
                                     android:layout_width="match_parent"
@@ -204,17 +207,18 @@
                                         android:layout_height="wrap_content"
                                         android:layout_marginTop="5dp"
                                         android:layout_marginBottom="5dp"
+                                        android:background="@color/white"
                                         android:fontFamily="@font/font2"
                                         android:text="Bilim ve Endüstri"
                                         android:textAlignment="center"
                                         android:textColor="@color/black"
-                                        android:background="@color/white"
                                         android:textSize="14sp"
                                         android:textStyle="bold" />
                                 </LinearLayout>
                             </androidx.cardview.widget.CardView>
 
                             <androidx.cardview.widget.CardView
+                                android:id="@+id/ozelcw"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_margin="10dp">
@@ -237,17 +241,18 @@
                                         android:layout_height="wrap_content"
                                         android:layout_marginTop="5dp"
                                         android:layout_marginBottom="5dp"
+                                        android:background="@color/white"
                                         android:fontFamily="@font/font2"
                                         android:text="Özel"
                                         android:textAlignment="center"
                                         android:textColor="@color/black"
-                                        android:background="@color/white"
                                         android:textSize="14sp"
                                         android:textStyle="bold" />
                                 </LinearLayout>
                             </androidx.cardview.widget.CardView>
 
                             <androidx.cardview.widget.CardView
+                                android:id="@+id/sanatcw"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_margin="10dp">
@@ -270,17 +275,18 @@
                                         android:layout_height="wrap_content"
                                         android:layout_marginTop="5dp"
                                         android:layout_marginBottom="5dp"
+                                        android:background="@color/white"
                                         android:fontFamily="@font/font2"
                                         android:text="Sanat"
                                         android:textAlignment="center"
                                         android:textColor="@color/black"
-                                        android:background="@color/white"
                                         android:textSize="14sp"
                                         android:textStyle="bold" />
                                 </LinearLayout>
                             </androidx.cardview.widget.CardView>
 
                             <androidx.cardview.widget.CardView
+                                android:id="@+id/tarihcw"
                                 android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_margin="10dp">
@@ -303,11 +309,11 @@
                                         android:layout_height="wrap_content"
                                         android:layout_marginTop="5dp"
                                         android:layout_marginBottom="5dp"
+                                        android:background="@color/white"
                                         android:fontFamily="@font/font2"
                                         android:text="Tarih"
                                         android:textAlignment="center"
                                         android:textColor="@color/black"
-                                        android:background="@color/white"
                                         android:textSize="14sp"
                                         android:textStyle="bold" />
                                 </LinearLayout>

@@ -30,8 +30,8 @@
 
                 <ImageButton
                     android:id="@+id/btn_closed_memories"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
                     android:layout_marginTop="5dp"
                     android:layout_marginEnd="16dp"
                     android:layout_marginBottom="5dp"
@@ -47,7 +47,7 @@
                     android:layout_marginStart="32dp"
                     android:text="MEMORIES"
                     android:textColor="@color/black"
-                    android:textSize="20sp"
+                    android:textSize="15sp"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />

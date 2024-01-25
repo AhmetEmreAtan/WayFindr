@@ -69,7 +69,7 @@ class Places : Fragment(), FilterResultListener {
 
 
         firebaseAuth = FirebaseAuth.getInstance()
-        val placesRepository=PlacesRepository()
+        val placesRepository= PlacesRepository()
         adapter = PlacesAdapter(emptyList(), itemClickListener, firebaseAuth,placesRepository)
 
         binding.recyclerViewPlaces.adapter = adapter
