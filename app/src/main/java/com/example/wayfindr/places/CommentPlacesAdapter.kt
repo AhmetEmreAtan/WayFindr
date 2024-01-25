@@ -22,15 +22,15 @@ class CommentPlacesAdapter(private val comments: List<CommentPlacesModel>) :
             if (comment.commentText != null) {
                 commentTextView.text = comment.commentText
             }
-            if (comment.commentUser != null) {
-                commentUser.text = comment.commentUser
+            if (comment.user?.name != null) {
+                commentUser.text = comment.user?.name
             }
-            if (comment.commentUserName != null) {
-                commentUserName.text = comment.commentUserName
+            if (comment.user?.userName != null) {
+                commentUserName.text = comment.user?.userName
             }
-            if (comment.commentProfile != null) {
+            if (comment.user?.profileImage != null) {
                 Glide.with(itemView)
-                    .load(comment.commentProfile)
+                    .load(comment.user?.profileImage)
                     .placeholder(R.drawable.placeholder_image)
                     .error(R.drawable.error_image)
                     .into(commentProfile)

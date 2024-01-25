@@ -146,7 +146,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/gitbtn">
+            app:layout_constraintTop_toBottomOf="@+id/gitbtn"
+            android:background="@color/begie">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -167,7 +168,7 @@
                 <Button
                     android:id="@+id/commentSend"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
                     android:layout_gravity="right"
                     android:layout_margin="8dp"
                     android:text="Gönder" />
@@ -183,7 +184,11 @@
             android:layout_margin="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/commentCardView" />
+            app:layout_constraintTop_toBottomOf="@+id/commentCardView"
+            app:layout_constraintBottom_toTopOf="parent"
+            tools:itemCount="5"
+            tools:listitem="@layout/item_comment"
+            />
 
     </LinearLayout>
 
