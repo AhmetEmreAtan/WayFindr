@@ -9,6 +9,19 @@
     <string name="second_fragment_label">Second Fragment</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
+    <string-array name="category_array">
+        <item>Müze</item>
+        <item>Kafe</item>
+        <item>Restoran</item>
+        <item>Eğlence</item>
+        <item>Tarihi</item>
+        <item>Dini</item>
+        <item>Doğa</item>
+        <item>Workshop</item>
+        <item>Sembol</item>
+        <item>Avm</item>
+        <item>Sahiller</item>
+    </string-array>
 
     <string name="lorem_ipsum">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris
