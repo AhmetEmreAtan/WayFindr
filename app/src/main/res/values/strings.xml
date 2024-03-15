@@ -60,5 +60,176 @@
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
     <string name="title_activity_maps_nav">MapsNav</string>
-    <string name="title_activity_memories_detail">MemoriesDetail</string>
+    <string name="title_activity_memories_detail">Memories Detail</string>
+
+    <string name="activity_admin_name">Name</string>
+    <string name="activity_admin_username">User name</string>
+    <string name="activity_admin_email">E-mail</string>
+    <string name="activity_admin_password">Password</string>
+    <string name="activity_admin_button">UPDATE</string>
+
+
+    <string name="activity_memories_tittle">MEMORIES</string>
+    <string name="activity_memories_userComment">User Comment</string>
+    <string name="activity_memories_comment">Comments</string>
+    <string name="activity_memories_photoLocation">Photo Location</string>
+
+
+    <string name="activity_navigation_tittle">Navigation Page</string>
+
+
+    <string name="activity_register_tittle">Register Page</string>
+    <string name="activity_register_name_surname">Name-Surname</string>
+    <string name="activity_register_email">E-mail</string>
+    <string name="activity_register_userName">User Name</string>
+    <string name="activity_register_password">Password</string>
+    <string name="activity_register_passwordAgain">Password Again</string>
+    <string name="activity_register_contract1">I have read and understood the information text regarding the processing of my personal data.</string>
+    <string name="activity_register_contract2">I accept the terms of use.</string>
+    <string name="activity_register_button1">Register</string>
+    <string name="activity_register_button2">Without Registration</string>
+    <string name="activity_register_text">Already have an account?</string>
+    <string name="activity_register_login">Login</string>
+
+
+    <string name="activity_setting_tittle">SETTİNGS</string>
+    <string name="activity_setting_languages">Languages</string>
+    <string name="activity_setting_contract">Contracts</string>
+    <string name="activity_setting_abouts">Abouts</string>
+    <string name="activity_setting_logout">Log out</string>
+    <string name="activity_setting_deleteAccount">Delete account</string>
+
+
+    <string name="add_places_fragment_tittle">Add Places</string>
+    <string name="add_places_fragment_selectPhoto">Select Venue Photo</string>
+    <string name="add_places_fragment_placeNameHint">Place Name...</string>
+    <string name="add_places_fragment_placeNam">Place Name</string>
+    <string name="add_places_fragment_placeCategoriesHint">Place Category...</string>
+    <string name="add_places_fragment_placeCategories">Place Category</string>
+    <string name="add_places_fragment_placeLocationHint">Location...</string>
+    <string name="add_places_fragment_placeLocation">Location</string>
+    <string name="add_places_fragment_placeAddButton">Add a Place</string>
+
+
+    <string name="comment_item">Comment</string>
+
+
+    <string name="dialog_aboutUs_tittle">About Us</string>
+    <string name="dialog_aboutUs_txt1">Wayfindr is a mobile museum guide app designed to facilitate your cultural exploration. Our goal is to provide visitors with richer, educational and enjoyable experiences when exploring museums and art galleries.</string>
+    <string name="dialog_aboutUs_txt2">Easy to Use: Wayfindr is designed with a user-friendly interface, so it allows you to navigate easily while browsing museums.Personalized Guidance: The application provides guidance specific to the museum you are visiting. Learn about the exhibitions, be directed to important works and save your favorite works. Art Education: Wayfindr offers educational content developed in accordance with the needs of all types of visitors. Learn the histories of the works of art, their artists and important details.
+  Interactive Experience: The application offers interactive features for visitors to learn more about the works and customize their own artistic journey."</string>
+    <string name="dialog_aboutUs_txt3">Our Mission: Facilitating Culture Our goal at Wayfindr is to make culture more accessible and help people get in closer contact with art and history. We are proud to accompany you as you explore the fascinating world of museums and art galleries.Choose Wayfindr to explore museums better and have cultural experiences. We are here to accompany you on this exciting journey full of art and history</string>
+
+
+    <string name="dialog_forget_tittle">Forget Password</string>
+    <string name="dialog_forget_txt">Enter your email address</string>
+    <string name="dialog_forget_button1">Cancel</string>
+    <string name="dialog_forget_button2">Reset</string>
+
+    <string name="fragment_category_detail_tittle">Category Name</string>
+
+    <string name="fragment_contracts_tittle">Contracts</string>
+
+    <string name="filter_fragment_tittle">Filtering Options</string>
+    <string name="filter_fragment_pricing">Pricing</string>
+    <string name="filter_fragment_paid">Paid</string>
+    <string name="filter_fragment_free">Free</string>
+    <string name="filter_fragment_distance">Distance</string>
+    <string name="filter_fragment_district">Districts</string>
+    <string name="filter_fragment_categories">Categories</string>
+    <string name="filter_fragment_categories1">Historical Museums</string>
+    <string name="filter_fragment_categories2">Museums of Science and Industry</string>
+    <string name="filter_fragment_categories3">Anthropology Museums</string>
+    <string name="filter_fragment_categories4">Art Museums</string>
+    <string name="filter_fragment_categories5">Private Museums</string>
+    <string name="filter_fragment_button1">Clear</string>
+    <string name="filter_fragment_button2">Filter</string>
+
+
+    <string name="fragment_home_city">Istanbul</string>
+    <string name="fragment_home_popular">Popular</string>
+    <string name="fragment_home_categories">Categories</string>
+    <string name="fragment_home_categories1">Anthropology</string>
+    <string name="fragment_home_categories2">Science and Industry</string>
+    <string name="fragment_home_categories3">Private</string>
+    <string name="fragment_home_categories4">Art</string>
+    <string name="fragment_home_categories5">History</string>
+
+    <string name="fragment_image_selection_tittle">Select Image</string>
+    <string name="fragment_image_selection_comment">Comment</string>
+    <string name="fragment_image_selection_load">Load</string>
+    <string name="fragment_image_selection_Location">Location</string>
+
+    <string name="fragment_language_tittle">Language Options</string>
+    <string name="fragment_language_button">Button</string>
+
+    <string name="fragment_login_tittle">Login Screen</string>
+    <string name="fragment_login_email">Email</string>
+    <string name="fragment_login_password">Password</string>
+    <string name="fragment_login_forgetPassword">Forget Password</string>
+    <string name="fragment_login_button1">Login</string>
+    <string name="fragment_login_txt">Don t you have an account?</string>
+    <string name="fragment_login_button2">Register</string>
+    <string name="fragment_login_button3">Continue without logging in</string>
+
+    <string name="fragment_places_search">Search...</string>
+
+    <string name="fragment_places_detail">Details</string>
+    <string name="fragment_places_name">Place Name</string>
+    <string name="fragment_places_addres">Place Address</string>
+    <string name="fragment_places_hours">Place Openning Hours</string>
+    <string name="fragment_places_price">Place Price</string>
+    <string name="fragment_places_button">Go</string>
+    <string name="fragment_places_comment">Your Comment</string>
+    <string name="fragment_places_send">Send</string>
+
+    <string name="fragment_profile_tittle">Profile</string>
+    <string name="fragment_profile_edit1">Edit Photo</string>
+    <string name="fragment_profile_edit2">Edit Profile</string>
+
+    <string name="fragment_profile_edit_name">Name</string>
+    <string name="fragment_profile_edit_name2">Name</string>
+    <string name="fragment_profile_edit_username">User Name</string>
+    <string name="fragment_profile_edit_username2">User Name</string>
+    <string name="fragment_profile_edit_email">Email</string>
+    <string name="fragment_profile_edit_email2">Email</string>
+    <string name="fragment_profile_edit_password">Password</string>
+    <string name="fragment_profile_edit_password2">Password</string>
+    <string name="fragment_profile_edit_button">UPDATE</string>
+
+    <string name="fragment_settings_tittle">Settings</string>
+    <string name="fragment_settings_language">Language</string>
+    <string name="fragment_settings_contracts">Contracts</string>
+    <string name="fragment_settings_aboutUs">About Us</string>
+    <string name="fragment_settings_logOut">Log Out</string>
+    <string name="fragment_settings_delete">Delete Account</string>
+
+    <string name="home_places_fragment_tittle">Places</string>
+    <string name="home_places_fragment_address">Vişnezade, Dolmabahçe Cd. No:2, 34357 Beşiktaş/İstanbul</string>
+    <string name="home_places_fragment_time">Open-Close: 09.00-16.00</string>
+    <string name="home_places_fragment_price">Paid</string>
+    <string name="home_places_fragment_button">Go</string>
+
+    <string name="item_layout_tittle">Tittle</string>
+
+    <string name="item_memories_comment">Comment</string>
+    <string name="item_memories_location">Photo Location</string>
+
+    <string name="item_places_location">Kız Kulesi</string>
+    <string name="item_places_explanation">Kız Kulesi Explanation</string>
+
+    <string name="notification_tittle">Tittle</string>
+    <string name="notification_message">Message</string>
+
+    <string name="bottom_nav_home">Home</string>
+    <string name="bottom_nav_places">Places</string>
+    <string name="bottom_nav_profile">Profile</string>
+
+    <string name="memories_menu_delete">Delete</string>
+    <string name="memories_menu_spam">Spam</string>
+
+    <string name="profile_nav_memories">Memories</string>
+    <string name="profile_nav_favorite">Favorites</string>
+
+
 </resources>

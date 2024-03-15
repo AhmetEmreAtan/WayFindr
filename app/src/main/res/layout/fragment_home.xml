@@ -54,7 +54,7 @@
                             android:layout_marginEnd="20dp"
                             android:layout_marginBottom="16dp"
                             android:fontFamily="@font/font2"
-                            android:text="İstanbul"
+                            android:text="@string/fragment_home_city"
                             android:textAlignment="center"
                             android:textColor="@color/grey"
                             android:textSize="20sp"
@@ -72,7 +72,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:fontFamily="@font/font2"
-                    android:text="Popular"
+                    android:text="@string/fragment_home_popular"
                     android:textColor="@color/black"
                     android:textSize="20sp"
                     android:textStyle="bold"
@@ -92,10 +92,12 @@
                     app:layout_constraintTop_toBottomOf="@+id/textView5">
 
                     <androidx.recyclerview.widget.RecyclerView
-                        android:id="@+id/recyclerView"
+                        android:id="@+id/recyclerViewPopular"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:background="@color/white" />
+                        android:background="@color/white"
+                        tools:listitem="@layout/item_popular"/>
+
                 </androidx.cardview.widget.CardView>
 
                 <ImageView
@@ -117,7 +119,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:fontFamily="@font/font2"
-                    android:text="Categories"
+                    android:text="@string/fragment_home_categories"
                     android:textColor="@color/black"
                     android:textSize="20sp"
                     android:textStyle="bold"
@@ -174,7 +176,7 @@
                                         android:layout_marginBottom="5dp"
                                         android:background="@color/white"
                                         android:fontFamily="@font/font2"
-                                        android:text="Antropoloji"
+                                        android:text="@string/fragment_home_categories1"
                                         android:textAlignment="center"
                                         android:textColor="@color/black"
                                         android:textSize="14sp"
@@ -209,7 +211,7 @@
                                         android:layout_marginBottom="5dp"
                                         android:background="@color/white"
                                         android:fontFamily="@font/font2"
-                                        android:text="Bilim ve Endüstri"
+                                        android:text="@string/fragment_home_categories2"
                                         android:textAlignment="center"
                                         android:textColor="@color/black"
                                         android:textSize="14sp"
@@ -243,7 +245,7 @@
                                         android:layout_marginBottom="5dp"
                                         android:background="@color/white"
                                         android:fontFamily="@font/font2"
-                                        android:text="Özel"
+                                        android:text="@string/fragment_home_categories3"
                                         android:textAlignment="center"
                                         android:textColor="@color/black"
                                         android:textSize="14sp"
@@ -277,7 +279,7 @@
                                         android:layout_marginBottom="5dp"
                                         android:background="@color/white"
                                         android:fontFamily="@font/font2"
-                                        android:text="Sanat"
+                                        android:text="@string/fragment_home_categories4"
                                         android:textAlignment="center"
                                         android:textColor="@color/black"
                                         android:textSize="14sp"
@@ -311,7 +313,7 @@
                                         android:layout_marginBottom="5dp"
                                         android:background="@color/white"
                                         android:fontFamily="@font/font2"
-                                        android:text="Tarih"
+                                        android:text="@string/fragment_home_categories5"
                                         android:textAlignment="center"
                                         android:textColor="@color/black"
                                         android:textSize="14sp"

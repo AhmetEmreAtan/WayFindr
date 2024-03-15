@@ -38,7 +38,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="Kız Kulesi"
+                    android:text="@string/item_places_location"
                     android:textSize="15sp"
                     android:textStyle="bold" />
 
@@ -48,7 +48,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="10sp"
                     android:layout_marginTop="4dp"
-                    android:text="Kız Kulesi açıklama" />
+                    android:text="@string/item_places_explanation" />
 
             </LinearLayout>
 

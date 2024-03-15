@@ -67,7 +67,7 @@ class AddPlacesFragment : Fragment() {
             SpinnerItem("Müze", R.drawable.museumicon),
             SpinnerItem("Kafe", R.drawable.cafeicon),
             SpinnerItem("Restoran", R.drawable.restauranticon),
-            SpinnerItem("Eğlence", R.drawable.funicon),
+            SpinnerItem("Eğlence", R.drawable.icons_user ),
             SpinnerItem("Tarihi", R.drawable.iconshistorical),
             SpinnerItem("Dini", R.drawable.iconsmosque),
             SpinnerItem("Doğa", R.drawable.natureicon),

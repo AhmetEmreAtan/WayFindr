@@ -1,5 +1,6 @@
 package com.example.wayfindr
 
+import com.example.wayfindr.Home
 import android.Manifest
 import android.app.Activity
 import android.content.Intent
@@ -7,6 +8,8 @@ import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.provider.SyncStateContract.Columns
+import android.text.Layout.Alignment
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -18,6 +21,7 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.ismaeldivita.chipnavigation.ChipNavigationBar
+import java.lang.reflect.Modifier
 
 class MainActivity : AppCompatActivity() {
 
@@ -41,7 +45,9 @@ class MainActivity : AppCompatActivity() {
 
         val homeFragment = Home()
         supportFragmentManager.beginTransaction().replace(R.id.frame_layout, homeFragment).commit()
-
+        val transaction = supportFragmentManager.beginTransaction()
+        transaction.replace(R.id.frame_layout, homeFragment)
+        transaction.commit()
         bottomNavBar.setOnItemSelectedListener { itemId ->
             when (itemId) {
                 R.id.home -> {
@@ -60,6 +66,8 @@ class MainActivity : AppCompatActivity() {
             }
         }
     }
+
+
 
     private fun replaceFragment(fragment: Fragment) {
         val fragmentManager = supportFragmentManager

@@ -29,7 +29,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Name"
+                android:text="@string/activity_admin_name"
                 android:layout_marginLeft="5dp"/>
 
             <EditText
@@ -40,14 +40,14 @@
                 android:padding="8dp"
                 android:drawablePadding="8dp"
                 android:background="@drawable/custom_edittext"
-                android:hint="Name"
+                android:hint="@string/activity_admin_name"
                 android:textSize="10sp"
                 android:textColor="@color/black"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Username"
+                android:text="@string/activity_admin_username"
                 android:layout_marginTop="20dp"
                 android:layout_marginLeft="5dp"/>
 
@@ -59,14 +59,14 @@
                 android:padding="8dp"
                 android:drawablePadding="8dp"
                 android:background="@drawable/custom_edittext"
-                android:hint="User Name"
+                android:hint="@string/activity_admin_username"
                 android:textSize="10sp"
                 android:textColor="@color/black"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="E-Mail"
+                android:text="@string/activity_admin_email"
                 android:layout_marginTop="20dp"
                 android:layout_marginLeft="5dp"/>
 
@@ -77,14 +77,14 @@
                 android:layout_marginTop="5dp"
                 android:padding="8dp"
                 android:background="@drawable/custom_edittext"
-                android:hint="Email"
+                android:hint="@string/activity_admin_email"
                 android:textSize="10sp"
                 android:textColor="@color/black"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Password"
+                android:text="@string/activity_admin_password"
                 android:layout_marginTop="20dp"
                 android:layout_marginLeft="5dp"/>
 
@@ -96,7 +96,7 @@
                 android:layout_marginTop="5dp"
                 android:padding="8dp"
                 android:background="@drawable/custom_edittext"
-                android:hint="Password"
+                android:hint="@string/activity_admin_password"
                 android:textSize="10sp"
                 android:inputType="textPassword"
                 android:textColor="@color/black"/>
@@ -104,7 +104,7 @@
             <Button
                 android:layout_width="match_parent"
                 android:layout_height="35dp"
-                android:text="UPDATE"
+                android:text="@string/activity_admin_button"
                 android:id="@+id/editButton"
                 android:textSize="10sp"
                 android:textColor="@color/vintage"

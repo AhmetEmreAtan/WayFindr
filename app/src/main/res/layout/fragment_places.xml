@@ -55,7 +55,7 @@
                     android:drawableStart="@drawable/search"
                     android:drawablePadding="8dp"
                     android:ems="10"
-                    android:hint="Arama Yapın..."
+                    android:hint="@string/fragment_places_search"
                     android:inputType="text"
                     android:padding="8dp"
                     android:paddingStart="16dp"

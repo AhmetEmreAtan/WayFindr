@@ -63,7 +63,7 @@
                             android:paddingTop="5dp"
                             android:paddingRight="15dp"
                             android:paddingBottom="5dp"
-                            android:text="Kayıt Ekranı"
+                            android:text="@string/activity_register_tittle"
                             android:textAlignment="center"
                             android:textColor="@color/black"
                             android:textSize="18sp"
@@ -90,7 +90,7 @@
                             android:layout_marginLeft="5dp"
                             android:layout_marginTop="5dp"
                             android:layout_marginRight="5dp"
-                            android:hint="İsim-Soyisim"
+                            android:hint="@string/activity_register_name_surname"
                             app:boxStrokeColor="#4E4A4A"
                             app:boxStrokeWidth="1dp"
                             app:shapeAppearanceOverlay="@style/Button4">
@@ -113,7 +113,7 @@
                             android:layout_marginLeft="5dp"
                             android:layout_marginTop="5dp"
                             android:layout_marginRight="5dp"
-                            android:hint="E-mail"
+                            android:hint="@string/activity_register_email"
                             app:boxStrokeColor="#4E4A4A"
                             app:boxStrokeWidth="1dp"
                             app:shapeAppearanceOverlay="@style/Button4">
@@ -136,7 +136,7 @@
                             android:layout_marginLeft="5dp"
                             android:layout_marginTop="5dp"
                             android:layout_marginRight="5dp"
-                            android:hint="Kullanıcı Adı"
+                            android:hint="@string/activity_register_userName"
                             app:boxStrokeColor="#4E4A4A"
                             app:boxStrokeWidth="1dp"
                             app:shapeAppearanceOverlay="@style/Button4">
@@ -159,7 +159,7 @@
                             android:layout_marginLeft="5dp"
                             android:layout_marginTop="5dp"
                             android:layout_marginRight="5dp"
-                            android:hint="Şifre"
+                            android:hint="@string/activity_register_password"
                             app:boxStrokeColor="#4E4A4A"
                             app:boxStrokeWidth="1dp"
                             app:endIconMode="password_toggle"
@@ -183,7 +183,7 @@
                             android:layout_marginLeft="5dp"
                             android:layout_marginTop="5dp"
                             android:layout_marginRight="5dp"
-                            android:hint="Tekrar Şifre"
+                            android:hint="@string/activity_register_passwordAgain"
                             app:boxStrokeColor="#4E4A4A"
                             app:boxStrokeWidth="1dp"
                             app:shapeAppearanceOverlay="@style/Button4">
@@ -206,14 +206,14 @@
                             android:layout_marginLeft="5dp"
                             android:layout_marginTop="5dp"
                             android:layout_marginRight="5dp"
-                            android:text="Kişisel verilerimin işlenmesine yönelik aydınlatma metnini okudum ve anladım." />
+                            android:text="@string/activity_register_contract1" />
 
                         <CheckBox
                             android:id="@+id/checkBox2"
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:layout_margin="5dp"
-                            android:text="Kullanım koşullarını kabul ediyorum." />
+                            android:text="@string/activity_register_contract2" />
 
                     </LinearLayout>
 
@@ -228,7 +228,7 @@
                         android:backgroundTint="@color/vintage"
                         android:elevation="15dp"
                         android:gravity="center"
-                        android:text="Kayıt Ol"
+                        android:text="@string/activity_register_button1"
                         android:textAllCaps="false"
                         android:textColor="@color/black"
                         android:textSize="17sp"
@@ -241,7 +241,7 @@
                         android:layout_marginTop="5dp"
                         android:layout_marginBottom="16dp"
                         android:gravity="center"
-                        android:text="Kayıt Olmadan"
+                        android:text="@string/activity_register_button2"
                         android:textAlignment="center"
                         android:textColor="#474646"
                         android:textSize="14sp"
@@ -264,7 +264,7 @@
                             android:layout_gravity="center"
                             android:layout_weight="0"
                             android:gravity="center"
-                            android:text="Zaten hesabınız var mı?  "
+                            android:text="@string/activity_register_text"
                             android:textSize="11sp" />
 
                         <TextView
@@ -272,7 +272,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="0"
-                            android:text="Giriş Yap"
+                            android:text="@string/activity_register_login"
                             android:textColor="@color/vintage"
                             android:textSize="11sp"
                             android:textStyle="bold" />

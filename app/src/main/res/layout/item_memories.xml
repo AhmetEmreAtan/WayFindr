@@ -38,7 +38,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="Comment"
+                    android:text="@string/item_memories_comment"
                     android:textSize="15sp"
                     android:textStyle="bold" />
 
@@ -48,7 +48,7 @@
                     android:layout_height="wrap_content"
                     android:textSize="10sp"
                     android:layout_marginTop="4dp"
-                    android:text="Photo Location" />
+                    android:text="@string/item_memories_location" />
 
             </LinearLayout>
         </LinearLayout>

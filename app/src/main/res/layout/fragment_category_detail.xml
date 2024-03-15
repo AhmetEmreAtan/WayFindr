@@ -13,7 +13,7 @@
         android:gravity="center"
         android:textColor="@color/black"
         android:textSize="24sp"
-        android:text="Category Name"/>
+        android:text="@string/fragment_category_detail_tittle"/>
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_marginTop="10dp"

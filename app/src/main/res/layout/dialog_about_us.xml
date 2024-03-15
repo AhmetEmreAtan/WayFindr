@@ -9,23 +9,23 @@
     android:padding="15dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/dialogBox"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/dialogBox"
+        android:background="@drawable/border"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:background="@drawable/border">
-
+        tools:layout_editor_absoluteX="15dp">
 
 
         <TextView
             android:id="@+id/forgotTittle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@drawable/fill"
             android:drawablePadding="10dp"
             android:padding="8dp"
-            android:text="   Hakkımızda"
-            android:textColor="@color/white"
+            android:text="@string/dialog_aboutUs_tittle"
+            android:textColor="@color/gradient"
             android:textSize="17sp"
             app:layout_constraintTop_toTopOf="parent"
             tools:layout_editor_absoluteX="0dp" />
@@ -38,7 +38,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            android:text="Wayfindr, kültürel keşiflerinizi kolaylaştırmak için tasarlanmış bir mobil müze rehberi uygulamasıdır. Amacımız, ziyaretçilere müzeleri ve sanat galerilerini keşfederken daha zengin, eğitici ve keyifli deneyimler sunmaktır."
+            android:text="@string/dialog_aboutUs_txt1"
             android:textColor="@color/gradient"
             android:textSize="10sp"
             app:layout_constraintBottom_toTopOf="@+id/desc2"
@@ -54,8 +54,7 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="13dp"
             android:layout_marginEnd="16dp"
-            android:text="Kolay Kullanım: Wayfindr, kullanıcı dostu bir arayüzle tasarlanmıştır, bu nedenle müzeleri dolaşırken kolayca gezinmenizi sağlar.Kişiselleştirilmiş Rehberlik: Uygulama, ziyaret ettiğiniz müzeye özgü rehberlik sağlar. Sergiler hakkında bilgi edinin, önemli eserlere yönlendirilin ve favori eserlerinizi kaydedin. Sanat Eğitimi: Wayfindr, her tür ziyaretçinin ihtiyaçlarına uygun olarak geliştirilmiş eğitici içerik sunar. Sanat eserlerinin tarihçelerini, sanatçılarını ve önemli detayları öğrenin.
-  İnteraktif Deneyim: Uygulama, ziyaretçilerin eserler hakkında daha fazla bilgi edinmeleri ve kendi sanatsal yolculuklarını özelleştirmeleri için interaktif özellikler sunar."
+            android:text="@string/dialog_aboutUs_txt2"
             android:textSize="10sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -68,25 +67,11 @@
             android:layout_marginStart="16dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
-            android:text="Misyonumuz: Kültürü Kolaylaştırmak Wayfindr olarak amacımız, kültürü daha erişilebilir hale getirmek ve insanların sanat ve tarihle daha yakından temas etmelerine yardımcı olmaktır. Müzelerin ve sanat galerilerinin büyüleyici dünyasını keşfederken size eşlik etmekten gurur duyuyoruz.Müzeleri daha iyi keşfetmek ve kültür dolu deneyimler yaşamak için Wayfindr'i tercih edin. Sanat ve tarihle dolu bu heyecan verici yolculukta size eşlik etmek için buradayız."
+            android:text="@string/dialog_aboutUs_txt3"
             android:textSize="10sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/desc2" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="24dp"
-            android:text="İletişim:  Siz de Wayfindr ile daha fazla müze deneyimi yaşamak isterseniz, bizimle iletişime geçebilirsiniz. Sorularınız, önerileriniz veya işbirliği teklifleriniz için her zaman açığız. Wayfindr ekibi olarak, kültürü keşfetmeyi ve paylaşmayı seven herkesi bekliyoruz. Müze gezilerinizde size eşlik etmek için sabırsızlanıyoruz!"
-            android:textSize="10sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/desc3" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

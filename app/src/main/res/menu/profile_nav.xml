@@ -3,13 +3,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
-        android:title="Anılar"
+        android:title="@string/profile_nav_memories"
         android:id="@+id/anilar"
         android:icon="@drawable/baseline_image_24"
         app:cnb_iconColor="@color/home_icon_bg"/>
 
     <item
-        android:title="Favoriler"
+        android:title="@string/profile_nav_favorite"
         android:id="@+id/favorites"
         android:icon="@drawable/favorite"
         app:cnb_iconColor="@color/gradient"/>

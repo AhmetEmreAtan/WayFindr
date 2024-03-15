@@ -24,14 +24,14 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginBottom="16dp"
-            android:text="Filtreleme Seçenekleri"
+            android:text="@string/filter_fragment_tittle"
             android:textSize="18sp"
             android:textStyle="bold" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Ücretlendirme"
+            android:text="@string/filter_fragment_pricing"
             android:textStyle="bold" />
 
         <RadioGroup
@@ -45,14 +45,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:buttonTint="@color/gradient"
-                android:text="Ücretli" />
+                android:text="@string/filter_fragment_paid" />
 
             <RadioButton
                 android:id="@+id/radioButtonFree"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:buttonTint="@color/gradient"
-                android:text="Ücretsiz" />
+                android:text="@string/filter_fragment_free" />
         </RadioGroup>
 
 
@@ -60,7 +60,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="Konum Aralığı"
+            android:text="@string/filter_fragment_distance"
             android:textStyle="bold" />
 
         <SeekBar
@@ -79,13 +79,13 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="8dp"
-            android:text="Seçilen Mesafe: 0 km" />
+            android:text="0 km" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="İlçeler"
+            android:text="@string/filter_fragment_district"
             android:textStyle="bold" />
 
             <Spinner
@@ -99,7 +99,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="Kategoriler"
+            android:text="@string/filter_fragment_categories"
             android:textStyle="bold" />
 
         <LinearLayout
@@ -132,7 +132,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginTop="8dp"
-                        android:text="Tarihi Müzeler"
+                        android:text="@string/filter_fragment_categories1"
                         android:textAlignment="center"
                         android:textSize="8sp" />
                 </LinearLayout>
@@ -164,7 +164,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginTop="8dp"
-                        android:text="Bilim ve Endüstri Müzeleri"
+                        android:text="@string/filter_fragment_categories2"
                         android:textAlignment="center"
                         android:textSize="8sp" />
 
@@ -196,7 +196,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginTop="8dp"
-                        android:text="Antropoloji Müzeleri"
+                        android:text="@string/filter_fragment_categories3"
                         android:textAlignment="center"
                         android:textSize="8sp" />
 
@@ -230,7 +230,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginTop="8sp"
-                        android:text="Sanat Müzeleri"
+                        android:text="@string/filter_fragment_categories4"
                         android:textAlignment="center"
                         android:textSize="8sp" />
 
@@ -264,7 +264,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_marginTop="8sp"
-                        android:text="Özel Müzeler"
+                        android:text="@string/filter_fragment_categories5"
                         android:textAlignment="center"
                         android:textSize="8sp" />
 
@@ -287,14 +287,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:backgroundTint="@color/vintage"
-                android:text="Sıfırla" />
+                android:text="@string/filter_fragment_button1" />
 
             <Button
                 android:id="@+id/filterButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/vintage"
-                android:text="Filtrele" />
+                android:text="@string/filter_fragment_button2" />
         </LinearLayout>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

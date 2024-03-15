@@ -53,7 +53,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
-                    android:text="Profil"
+                    android:text="@string/fragment_profile_tittle"
                     android:textColor="@color/black"
                     android:textSize="20sp"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -114,7 +114,7 @@
                     android:layout_marginBottom="10dp"
                     android:background="@drawable/btn_settings"
                     android:src="@drawable/baseline_edit_24"
-                    android:text="Fotoğraf Düzenle"
+                    android:text="@string/fragment_profile_edit1"
                     app:layout_constraintBottom_toBottomOf="@+id/userImage"
                     app:layout_constraintEnd_toEndOf="@+id/userImage" />
 
@@ -126,7 +126,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="5dp"
                     android:layout_marginEnd="16dp"
-                    android:text="Profili Düzenle"
+                    android:text="@string/fragment_profile_edit2"
                     android:textColor="@color/black"
                     android:textSize="12sp"
                     app:layout_constraintEnd_toStartOf="@+id/btnsetting"

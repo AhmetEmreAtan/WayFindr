@@ -11,7 +11,7 @@
         android:id="@+id/spinner_icon"
         android:layout_width="24dp"
         android:layout_height="24dp"
-        android:src="@drawable/funicon"
+        android:src="@drawable/icons_user"
         android:layout_margin="5dp"/>
 
     <TextView

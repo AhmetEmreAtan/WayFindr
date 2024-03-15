@@ -56,7 +56,7 @@
                         android:paddingTop="5dp"
                         android:paddingRight="15dp"
                         android:paddingBottom="5dp"
-                        android:text="Giriş Ekranı"
+                        android:text="@string/fragment_login_tittle"
                         android:textAlignment="center"
                         android:textColor="@color/black"
                         android:textSize="18sp"
@@ -82,7 +82,7 @@
                         android:layout_marginLeft="5dp"
                         android:layout_marginTop="5dp"
                         android:layout_marginRight="5dp"
-                        android:hint="E-mail"
+                        android:hint="@string/fragment_login_email"
                         app:boxStrokeColor="#4E4A4A"
                         app:boxStrokeWidth="1dp"
                         app:shapeAppearanceOverlay="@style/Button4">
@@ -105,7 +105,7 @@
                         android:layout_marginLeft="5dp"
                         android:layout_marginTop="5dp"
                         android:layout_marginRight="5dp"
-                        android:hint="Şifre"
+                        android:hint="@string/fragment_login_password"
                         app:boxStrokeColor="#4E4A4A"
                         app:boxStrokeWidth="1dp"
                         app:endIconMode="password_toggle"
@@ -128,7 +128,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
                         android:layout_marginRight="10dp"
-                        android:text="Şifremi Unuttum"
+                        android:text="@string/fragment_login_forgetPassword"
                         android:textAlignment="textEnd"
                         android:textColor="#616161"
                         android:textSize="12sp"
@@ -146,7 +146,7 @@
                     android:backgroundTint="@color/vintage"
                     android:elevation="15dp"
                     android:gravity="center"
-                    android:text="Giriş Yap"
+                    android:text="@string/fragment_login_button1"
                     android:textAllCaps="false"
                     android:textColor="@color/black"
                     android:textSize="17sp"
@@ -169,7 +169,7 @@
                         android:layout_gravity="center"
                         android:layout_weight="0"
                         android:gravity="center"
-                        android:text="Bir hesabın yok mu ?  "
+                        android:text="@string/fragment_login_txt"
                         android:textSize="11sp" />
 
                     <TextView
@@ -177,7 +177,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_weight="0"
-                        android:text="Kayıt ol"
+                        android:text="@string/fragment_login_button2"
                         android:textColor="@color/vintage"
                         android:textSize="11sp"
                         android:textStyle="bold" />
@@ -199,7 +199,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:layout_weight="1"
-                        android:text="Giriş yapmadan devam et."
+                        android:text="@string/fragment_login_button3"
                         android:textAlignment="center"
                         android:textSize="11sp" />
                 </LinearLayout>
