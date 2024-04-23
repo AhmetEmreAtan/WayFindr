@@ -51,6 +51,7 @@ class Favorites: Fragment() {
         }
     }
 
+
     private fun showPlaceDetailFragment(selectedPlace: PlaceModel) {
         val tag = "PlacesDetailFragment"
 

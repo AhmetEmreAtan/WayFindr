@@ -44,7 +44,10 @@ class CategoryDetailFragment : Fragment() {
 
         val closeButton: ImageButton = view.findViewById(R.id.category_fragment_close)
         closeButton.setOnClickListener {
-            requireActivity().supportFragmentManager.beginTransaction().remove(this).commit()
+            val homeFragment = Home()
+            requireActivity().supportFragmentManager.beginTransaction()
+                .replace(R.id.frame_layout, homeFragment)
+                .commit()
         }
 
         fetchCategoryData()

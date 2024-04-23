@@ -2,7 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/vintage_grey">
+
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -17,7 +19,7 @@
             <ImageView
                 android:id="@+id/imageViewPopular"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="170dp"
                 android:src="@drawable/kizkulesi"
                 android:scaleType="fitXY"/>
 
@@ -29,12 +31,13 @@
                 <TextView
                     android:id="@+id/popularPlaceName"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="30dp"
                     android:text="Kız Kulesi"
                     android:textColor="@color/black"
                     android:textAlignment="center"
                     android:textSize="20sp"
-                    android:textStyle="bold"/>
+                    android:textStyle="bold"
+                    android:background="@color/white"/>
             </LinearLayout>
         </LinearLayout>
 

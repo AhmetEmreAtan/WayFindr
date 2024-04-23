@@ -7,11 +7,10 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
-import android.widget.TextView
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -19,179 +18,121 @@ import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.example.wayfindr.databinding.FragmentProfileBinding
-import com.example.wayfindr.places.AddPlacesFragment
-import com.ismaeldivita.chipnavigation.ChipNavigationBar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
+import com.ismaeldivita.chipnavigation.ChipNavigationBar
 
 class Profile : Fragment() {
 
-    private lateinit var binding: FragmentProfileBinding
+    private var _binding: FragmentProfileBinding? = null
+    private val binding get() = _binding!!
+
     private lateinit var auth: FirebaseAuth
     private lateinit var storage: FirebaseStorage
     private lateinit var storageReference: StorageReference
-    private lateinit var fragmentContext: Context
-    private lateinit var profileNavBar: ChipNavigationBar
+
     private val PERMISSION_REQUEST_CODE = 200
     private val PICK_IMAGE_REQUEST = 1
-    private lateinit var selectedImageUri: Uri
-    private lateinit var addImageBtn: FloatingActionButton
-
-    private lateinit var imageSelectionFragment: ImageSelectionFragment
-
-    override fun onAttach(context: Context) {
-        super.onAttach(context)
-        fragmentContext = context
-        imageSelectionFragment = ImageSelectionFragment()
-    }
 
     override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-        binding = FragmentProfileBinding.inflate(layoutInflater)
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View {
+        _binding = FragmentProfileBinding.inflate(inflater, container, false)
         val view = binding.root
 
-        profileNavBar = view.findViewById(R.id.profile_nav_bar)
+        val navBar: ChipNavigationBar = view.findViewById(R.id.profile_nav_bar)
+        setupNavigationBar(navBar)
+        if (savedInstanceState == null) {
+            navBar.setItemSelected(R.id.memories, true)
+            replaceFragment(Memories())
+        }
 
         auth = FirebaseAuth.getInstance()
         storage = FirebaseStorage.getInstance()
         storageReference = storage.reference
 
-        val currentUser = auth.currentUser
+        checkCurrentUser()
 
-        val circularImageView = view.findViewById<ImageView>(R.id.userImage)
-        val placeholderImage = R.drawable.blurimage
+        binding.selectProfilePictureButton.setOnClickListener {
+            Log.d("ProfileFragment", "Profile picture button clicked")
+            openGallery()
+        }
 
-        Glide.with(requireContext())
-            .load(placeholderImage)
-            .transform(CircleCrop())
-            .into(circularImageView)
 
-        if (currentUser != null) {
-            val userId = currentUser.uid
-            val databaseReference = FirebaseDatabase.getInstance().getReference("users/$userId")
-
-            databaseReference.child("profileImage").get().addOnSuccessListener { dataSnapshot ->
-                val imageUrl = dataSnapshot.value as? String
-                if (imageUrl != null && !imageUrl.isBlank()) {
-                    Glide.with(requireContext())
-                        .load(imageUrl)
-                        .placeholder(placeholderImage)
-                        .error(placeholderImage)
-                        .transform(CircleCrop())
-                        .into(circularImageView)
-                }
-            }
+        binding.btnprofileedit.setOnClickListener {
+            val profileEditFragment = ProfileEdit()
+            requireActivity().supportFragmentManager.beginTransaction()
+                .replace(R.id.frame_layout, profileEditFragment)
+                .addToBackStack(null)
+                .commit()
         }
 
         binding.btnsetting.setOnClickListener {
-            val fragment = Settings()
-            requireActivity().supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.frame_layout, fragment)
+            val settingsFragment = Settings()
+            requireActivity().supportFragmentManager.beginTransaction()
+                .replace(R.id.frame_layout, settingsFragment)
                 .addToBackStack(null)
                 .commit()
         }
-
-        binding.selectProfilePictureButton.setOnClickListener {
-            val permission = Manifest.permission.READ_EXTERNAL_STORAGE
-            val granted = PackageManager.PERMISSION_GRANTED == ContextCompat.checkSelfPermission(fragmentContext, permission)
-
-            if (!granted) {
-                ActivityCompat.requestPermissions(requireActivity(), arrayOf(permission), PERMISSION_REQUEST_CODE)
-            } else {
-                openGallery()
-            }
-        }
-
-        // Add Memories
-        addImageBtn = view.findViewById(R.id.add_image_btn)
 
         binding.addImageBtn.setOnClickListener {
-            val fragment = ImageSelectionFragment()
-            val transaction = parentFragmentManager.beginTransaction()
-            transaction.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left)
-            transaction.add(android.R.id.content, fragment).addToBackStack(null).commit()
-        }
-
-
-
-        if (currentUser != null) {
-            val userId = currentUser.uid
-            val databaseReference = FirebaseDatabase.getInstance().getReference("users/$userId")
-
-            Glide.with(requireContext())
-                .load(placeholderImage)
-                .into(circularImageView)
-
-            databaseReference.child("profileImage").get().addOnSuccessListener { dataSnapshot ->
-                val imageUrl = dataSnapshot.value as? String
-                if (imageUrl != null && !imageUrl.isBlank()) {
-                    Glide.with(requireContext())
-                        .load(imageUrl)
-                        .placeholder(placeholderImage)
-                        .error(placeholderImage)
-                        .transform(CircleCrop())
-                        .into(circularImageView)
-                }
-            }
-
-            val profileNameTextView = view.findViewById<TextView>(R.id.profileName)
-            val profileUserNameTextView = view.findViewById<TextView>(R.id.profileUserName)
-            profileNameTextView.setBackgroundResource(placeholderImage)
-            profileUserNameTextView.setBackgroundResource(placeholderImage)
-
-            databaseReference.child("name").get().addOnSuccessListener { dataSnapshot ->
-                val name = dataSnapshot.value as? String
-                if (name != null && !name.isBlank()) {
-                    profileNameTextView.text = name
-                    profileNameTextView.setBackgroundResource(0)
-                }
-            }
-
-            databaseReference.child("userName").get().addOnSuccessListener { dataSnapshot ->
-                val userName = dataSnapshot.value as? String
-                if (userName != null && !userName.isBlank()) {
-                    val formattedUserName = "@$userName"
-                    profileUserNameTextView.text = formattedUserName
-                    profileUserNameTextView.setBackgroundResource(0)
-                }
-            }
-        }
-
-        profileNavBar.setOnItemSelectedListener { itemId ->
-            when (itemId) {
-                R.id.anilar -> {
-                    replaceFragment(Memories())
-                }
-                R.id.favorites -> {
-                    replaceFragment(Favorites())
-                }
-            }
-        }
-
-        val initialFragment = Memories()
-        childFragmentManager.beginTransaction()
-            .replace(R.id.profile_frame_layout, initialFragment)
-            .commit()
-
-        binding.btnprofileedit.setOnClickListener {
-            val fragment = ProfileEdit()
-            requireActivity().supportFragmentManager
-                .beginTransaction()
-                .setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left)
-                .replace(R.id.frame_layout, fragment)
+            val addimageFragment = ImageSelectionFragment()
+            requireActivity().supportFragmentManager.beginTransaction()
+                .replace(R.id.frame_layout, addimageFragment)
                 .addToBackStack(null)
                 .commit()
         }
-
         return view
     }
+
+
+    private fun checkCurrentUser() {
+        val currentUser = auth.currentUser
+        if (currentUser == null) {
+            val intent = Intent(activity, Login::class.java)
+            startActivity(intent)
+            requireActivity().finish()
+        } else {
+            loadUserProfile()
+        }
+    }
+
+    private fun loadUserProfile() {
+        val userId = auth.currentUser?.uid
+        if (userId != null) {
+            val databaseReference = FirebaseDatabase.getInstance().getReference("users/$userId")
+
+            databaseReference.get().addOnSuccessListener { dataSnapshot ->
+                val name = dataSnapshot.child("firstName").value as? String
+                val userName = dataSnapshot.child("username").value as? String
+                val imageUrl = dataSnapshot.child("profileImageUrl").value as? String
+
+                binding.profileName.text = name
+                binding.profileUserName.text = userName?.let { "@$it" }
+
+                if (!imageUrl.isNullOrEmpty()) {
+                    context?.let { ctx ->
+                        Glide.with(ctx)
+                            .load(imageUrl)
+                            .placeholder(R.drawable.placeholder_image)
+                            .error(R.drawable.error_image)
+                            .transform(CircleCrop())
+                            .into(binding.userImage)
+                    }
+                } else {
+                    binding.userImage.setImageResource(R.drawable.placeholder_image)
+                }
+            }.addOnFailureListener {
+                Toast.makeText(context, "Kullanıcı bilgileri yüklenemedi.", Toast.LENGTH_SHORT).show()
+            }
+        } else {
+            Toast.makeText(context, "Kullanıcı bilgilerine erişilemiyor.", Toast.LENGTH_SHORT).show()
+        }
+    }
+
 
     private fun openGallery() {
         val intent = Intent(Intent.ACTION_PICK)
@@ -199,71 +140,72 @@ class Profile : Fragment() {
         startActivityForResult(intent, PICK_IMAGE_REQUEST)
     }
 
+
+
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null && data.data != null) {
-            selectedImageUri = data.data!!
+            Log.d("ProfileFragment", "Image picked from gallery")
+            val selectedImageUri: Uri = data.data!!
             binding.userImage.setImageURI(selectedImageUri)
-
-            uploadProfileImage()
+            uploadProfileImage(selectedImageUri)
+        } else {
+            Log.d("ProfileFragment", "Failed to pick image from gallery")
         }
     }
 
-    private fun uploadProfileImage() {
+
+    private fun uploadProfileImage(imageUri: Uri) {
         val userId = auth.currentUser?.uid
         if (userId != null) {
-            val filename = "profile_image.jpg"
-            val ref = storageReference.child("images/$userId/$filename")
+            val ref = storageReference.child("images/$userId/profile_image.jpg")
 
-            ref.putFile(selectedImageUri)
-                .addOnSuccessListener { taskSnapshot ->
-                    taskSnapshot.metadata?.reference?.downloadUrl?.addOnSuccessListener { uri ->
-                        val imageUrl = uri.toString()
+            ref.putFile(imageUri).addOnSuccessListener { taskSnapshot ->
+                taskSnapshot.metadata?.reference?.downloadUrl?.addOnSuccessListener { downloadUri ->
+                    val imageUrl = downloadUri.toString()
 
-                        val databaseReference = FirebaseDatabase.getInstance().getReference("users/$userId")
-                        databaseReference.child("profileImage").setValue(imageUrl)
 
-                        Toast.makeText(fragmentContext, "Profil resmi başarıyla güncellendi!", Toast.LENGTH_SHORT).show()
-                    }
+                    FirebaseDatabase.getInstance().getReference("users/$userId")
+                        .child("profileImageUrl").setValue(imageUrl).addOnCompleteListener { task ->
+                            if (task.isSuccessful) {
+                                context?.let {
+                                    Toast.makeText(it, "Profil resmi başarıyla güncellendi!", Toast.LENGTH_SHORT).show()
+                                }
+                            } else {
+                                task.exception?.let { e ->
+                                    context?.let { ctx ->
+                                        Toast.makeText(ctx, "Profil resmi güncellenirken hata oluştu: ${e.message}", Toast.LENGTH_SHORT).show()
+                                    }
+                                }
+                            }
+                        }
                 }
-                .addOnFailureListener { e ->
-                    Toast.makeText(fragmentContext, "Profil resmi güncellenirken hata oluştu: ${e.message}", Toast.LENGTH_SHORT).show()
+            }.addOnFailureListener { e ->
+                context?.let {
+                    Toast.makeText(it, "Profil resmi yüklenirken hata oluştu: ${e.message}", Toast.LENGTH_SHORT).show()
                 }
-            refreshPage()
-        }
-    }
-
-    private fun refreshPage() {
-        val currentFragment = requireFragmentManager().findFragmentById(R.id.frame_layout)
-        val transaction = requireFragmentManager().beginTransaction()
-        transaction.detach(currentFragment!!)
-        transaction.attach(currentFragment)
-        transaction.commit()
-    }
-
-    private fun replaceFragment(fragment: Fragment) {
-        requireActivity().supportFragmentManager
-            .beginTransaction()
-            .replace(R.id.profile_frame_layout, fragment)
-            .addToBackStack(null)
-            .commit()
-    }
-
-    companion object {
-        private const val PERMISSION_REQUEST_CODE = 123
-    }
-
-    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-
-        if (requestCode == PERMISSION_REQUEST_CODE) {
-            if (grantResults.isNotEmpty() && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                openGallery()
-            } else {
-                Toast.makeText(requireContext(), "Galeriye erişim izni verilmedi.", Toast.LENGTH_SHORT).show()
             }
         }
     }
 
+    //PRofile nav bar
+    private fun setupNavigationBar(navBar: ChipNavigationBar) {
+        navBar.setOnItemSelectedListener { id ->
+            when (id) {
+                R.id.memories -> replaceFragment(Memories())
+                R.id.favorites -> replaceFragment(Favorites())
+            }
+        }
+    }
+
+    private fun replaceFragment(fragment: Fragment) {
+        childFragmentManager.beginTransaction()
+            .replace(R.id.profile_frame_layout, fragment)
+            .commit()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }

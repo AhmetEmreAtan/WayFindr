@@ -1,80 +1,105 @@
 package com.example.wayfindr
 
-
+import android.app.Dialog
+import android.content.Context
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
+import android.view.Window
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.example.wayfindr.databinding.FragmentProfileEditBinding
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.*
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 
 class ProfileEdit : Fragment() {
 
-    private lateinit var editName: EditText
-    private lateinit var editUserName: EditText
-    private lateinit var editEmail: EditText
-    private lateinit var editPassword: EditText
-    private lateinit var editButton: Button
-
+    private lateinit var binding: FragmentProfileEditBinding
     private lateinit var auth: FirebaseAuth
-    private lateinit var database: DatabaseReference
+    private lateinit var databaseReference: DatabaseReference
+    private lateinit var storageReference: StorageReference
+    private lateinit var imageUri: Uri
+    private lateinit var dialog: Dialog
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.activity_admin_edit, container, false)
-
-        editName = view.findViewById(R.id.editName)
-        editEmail = view.findViewById(R.id.editEmail)
-        editPassword = view.findViewById(R.id.editPassword)
-        editButton = view.findViewById(R.id.editButton)
-        editUserName = view.findViewById(R.id.editUserName)
+        val view = inflater.inflate(R.layout.fragment_profile_edit, container, false)
+        binding = FragmentProfileEditBinding.inflate(layoutInflater)
 
         auth = FirebaseAuth.getInstance()
-        database = FirebaseDatabase.getInstance().getReference("users")
+        val uid = auth.currentUser?.uid
+        databaseReference = FirebaseDatabase.getInstance().getReference("users")
+        binding.editButton.setOnClickListener {
 
-        val user = auth.currentUser
-        if (user != null) {
+            showProgressBar(requireContext())
+            val name = binding.editName.text.toString()
+            val userName = binding.editUserName.text.toString()
+            val email = binding.editEmail.text.toString()
+            val password = binding.editPassword.text.toString()
 
-            val userId = user.uid
-            database.child(userId).addListenerForSingleValueEvent(object : ValueEventListener {
-                override fun onDataChange(dataSnapshot: DataSnapshot) {
-                    if (dataSnapshot.exists()) {
-                        val name = dataSnapshot.child("name").getValue(String::class.java)
-                        val email = dataSnapshot.child("email").getValue(String::class.java)
-                        val password = dataSnapshot.child("password").getValue(String::class.java)
-                        val userName = dataSnapshot.child("userName").getValue(String::class.java)
+            val user = UserData(name, userName, email, password)
+            if (uid != null) {
 
-                        editName.setText(name)
-                        editEmail.setText(email)
-                        editPassword.setText(password)
-                        editUserName.setText(userName)
+                databaseReference.child(uid).setValue(user).addOnCompleteListener {
+
+                    if (it.isSuccessful) {
+
+                        uploadProfilePic()
+
+                    } else {
+
+                        hideProgressBar()
+                        Toast.makeText(context, "Failed to update profile", Toast.LENGTH_SHORT).show()
+
                     }
+
                 }
 
-                override fun onCancelled(databaseError: DatabaseError) {
-                    // Handle onCancelled event if needed
-                }
-            })
-
-            editButton.setOnClickListener {
-                val newName = editName.text.toString()
-                val newEmail = editEmail.text.toString()
-                val newPassword = editPassword.text.toString()
-                val newUserName = editUserName.text.toString()
-
-                database.child(userId).child("name").setValue(newName)
-                database.child(userId).child("email").setValue(newEmail)
-                database.child(userId).child("password").setValue(newPassword)
-                database.child(userId).child("userName").setValue(newUserName)
-                Toast.makeText(requireContext(), "Bilgiler güncellendi.", Toast.LENGTH_SHORT).show()
             }
+
         }
+
         return view
+    }
+
+    private fun uploadProfilePic() {
+
+        imageUri = Uri.parse("android.resource://${requireContext().packageName}/${R.drawable.profilephotoicon}")
+        storageReference = FirebaseStorage.getInstance().getReference("users/" + auth.currentUser?.uid)
+        storageReference.putFile(imageUri).addOnSuccessListener {
+
+            hideProgressBar()
+            Toast.makeText(context, "Profile successfully updated", Toast.LENGTH_SHORT).show()
+
+        }.addOnFailureListener {
+
+            hideProgressBar()
+            Toast.makeText(context, "Failed to upload the image", Toast.LENGTH_SHORT).show()
+
+        }
+
+    }
+
+    private fun showProgressBar(context: Context) {
+
+        dialog = Dialog(context)
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE)
+        dialog.setContentView(R.layout.dialog_wait)
+        dialog.setCanceledOnTouchOutside(false)
+        dialog.show()
+
+    }
+
+    private fun hideProgressBar() {
+
+        dialog.dismiss()
+
     }
 }

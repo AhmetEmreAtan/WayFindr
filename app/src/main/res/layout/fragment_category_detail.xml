@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/begie">
+    android:background="@color/vintage_grey">
 
     <TextView
         android:layout_marginTop="10dp"
@@ -21,7 +21,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@+id/categorysTitle"
-        android:background="@color/begie" />
+        android:background="@color/vintage_grey" />
 
     <ImageButton
         android:id="@+id/category_fragment_close"

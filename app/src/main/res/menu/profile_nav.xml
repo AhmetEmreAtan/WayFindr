@@ -4,7 +4,7 @@
 
     <item
         android:title="@string/profile_nav_memories"
-        android:id="@+id/anilar"
+        android:id="@+id/memories"
         android:icon="@drawable/baseline_image_24"
         app:cnb_iconColor="@color/home_icon_bg"/>
 

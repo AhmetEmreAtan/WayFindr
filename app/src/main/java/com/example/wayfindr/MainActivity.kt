@@ -3,6 +3,7 @@ package com.example.wayfindr
 import com.example.wayfindr.Home
 import android.Manifest
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.net.Uri
@@ -14,9 +15,8 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.wayfindr.databinding.ActivityMainBinding
-import com.google.android.material.floatingactionbutton.FloatingActionButton
+import com.example.wayfindr.search.Search
 import com.google.firebase.FirebaseApp
-import com.google.firebase.appcheck.FirebaseAppCheck
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
@@ -25,37 +25,40 @@ import java.lang.reflect.Modifier
 
 class MainActivity : AppCompatActivity() {
 
-    private val firebaseAuth = FirebaseAuth.getInstance()
     private lateinit var binding: ActivityMainBinding
     private lateinit var bottomNavBar: ChipNavigationBar
-    private lateinit var storageReference: StorageReference
-    private lateinit var storage: FirebaseStorage
+    private val firebaseAuth = FirebaseAuth.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         FirebaseApp.initializeApp(this)
-
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        bottomNavBar = findViewById(R.id.bottom_nav_bar)
 
-        storage = FirebaseStorage.getInstance()
-        storageReference = storage.reference
+        checkFirstRun()
+        setupBottomNavigationBar()
+        loadDefaultFragment()
+    }
 
-        val homeFragment = Home()
-        supportFragmentManager.beginTransaction().replace(R.id.frame_layout, homeFragment).commit()
-        val transaction = supportFragmentManager.beginTransaction()
-        transaction.replace(R.id.frame_layout, homeFragment)
-        transaction.commit()
+    private fun checkFirstRun() {
+        val sharedPreferences = getSharedPreferences("AppPrefs", Context.MODE_PRIVATE)
+        val isFirstRun = sharedPreferences.getBoolean("isFirstRun", true)
+
+        if (isFirstRun) {
+            startActivity(Intent(this, Welcome::class.java))
+            finish()
+            sharedPreferences.edit().putBoolean("isFirstRun", false).apply()
+        }
+    }
+
+    private fun setupBottomNavigationBar() {
+        bottomNavBar = binding.bottomNavBar
         bottomNavBar.setOnItemSelectedListener { itemId ->
             when (itemId) {
-                R.id.home -> {
-                    replaceFragment(Home())
-                }
-                R.id.places -> {
-                    replaceFragment(Places())
-                }
+                R.id.home -> replaceFragment(Home())
+                R.id.places -> replaceFragment(Places())
+                R.id.search -> replaceFragment(Search())
                 R.id.profile -> {
                     if (firebaseAuth.currentUser != null) {
                         replaceFragment(Profile())
@@ -67,6 +70,9 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun loadDefaultFragment() {
+        bottomNavBar.setItemSelected(R.id.home, true)
+    }
 
 
     private fun replaceFragment(fragment: Fragment) {

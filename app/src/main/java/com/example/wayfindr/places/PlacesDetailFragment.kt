@@ -114,10 +114,10 @@ class PlacesDetailFragment : BottomSheetDialogFragment() {
 
                             val userMap = commentDocument.get("user") as Map<String,Any>?
                             val userModel = UserData(
-                                id = userMap?.get("id") as String?,
-                                userName = userMap?.get("userName") as String?,
-                                name = userMap?.get("name") as String?,
-                                profileImage = userMap?.get("profileImage") as String?
+                                userId = userMap?.get("id") as String?,
+                                username = userMap?.get("userName") as String?,
+                                firstName = userMap?.get("name") as String?,
+                                profileImageUrl = userMap?.get("profileImage") as String?
                             )
 
                             val commentModel = CommentPlacesModel(
@@ -182,11 +182,11 @@ class PlacesDetailFragment : BottomSheetDialogFragment() {
                                         val newComment = CommentPlacesModel(
                                             commentText,
                                             UserData(
-                                                id = user.uid,
-                                                name = user.displayName,
+                                                userId = user.uid,
+                                                firstName = user.displayName,
                                                 email = user.email,
-                                                userName = user.displayName,
-                                                profileImage = user.photoUrl.toString()
+                                                username = user.displayName,
+                                                profileImageUrl = user.photoUrl.toString()
                                             )
                                         )
 
