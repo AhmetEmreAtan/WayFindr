@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <file-paths>
+        <external-path
+            name="external_files"
+            path="Android/data/com.example.uygulamaadı/files"/>
+        <external-path
+            name="external_cache"
+            path="Android/data/com.example.uygulamaadı/cache"/>
+        <internal-path
+            name="internal_files"
+            path="files"/>
+        <internal-path
+            name="internal_cache"
+            path="cache"/>
+    </file-paths>
+</resources>

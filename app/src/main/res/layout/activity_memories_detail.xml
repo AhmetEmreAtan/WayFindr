@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/begie"
+    android:background="@color/vintage_grey"
     tools:context=".memories.MemoriesDetail">
 
     <ScrollView
@@ -23,7 +23,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/MemoriesTitle"
                 android:layout_width="match_parent"
-                android:layout_height="75dp"
+                android:layout_height="50dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -32,33 +32,33 @@
                     android:id="@+id/btn_closed_memories"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:layout_marginEnd="16dp"
-                    android:background="@drawable/icon_close"
+                    android:layout_marginStart="32dp"
+                    android:background="@drawable/back_arrow_navigation_svgrepo_com"
                     app:layout_constraintBottom_toBottomOf="@+id/btn_memories_options"
-                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/btn_memories_options" />
 
                 <TextView
                     android:id="@+id/Memories_TextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="32dp"
                     android:text="@string/activity_memories_tittle"
                     android:textColor="@color/black"
                     android:textSize="15sp"
                     app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageButton
                     android:id="@+id/btn_memories_options"
-                    android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:layout_marginEnd="16dp"
+                    android:layout_width="17dp"
+                    android:layout_height="18dp"
+                    android:layout_marginEnd="32dp"
                     android:background="@drawable/three_dots_vertical_svgrepo_com"
                     android:contentDescription="Options Menu"
                     app:layout_constraintBottom_toBottomOf="@+id/Memories_TextView"
-                    app:layout_constraintEnd_toStartOf="@+id/btn_closed_memories"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintTop_toTopOf="@+id/Memories_TextView" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
@@ -71,31 +71,84 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/MemoriesTitle">
 
-                <LinearLayout
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:background="@drawable/image_border">
+                    android:background="@color/vintage_grey">
 
                     <ImageView
                         android:id="@+id/memories_user_image"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_marginTop="2dp" />
+                        android:layout_height="0dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:layout_marginBottom="16dp"
+                        android:background="@drawable/image_preview"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/location_username"
+                        app:layout_constraintVertical_bias="0.0" />
 
-                </LinearLayout>
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:id="@+id/location_username"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:background="@drawable/text_background"
+                        app:layout_constraintEnd_toEndOf="@+id/memories_user_image"
+                        app:layout_constraintHorizontal_bias="0.0"
+                        app:layout_constraintStart_toStartOf="@+id/memories_user_image"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <TextView
+                            android:id="@+id/memories_UserName"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="5dp"
+                            android:text="UserName"
+                            android:textAlignment="textStart"
+                            android:textColor="@color/black"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/memories_location"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:padding="5dp"
+                            android:paddingLeft="0dp"
+                            android:text="@string/activity_memories_photoLocation"
+                            android:textColor="@color/black"
+                            android:textSize="12sp"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/memories_UserName" />
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
             </androidx.cardview.widget.CardView>
 
-            <TextView
-                android:id="@+id/memories_location"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
+            <ImageButton
+                android:id="@+id/like_button"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
-                android:text="@string/activity_memories_photoLocation"
-                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/begen"
                 app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/memories_cardview" />
+
+            <ImageButton
+                android:id="@+id/comment_button"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="8dp"
+                android:layout_weight="1"
+                android:background="@drawable/comment_2_svgrepo_com"
+                app:layout_constraintStart_toEndOf="@+id/like_button"
                 app:layout_constraintTop_toBottomOf="@+id/memories_cardview" />
 
             <TextView
@@ -111,7 +164,7 @@
                 android:textStyle="bold|italic"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/memories_location" />
+                app:layout_constraintTop_toBottomOf="@+id/like_button" />
 
             <TextView
                 android:id="@+id/textView9"

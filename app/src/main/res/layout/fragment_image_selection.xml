@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ImageSelectionFragment"
-    android:background="@color/grey">
+    android:background="@color/Cream">
 
     <View
         android:id="@+id/backgroundView"
@@ -21,64 +21,89 @@
         android:orientation="vertical"
         android:gravity="center">
 
+
+        <ImageButton
+            android:id="@+id/back_btn"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="32dp"
+            android:background="@drawable/back_arrow_navigation_svgrepo_com"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/page_explanation"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="32dp"
             android:gravity="center"
-            android:text="@string/fragment_image_selection_tittle"
-            android:textSize="20sp"
+            android:text="'Fotoğraf' butonuna tıklayarak galerinizden bir fotoğraf seçebilirsiniz."
+            android:textAlignment="center"
+            android:textColor="@color/black"
+            android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/back_btn" />
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
+        <ImageButton
             android:id="@+id/add_image_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:src="@drawable/baseline_add_photo_alternate_24"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_marginTop="50dp"
+            android:background="@drawable/btn_background"
+            android:backgroundTint="@color/Cream"
+            android:contentDescription="@string/add_places_fragment_tittle"
+            android:src="@drawable/add_image_com"
             app:layout_constraintBottom_toTopOf="@+id/user_comment_edittxt"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView2" />
+            app:layout_constraintTop_toBottomOf="@+id/page_explanation" />
+
 
         <ImageView
             android:id="@+id/image_preview"
-            android:layout_width="250dp"
+            android:background="@color/black"
+            android:layout_width="0dp"
             android:layout_height="250dp"
+            android:layout_marginTop="16dp"
             app:layout_constraintEnd_toEndOf="parent"
-            android:layout_marginTop="50dp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            android:visibility="gone"/>
+            app:layout_constraintTop_toBottomOf="@+id/page_explanation" />
 
         <EditText
             android:id="@+id/user_comment_edittxt"
             android:layout_width="0dp"
             android:layout_height="30dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="320dp"
-            android:layout_marginEnd="16dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            android:layout_marginBottom="32dp"
+            android:background="@drawable/custom_edittext"
+            android:backgroundTint="@color/grey"
             android:ems="10"
             android:hint="@string/fragment_image_selection_comment"
-            android:gravity="center"
-            android:background="@drawable/border"
             android:inputType="text"
+            android:paddingLeft="8dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black"
+            app:layout_constraintBottom_toTopOf="@+id/photo_location_text"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <Button
             android:id="@+id/upload_image_btn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="28dp"
+            android:background="@color/grey"
+            android:backgroundTint="@color/grey"
             android:text="@string/fragment_image_selection_load"
+            android:textColor="@color/black"
             app:layout_constraintEnd_toEndOf="@+id/photo_location_text"
-            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintHorizontal_bias="0.464"
             app:layout_constraintStart_toStartOf="@+id/photo_location_text"
             app:layout_constraintTop_toBottomOf="@+id/photo_location_text" />
 
@@ -86,25 +111,40 @@
             android:id="@+id/photo_location_text"
             android:layout_width="0dp"
             android:layout_height="30dp"
-            android:layout_marginTop="16dp"
+            android:background="@drawable/custom_edittext"
+            android:backgroundTint="@color/grey"
             android:ems="10"
             android:hint="@string/fragment_image_selection_Location"
-            android:gravity="center"
-            android:background="@drawable/border"
             android:inputType="text"
+            android:paddingLeft="8dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/black"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="@+id/user_comment_edittxt"
             app:layout_constraintStart_toStartOf="@+id/user_comment_edittxt"
-            app:layout_constraintTop_toBottomOf="@+id/user_comment_edittxt" />
+            app:layout_constraintTop_toBottomOf="@+id/image_preview" />
 
-        <ImageButton
-            android:id="@+id/back_btn"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/icons_back"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/comment_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="Comment"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/user_comment_edittxt"
+            app:layout_constraintStart_toStartOf="@+id/user_comment_edittxt" />
+
+        <TextView
+            android:id="@+id/location_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:text="Location"
+            android:textColor="@color/black"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/photo_location_text"
+            app:layout_constraintStart_toStartOf="@+id/photo_location_text" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
