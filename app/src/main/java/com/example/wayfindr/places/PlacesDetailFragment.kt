@@ -13,12 +13,7 @@ import com.example.wayfindr.R
 import com.example.wayfindr.UserData
 import com.example.wayfindr.databinding.FragmentPlacesDetailBinding
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.SetOptions
 
 class PlacesDetailFragment : Fragment() {
 
@@ -29,193 +24,215 @@ class PlacesDetailFragment : Fragment() {
     private val auth = FirebaseAuth.getInstance()
     private val currentUser = auth.currentUser
     private val userId = currentUser?.uid
+
+    private val placesRepository = PlacesRepository()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentPlacesDetailBinding.inflate(inflater, container, false)
-        val view = binding.root
-
-        return view
+        return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        var placesName = binding.placesName
-        var placesImage = binding.placesImage
-        var placesDetails = binding.placesDetails
-        var placesOpeningHours = binding.placesOpeningHours
-        var placesPrice = binding.placesPrice
-        var placesAddress = binding.placesAddress
-        var commentDetail = binding.commentDetail
-        var addedComment = binding.commentSend
-
         val selectedPlace = arguments?.getSerializable("selectedPlace") as? PlaceModel
 
-        if (selectedPlace != null) {
-            val placeId = selectedPlace.placeId
-
-            if (placeId.isNotBlank()) {
-                db.collection("places")
-                    .document(placeId)
-                    .get()
-                    .addOnSuccessListener { document ->
-                        if (document != null && document.exists()) {
-
-                            val placeModel = document.toObject(PlaceModel::class.java)
-
-                            placesName?.text = placeModel?.placeName
-                            placesAddress?.text = placeModel?.placeAddress
-                            placesOpeningHours?.text = placeModel?.placeOpeningHours
-                            placesPrice?.text = placeModel?.placePrice
-                            placesDetails?.text = placeModel?.placeDetails
-                            Glide.with(view)
-                                .load(placeModel?.placeImage)
-                                .placeholder(R.drawable.placeholder_image)
-                                .error(R.drawable.error_image)
-                                .centerCrop()
-                                .into(placesImage!!)
-
-                            println(placeModel)
-                        } else {
-                            println("Belge bulunamadı")
-                        }
-                    }
-                    .addOnFailureListener { exception ->
-                        println("Firestore veri çekme hatası: $exception")
-                    }
-            } else {
-                println("Belge ID'si boş")
-            }
-        } else {
-            println("Belge ID'si null")
+        selectedPlace?.let { place ->
+            loadPlacesDetail(place)
+            setupCommentsRecyclerView(place)
+            setupFavoriteButton(place)
         }
 
+        binding.commentSend.setOnClickListener {
+            addComment(selectedPlace)
+        }
+
+        binding.backButton.setOnClickListener {
+            requireActivity().supportFragmentManager.popBackStack()
+        }
+    }
+
+    private fun setupCommentsRecyclerView(selectedPlace: PlaceModel) {
         val commentList = mutableListOf<CommentPlacesModel>()
         val layoutManager = LinearLayoutManager(requireContext())
         binding.commentRecyclerView.layoutManager = layoutManager
         val commentAdapter = CommentPlacesAdapter(commentList)
         binding.commentRecyclerView.adapter = commentAdapter
 
-        if (selectedPlace != null) {
-            val placeId = selectedPlace.placeId
+        selectedPlace.placeId?.let { placeId ->
+            loadComments(placeId, commentList, commentAdapter)
+        }
+    }
 
-            if (!placeId.isNullOrBlank()) {
-                val placeRef = FirebaseFirestore.getInstance().collection("places").document(placeId)
+    private fun loadComments(
+        placeId: String,
+        commentList: MutableList<CommentPlacesModel>,
+        commentAdapter: CommentPlacesAdapter
+    ) {
+        db.collection("places")
+            .document(placeId)
+            .collection("comments")
+            .get()
+            .addOnSuccessListener { commentsQuerySnapshot ->
+                commentList.clear()
 
-                placeRef.collection("comments")
-                    .get()
-                    .addOnSuccessListener { commentsQuerySnapshot ->
-                        commentList.clear()
+                for (commentDocument in commentsQuerySnapshot.documents) {
+                    val commentText = commentDocument.getString("commentText")
+                    val userMap = commentDocument.get("user") as? Map<String, Any>?
+                    val userModel = userMap?.let { map ->
+                        UserData(
+                            userId = map["id"] as? String,
+                            username = map["userName"] as? String,
+                            firstName = map["name"] as? String,
+                            profileImageUrl = map["profileImage"] as? String
+                        )
+                    }
 
-                        for (commentDocument in commentsQuerySnapshot.documents) {
-                            val commentText = commentDocument.getString("commentText")
+                    val commentModel = CommentPlacesModel(
+                        commentText = commentText,
+                        user = userModel
+                    )
 
-                            val userMap = commentDocument.get("user") as Map<String,Any>?
-                            val userModel = UserData(
-                                userId = userMap?.get("id") as String?,
-                                username = userMap?.get("userName") as String?,
-                                firstName = userMap?.get("name") as String?,
-                                profileImageUrl = userMap?.get("profileImage") as String?
+                    commentList.add(commentModel)
+                }
+
+                commentAdapter.notifyDataSetChanged()
+            }
+            .addOnFailureListener { e ->
+                Log.e("PlacesDetailFragment", "Firestore'dan yorum verilerini alma hatası: $e")
+            }
+    }
+
+    private fun setupFavoriteButton(selectedPlace: PlaceModel) {
+        userId?.let { userId ->
+            selectedPlace.placeId?.let { placeId ->
+                checkFavoriteStatus(placeId) { isFavorite ->
+                    updateFavoriteButton(isFavorite)
+                }
+
+                binding.favoriteButton.setOnClickListener {
+                    toggleFavorite(placeId, selectedPlace)
+                }
+            }
+        }
+    }
+
+    private fun updateFavoriteButton(isFavorite: Boolean) {
+        val drawableRes =
+            if (isFavorite) R.drawable.ic_heart_filled else R.drawable.ic_heart_outlined
+        binding.favoriteButton.setImageResource(drawableRes)
+    }
+
+    private fun loadPlacesDetail(selectedPlace: PlaceModel) {
+        selectedPlace.placeId?.let { placeId ->
+            db.collection("places")
+                .document(placeId)
+                .get()
+                .addOnSuccessListener { document ->
+                    if (document != null && document.exists()) {
+                        val placeModel = document.toObject(PlaceModel::class.java)
+
+                        binding.placesName.text = placeModel?.placeName
+                        binding.placesAddress.text = placeModel?.placeAddress
+                        binding.placesOpeningHours.text = placeModel?.placeOpeningHours
+                        binding.placesPrice.text = placeModel?.placePrice
+                        binding.placesDetails.text = placeModel?.placeDetails
+                        binding.placeLocation.text = placeModel?.placeAddress
+
+                        Glide.with(requireContext())
+                            .load(placeModel?.placeImage)
+                            .placeholder(R.drawable.placeholder_image)
+                            .error(R.drawable.error_image)
+                            .centerCrop()
+                            .into(binding.placesImage)
+
+                        Log.d(
+                            "PlacesDetailFragment",
+                            "Yer detayları başarıyla yüklendi: $placeModel"
+                        )
+                    } else {
+                        Log.d("PlacesDetailFragment", "Belge bulunamadı")
+                    }
+                }
+                .addOnFailureListener { exception ->
+                    Log.e("PlacesDetailFragment", "Firestore veri çekme hatası: $exception")
+                }
+        }
+    }
+
+    private fun addComment(selectedPlace: PlaceModel?) {
+        selectedPlace?.let { place ->
+            val commentText = binding.commentDetail.text.toString()
+            place.placeId?.let { placeId ->
+                val user = auth.currentUser
+
+                user?.let { currentUser ->
+                    val userId = currentUser.uid
+                    val userData = mapOf(
+                        "id" to userId,
+                        "userName" to currentUser.displayName,
+                        "name" to currentUser.displayName,
+                        "profileImage" to currentUser.photoUrl.toString()
+                    )
+
+                    val commentData = mapOf(
+                        "commentText" to commentText,
+                        "user" to userData
+                    )
+
+                    db.collection("places")
+                        .document(placeId)
+                        .collection("comments")
+                        .add(commentData)
+                        .addOnSuccessListener { documentReference ->
+                            Toast.makeText(
+                                requireContext(),
+                                getString(R.string.success_comment),
+                                Toast.LENGTH_SHORT
+                            ).show()
+
+                            Log.d(
+                                "PlacesDetailFragment",
+                                "Yorum başarıyla eklendi: ${documentReference.id}"
                             )
-
-                            val commentModel = CommentPlacesModel(
-                                commentText = commentText,
-                                user = userModel
-                            )
-
-                            commentList.add(commentModel)
                         }
+                        .addOnFailureListener { e ->
+                            Toast.makeText(
+                                requireContext(),
+                                getString(R.string.comment_warning),
+                                Toast.LENGTH_SHORT
+                            ).show()
+                            Log.e("PlacesDetailFragment", "Yorum ekleme hatası: $e")
+                        }
+                } ?: Log.d("PlacesDetailFragment", "Kullanıcı girişi yapmamış")
+            } ?: Log.d("PlacesDetailFragment", "Yer ID'si boş")
+        }
+    }
 
-                        commentAdapter.notifyDataSetChanged()
-                    }
-                    .addOnFailureListener { e ->
-                        Log.e("asas", "Firestore'dan comment verilerini alma hatası: $e")
-                    }
-            } else {
-                Log.i("asas", "Yer ID'si boş")
+    private fun checkFavoriteStatus(placeId: String, callback: (Boolean) -> Unit) {
+        placesRepository.isPlaceFavorite(userId!!, placeId) { isFavorite ->
+            callback(isFavorite)
+        }
+    }
+
+    private fun toggleFavorite(placeId: String, selectedPlace: PlaceModel) {
+        val userId = auth.currentUser?.uid
+        if (!userId.isNullOrBlank()) {
+            placesRepository.isPlaceFavorite(userId, placeId) { isFavorite ->
+                if (isFavorite) {
+                    placesRepository.removeFromFavorites(userId, placeId)
+                    updateFavoriteButton(false)
+                } else {
+                    placesRepository.addToFavorites(userId, selectedPlace)
+                    updateFavoriteButton(true)
+                }
             }
         } else {
-            Log.i("asas", "Belge ID'si null")
-        }
-
-
-        addedComment.setOnClickListener {
-            val commentText = commentDetail.text.toString()
-            val placeId = selectedPlace?.placeId
-            val user = auth.currentUser
-
-            if (user != null && !placeId.isNullOrBlank()) {
-                val userId = user.uid
-                val userRef = FirebaseFirestore.getInstance().collection("users").document(userId)
-                val realtimeDatabaseRef = FirebaseDatabase.getInstance().getReference("users").child(userId)
-                val userData = hashMapOf<String, Any>()
-
-                realtimeDatabaseRef.addListenerForSingleValueEvent(object : ValueEventListener {
-                    override fun onDataChange(dataSnapshot: DataSnapshot) {
-                        val realtimeUserData = dataSnapshot.value as Map<String,Any>?
-
-                        if (realtimeUserData != null) {
-                            userData.putAll(realtimeUserData as Map<out String, Any>)
-                        }
-
-                        userRef.set(userData, SetOptions.merge())
-                            .addOnSuccessListener {
-                                Log.i("asas", "Kullanıcı belgesi güncellendi: $userData")
-
-                                val commentData = hashMapOf(
-                                    "commentText" to commentText,
-                                    "user" to userData
-                                )
-
-                                val placeRef = FirebaseFirestore.getInstance().collection("places").document(placeId)
-                                placeRef.collection("comments").add(commentData)
-                                    .addOnSuccessListener { documentReference ->
-                                        Toast.makeText(
-                                            requireContext(),
-                                            "Yorumunuz başarıyla eklendi",
-                                            Toast.LENGTH_SHORT
-                                        ).show()
-                                        Log.i("asas", "Yorum eklendi ${documentReference.id}")
-
-                                        val newComment = CommentPlacesModel(
-                                            commentText,
-                                            UserData(
-                                                userId = user.uid,
-                                                firstName = user.displayName,
-                                                email = user.email,
-                                                username = user.displayName,
-                                                profileImageUrl = user.photoUrl.toString()
-                                            )
-                                        )
-
-                                        commentList.add(newComment)
-                                        commentAdapter.notifyDataSetChanged()
-
-                                        layoutManager.scrollToPositionWithOffset(0, 0)
-                                    }
-                                    .addOnFailureListener { e ->
-                                        Toast.makeText(
-                                            requireContext(),
-                                            "Yorumunuz eklenmedi",
-                                            Toast.LENGTH_SHORT
-                                        ).show()
-                                        Log.e("sa", "yorum ekleme hatası $e")
-                                    }
-                            }
-                            .addOnFailureListener { e ->
-                                Log.e("asas", "Kullanıcı belgesini güncelleme hatası: $e")
-                            }
-                    }
-
-                    override fun onCancelled(databaseError: DatabaseError) {
-                        Log.e("asas", "Firebase Realtime Database hata: $databaseError")
-                    }
-                })
-            } else {
-                Log.i("asas", "Kullanıcı girişi yapmamış veya Yer ID'si boş veya null")
-            }
+            Toast.makeText(requireContext(), getString(R.string.signin_warning), Toast.LENGTH_SHORT)
+                .show()
         }
     }
 
@@ -224,6 +241,3 @@ class PlacesDetailFragment : Fragment() {
         _binding = null
     }
 }
-
-
-

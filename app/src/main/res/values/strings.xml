@@ -230,6 +230,10 @@
 
     <string name="profile_nav_memories">Memories</string>
     <string name="profile_nav_favorite">Favorites</string>
+    <string name="signin_warning">Please Login!</string>
+    <string name="comment_warning">Your comment has not been added</string>
+    <string name="loadDataError">Load Data Error</string>
+    <string name="success_comment">Your comment was added successfully</string>
 
 
 </resources>

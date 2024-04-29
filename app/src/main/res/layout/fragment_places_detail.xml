@@ -36,7 +36,7 @@
                 app:srcCompat="@drawable/kizkulesi" />
 
             <ImageButton
-                android:id="@+id/imageButton"
+                android:id="@+id/backButton"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_marginStart="16dp"
@@ -48,7 +48,7 @@
                 app:srcCompat="@drawable/back_arrow_navigation_svgrepo_com" />
 
             <ImageButton
-                android:id="@+id/imageButton2"
+                android:id="@+id/favoriteButton"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_marginTop="8dp"
@@ -83,22 +83,21 @@
                         android:layout_height="wrap_content"
                         android:layout_marginStart="8dp"
                         android:layout_marginTop="8dp"
-                        android:text="Kız Kulesi"
-                        android:textColor="@color/white"
+                        tools:text="Kız Kulesi"
+                        android:textColor="@color/black"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
-                        android:id="@+id/textView3"
+                        android:id="@+id/placeLocation"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="8dp"
-                        android:layout_marginBottom="8dp"
+                        android:layout_marginVertical="8dp"
                         android:drawableLeft="@drawable/baseline_location_pin_24"
                         android:drawableTint="@color/white"
                         android:gravity="center"
-                        android:text="Üsküdar/İstanbul"
-                        android:textColor="@color/white"
+                        tools:text="Üsküdar/İstanbul"
+                        android:textColor="@color/black"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="@+id/placesName"
                         app:layout_constraintTop_toBottomOf="@+id/placesName" />
