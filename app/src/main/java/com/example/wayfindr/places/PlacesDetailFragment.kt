@@ -6,12 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
 import com.example.wayfindr.R
 import com.example.wayfindr.UserData
 import com.example.wayfindr.databinding.FragmentPlacesDetailBinding
-import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -20,7 +20,7 @@ import com.google.firebase.database.ValueEventListener
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.SetOptions
 
-class PlacesDetailFragment : BottomSheetDialogFragment() {
+class PlacesDetailFragment : Fragment() {
 
     private var _binding: FragmentPlacesDetailBinding? = null
     private val binding get() = _binding!!
@@ -33,7 +33,6 @@ class PlacesDetailFragment : BottomSheetDialogFragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
         _binding = FragmentPlacesDetailBinding.inflate(inflater, container, false)
         val view = binding.root
 
@@ -75,6 +74,7 @@ class PlacesDetailFragment : BottomSheetDialogFragment() {
                                 .load(placeModel?.placeImage)
                                 .placeholder(R.drawable.placeholder_image)
                                 .error(R.drawable.error_image)
+                                .centerCrop()
                                 .into(placesImage!!)
 
                             println(placeModel)

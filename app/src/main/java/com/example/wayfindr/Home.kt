@@ -125,18 +125,17 @@ class Home : Fragment(), PopularAdapter.OnItemClickListener {
     }
 
     private fun showPlaceDetailFragment(selectedPlace: PlaceModel) {
-        val tag = "PlacesDetailFragment"
+        val fragment = PlacesDetailFragment()
+        val bundle = Bundle()
+        bundle.putSerializable("selectedPlace", selectedPlace)
+        fragment.arguments = bundle
 
-        val existingFragment = parentFragmentManager.findFragmentByTag(tag)
-
-        if (existingFragment == null) {
-            val fragment = PlacesDetailFragment()
-            val bundle = Bundle()
-            bundle.putSerializable("selectedPlace", selectedPlace)
-            fragment.arguments = bundle
-            fragment.show(parentFragmentManager, tag)
-        }
+        requireActivity().supportFragmentManager.beginTransaction()
+            .replace(R.id.frame_layout, fragment)
+            .addToBackStack(null)
+            .commit()
     }
+
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

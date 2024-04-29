@@ -1,163 +1,197 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/fragment_bg_desing">
+    android:background="@color/vintage_grey">
 
-
-    <ScrollView
+    <androidx.cardview.widget.CardView
+        android:id="@+id/places_image_cardview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_height="200dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/image_preview"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintTop_toTopOf="parent">
 
         <androidx.constraintlayout.widget.ConstraintLayout
-            android:id="@+id/places_layout"
+            android:id="@+id/pip_layout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center">
-
-            <TextView
-                android:id="@+id/pageDetail"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:fontFamily="@font/font2"
-                android:text="@string/fragment_places_detail"
-                android:layout_margin="30dp"
-                android:textColor="@color/navy"
-                android:textSize="24sp"
-                app:layout_constraintBottom_toTopOf="@+id/placesImage"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+            android:layout_height="match_parent"
+            android:background="@drawable/image_preview">
 
             <ImageView
                 android:id="@+id/placesImage"
-                android:layout_width="wrap_content"
-                android:layout_height="200dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/image_preview"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/kizkulesi" />
+
+            <ImageButton
+                android:id="@+id/imageButton"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:layout_marginStart="16dp"
-                android:layout_marginTop="50dp"
+                android:layout_marginTop="8dp"
+                android:background="@drawable/blurbackground"
+                android:padding="5dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/back_arrow_navigation_svgrepo_com" />
+
+            <ImageButton
+                android:id="@+id/imageButton2"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="16dp"
-                android:src="@drawable/kizkulesi"
+                android:background="@drawable/blurbackground"
+                android:padding="5dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/ic_heart_outlined" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/places_name_cardview"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="32dp"
+                android:layout_marginEnd="32dp"
+                android:layout_marginBottom="8dp"
+                android:alpha="0.8"
+                android:background="#80FFFFFF"
+                app:layout_constraintBottom_toBottomOf="@+id/placesImage"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/places_name_layout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/placesName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:text="Kız Kulesi"
+                        android:textColor="@color/white"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/textView3"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
+                        android:drawableLeft="@drawable/baseline_location_pin_24"
+                        android:drawableTint="@color/white"
+                        android:text="Üsküdar/İstanbul"
+                        android:textColor="@color/white"
+                        android:gravity="center"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toStartOf="@+id/placesName"
+                        app:layout_constraintTop_toBottomOf="@+id/placesName" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.cardview.widget.CardView>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
+
+    <ScrollView
+        android:id="@+id/places_info_scroll"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/places_image_cardview">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/placesDetails"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
-
-            <TextView
-                android:id="@+id/placesName"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:fontFamily="@font/font2"
-                android:text="@string/fragment_places_name"
-                android:textAlignment="center"
-                android:textColor="@color/navy"
-                android:textSize="24sp"
-                android:textStyle="bold"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/placesImage" />
-
-            <ScrollView
-                android:id="@+id/places_info_scroll"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/placesName">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/placesDetails"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/font2"
-                        android:text=""
-                        android:textAlignment="center"
-                        android:textSize="14sp" />
-
-                </LinearLayout>
-
-            </ScrollView>
-
 
             <TextView
                 android:id="@+id/placesAddress"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
                 android:fontFamily="@font/font2"
                 android:text="@string/fragment_places_addres"
                 android:textSize="16sp"
-                app:layout_constraintEnd_toEndOf="@+id/places_info_scroll"
-                app:layout_constraintStart_toStartOf="@+id/places_info_scroll"
-                app:layout_constraintTop_toBottomOf="@+id/places_info_scroll"
-                app:layout_constraintBottom_toTopOf="@+id/placesOpeningHours"/>
-
+                android:textColor="@color/black"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/placesDetails" />
 
             <TextView
                 android:id="@+id/placesOpeningHours"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"
                 android:fontFamily="@font/font2"
                 android:text="@string/fragment_places_hours"
                 android:textSize="16sp"
-                app:layout_constraintBottom_toTopOf="@+id/placesPrice"
-                app:layout_constraintEnd_toEndOf="@+id/placesAddress"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toStartOf="@+id/placesAddress"
+                android:textColor="@color/black"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/placesAddress" />
 
             <TextView
                 android:id="@+id/placesPrice"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="3dp"
+                android:layout_marginTop="16dp"
                 android:fontFamily="@font/font2"
                 android:text="@string/fragment_places_price"
                 android:textSize="16sp"
-                app:layout_constraintBottom_toTopOf="@+id/gitbtn"
-                app:layout_constraintEnd_toEndOf="@+id/placesOpeningHours"
-                app:layout_constraintStart_toStartOf="@+id/placesOpeningHours"
+                android:textColor="@color/black"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/placesOpeningHours" />
-
 
             <Button
                 android:id="@+id/gitbtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/green"
+                android:layout_marginTop="32dp"
+                android:backgroundTint="@color/grey"
                 android:fontFamily="@font/font2"
                 android:text="@string/fragment_places_button"
                 android:textSize="20sp"
+                android:textColor="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.498"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/placesAddress"
-                app:layout_constraintBottom_toTopOf="@+id/commentCardView"/>
-
+                app:layout_constraintTop_toBottomOf="@+id/placesPrice" />
 
             <androidx.cardview.widget.CardView
                 android:id="@+id/commentCardView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/begie"
+                android:backgroundTint="@color/begie"
                 android:layout_margin="10dp"
                 app:cardCornerRadius="20dp"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginTop="32dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/gitbtn">
@@ -166,24 +200,29 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="10dp"
-                    android:orientation="vertical">
+                    android:orientation="vertical"
+                    android:background="@color/begie">
 
                     <MultiAutoCompleteTextView
                         android:id="@+id/commentDetail"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_margin="8dp"
+                        android:padding="8dp"
                         android:background="@drawable/custom_edittext"
                         android:hint="@string/fragment_places_comment"
                         android:textColor="@color/black"
-                        android:textSize="12sp" />
+                        android:textSize="12sp"
+                        android:textColorHint="@color/black"/>
 
                     <Button
                         android:id="@+id/commentSend"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="right"
-                        android:layout_margin="8dp"
+                        android:layout_margin="16dp"
+                        android:backgroundTint="@color/grey"
+                        android:textColor="@color/black"
                         android:text="@string/fragment_places_send" />
 
                 </LinearLayout>
@@ -194,9 +233,6 @@
                 android:id="@+id/commentRecyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="8dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/commentCardView" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
