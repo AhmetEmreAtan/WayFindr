@@ -39,7 +39,6 @@ class PlacesAdapter(
 
             placesName.text = place.placeName
             placesDescription.text = place.placeDescription
-
         }
     }
 
@@ -59,10 +58,10 @@ class PlacesAdapter(
         }
 
         holder.favoriteAddButton.setOnClickListener {
-            handleFavoriteButtonClick(holder,place)
+            handleFavoriteButtonClick(holder, place)
         }
 
-        updateFavoriteButton(holder,place)
+        updateFavoriteButton(holder, place)
     }
 
     private fun handleFavoriteButtonClick(holder: PlacesViewHolder, place: PlaceModel) {
@@ -70,7 +69,6 @@ class PlacesAdapter(
         if (currentUser != null) {
             val userId = currentUser.uid
 
-            // isFavoritePlace fonksiyonunu doğrudan burada bir geri çağrı ile kullan
             placesRepository.isPlaceFavorite(userId, place.placeId) { isFavorite ->
                 if (isFavorite) {
                     placesRepository.removeFromFavorites(userId, place.placeId)
@@ -86,20 +84,18 @@ class PlacesAdapter(
         }
     }
 
-    fun updateFavoriteButton(holder: PlacesViewHolder, place: PlaceModel) {
+    private fun updateFavoriteButton(holder: PlacesViewHolder, place: PlaceModel) {
         val currentUser = firebaseAuth.currentUser
         if (currentUser != null) {
             val userId = currentUser.uid
             val database = FirebaseDatabase.getInstance()
             val userFavoritesReference = database.getReference("users").child(userId).child("favorites")
 
-            // Her bir mekanın favori olup olmadığını kontrol et
             userFavoritesReference.child(place.placeId).addListenerForSingleValueEvent(object :
                 ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     val isFavorite = snapshot.exists()
 
-                    // Favori butonunun görüntüsünü güncelle
                     if (isFavorite) {
                         holder.favoriteAddButton.setImageResource(R.drawable.ic_heart_filled)
                     } else {

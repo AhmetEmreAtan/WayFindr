@@ -142,4 +142,5 @@
     <string name="memories_menu_spam">Спам</string>
     <string name="profile_nav_memories">Воспоминания</string>
     <string name="profile_nav_favorite">Избранное</string>
+    <string name="profile_nav_event">событие</string>
 </resources>

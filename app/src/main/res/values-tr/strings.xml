@@ -142,4 +142,5 @@
     <string name="memories_menu_spam">Şikayet Et</string>
     <string name="profile_nav_memories">Anılar</string>
     <string name="profile_nav_favorite">Favoriler</string>
+    <string name="profile_nav_event">Planlar</string>
 </resources>

@@ -12,12 +12,14 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import com.google.firebase.firestore.FirebaseFirestore
 
 class Register : AppCompatActivity() {
 
     private lateinit var firebaseDatabase: FirebaseDatabase
     private lateinit var databaseReference: DatabaseReference
     private lateinit var auth: FirebaseAuth
+    private lateinit var firestore: FirebaseFirestore
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,6 +28,7 @@ class Register : AppCompatActivity() {
         firebaseDatabase = FirebaseDatabase.getInstance()
         databaseReference = firebaseDatabase.reference.child("users")
         auth = FirebaseAuth.getInstance()
+        firestore = FirebaseFirestore.getInstance()
 
         val signUpButton = findViewById<TextView>(R.id.signUp)
         val userNameField = findViewById<TextView>(R.id.userName)
@@ -42,24 +45,37 @@ class Register : AppCompatActivity() {
                         .addOnCompleteListener { task ->
                             if (task.isSuccessful) {
                                 val user = auth.currentUser
-
-                                saveUserNameToDatabase(user?.uid, userName)
-
                                 val userData = UserData(user?.uid, name, email, userName, "")
+
+                                // Realtime Database'e kaydet
                                 databaseReference.child(user?.uid!!).setValue(userData)
                                     .addOnCompleteListener { databaseTask ->
                                         if (databaseTask.isSuccessful) {
-                                            Toast.makeText(
-                                                applicationContext,
-                                                "Kayıt işlemi başarılı",
-                                                Toast.LENGTH_SHORT
-                                            ).show()
-                                            val intent = Intent(applicationContext, Login::class.java)
-                                            startActivity(intent)
+                                            saveUserNameToDatabase(user.uid, userName)
+
+                                            // Firestore'a kaydet
+                                            firestore.collection("users").document(user.uid).set(userData)
+                                                .addOnCompleteListener { firestoreTask ->
+                                                    if (firestoreTask.isSuccessful) {
+                                                        Toast.makeText(
+                                                            applicationContext,
+                                                            "Kayıt işlemi başarılı",
+                                                            Toast.LENGTH_SHORT
+                                                        ).show()
+                                                        val intent = Intent(applicationContext, Login::class.java)
+                                                        startActivity(intent)
+                                                    } else {
+                                                        Toast.makeText(
+                                                            applicationContext,
+                                                            "Firestore'a kayıt yapılırken bir hata oluştu: " + firestoreTask.exception?.message,
+                                                            Toast.LENGTH_SHORT
+                                                        ).show()
+                                                    }
+                                                }
                                         } else {
                                             Toast.makeText(
                                                 applicationContext,
-                                                "Firebase Realtime Database'e kayıt yapılırken bir hata oluştu: " + databaseTask.exception?.message,
+                                                "Realtime Database'e kayıt yapılırken bir hata oluştu: " + databaseTask.exception?.message,
                                                 Toast.LENGTH_SHORT
                                             ).show()
                                         }
@@ -87,7 +103,6 @@ class Register : AppCompatActivity() {
                 Toast.makeText(applicationContext, "Tüm alanları doldurmak zorunludur", Toast.LENGTH_SHORT).show()
             }
         }
-
     }
 
     private fun saveUserNameToDatabase(userId: String?, userName: String) {
@@ -97,7 +112,6 @@ class Register : AppCompatActivity() {
         }
     }
 
-    // Kullanıcı adının benzersizliğini kontrol etme
     private fun checkUsernameUnique(userName: String, onSuccess: () -> Unit, onFail: () -> Unit) {
         firebaseDatabase.reference.child("usernames").child(userName)
             .addListenerForSingleValueEvent(object : ValueEventListener {
@@ -115,5 +129,11 @@ class Register : AppCompatActivity() {
             })
     }
 
-
+    data class UserData(
+        val userId: String? = "",
+        val firstName: String? = "",
+        val email: String? = "",
+        val username: String? = "",
+        val profileImageUrl: String? = ""
+    )
 }

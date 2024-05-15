@@ -23,16 +23,25 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:layout_gravity="center_horizontal"
-            android:padding="40dp">
+            android:padding="30dp"
+            android:background="@color/white">
+
+            <ImageButton
+                android:id="@+id/closeBtn"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:src="@drawable/back_arrow_navigation_svgrepo_com"
+                android:background="@drawable/blurbackground"/>
 
 
             <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/profile_image"
                 android:layout_width="150dp"
                 android:layout_height="150dp"
+                android:layout_gravity="center"
                 android:src="@drawable/profilephotoicon"
-                app:civ_border_color="#FF000000"
-                android:layout_gravity="center"/>
+                app:civ_border_color="#FF000000" />
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

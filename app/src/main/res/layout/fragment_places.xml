@@ -20,11 +20,14 @@
             android:layout_gravity="right"
             android:layout_marginEnd="16dp"
             android:layout_marginBottom="16dp"
+            android:background="@drawable/floating_button"
             android:clickable="true"
             android:src="@drawable/icons_add_properties"
-            app:backgroundTint="@color/green"
+            app:backgroundTint="@color/Cream"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:shapeAppearanceOverlay="@style/OvalShapeAppearanceOverlay"
+            app:tint="@color/black" />
 
         <LinearLayout
             android:layout_width="match_parent"

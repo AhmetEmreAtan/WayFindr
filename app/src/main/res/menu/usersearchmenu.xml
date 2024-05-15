@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:title="Memories"
+        android:id="@+id/userMemoriesMenu"
+        android:icon="@drawable/baseline_image_24"
+        app:cnb_iconColor="@color/home_icon_bg"/>
+
+    <item
+        android:title="Event"
+        android:id="@+id/userEventMenu"
+        android:icon="@drawable/schedule_calendar_svgrepo_com"
+        app:cnb_iconColor="@color/gradient"/>
+</menu>

@@ -18,11 +18,13 @@
         android:title="Search"
         android:id="@+id/search"
         android:icon="@drawable/search"
-        app:cnb_iconColor="@color/sarı"/>
+        app:cnb_iconColor="@color/navy"/>
 
     <item
         android:title="@string/bottom_nav_profile"
         android:id="@+id/profile"
         android:icon="@drawable/icons_user"
         app:cnb_iconColor="@color/profile_icon_bg"/>
+
+
 </menu>

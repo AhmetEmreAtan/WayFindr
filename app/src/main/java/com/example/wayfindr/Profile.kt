@@ -20,7 +20,11 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.example.wayfindr.databinding.FragmentProfileBinding
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageReference
 import com.ismaeldivita.chipnavigation.ChipNavigationBar
@@ -123,8 +127,26 @@ class Profile : Fragment() {
                             .into(binding.userImage)
                     }
                 } else {
-                    binding.userImage.setImageResource(R.drawable.placeholder_image)
+                    binding.userImage.setImageResource(R.drawable.profilephotoicon)
                 }
+
+
+                val userId = FirebaseAuth.getInstance().currentUser?.uid ?: ""
+                val memoriesCountRef = FirebaseFirestore.getInstance()
+                    .collection("user_photos")
+                    .document(userId)
+                    .collection("memories")
+
+                memoriesCountRef.get()
+                    .addOnSuccessListener { snapshot ->
+                        val count = snapshot.size()
+                        binding.myMemoriesCounting.text = count.toString()
+                    }
+                    .addOnFailureListener { exception ->
+                        Log.e("ProfileFragment", "Failed to get memories count", exception)
+                        binding.myMemoriesCounting.text = "0"
+                    }
+
             }.addOnFailureListener {
                 Toast.makeText(context, "Kullanıcı bilgileri yüklenemedi.", Toast.LENGTH_SHORT).show()
             }
@@ -132,6 +154,7 @@ class Profile : Fragment() {
             Toast.makeText(context, "Kullanıcı bilgilerine erişilemiyor.", Toast.LENGTH_SHORT).show()
         }
     }
+
 
 
     private fun openGallery() {

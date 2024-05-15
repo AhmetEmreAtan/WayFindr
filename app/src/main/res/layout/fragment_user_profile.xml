@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".Profile">
+
+
+    <FrameLayout
+        android:id="@+id/profile_frame"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/vintage_grey"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="@drawable/profile_background">
+
+                <TextView
+                    android:id="@+id/userNameTextView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:backgroundTint="@color/vintage_grey"
+                    android:padding="8dp"
+                    android:textAlignment="textStart"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/userImage" />
+
+                <TextView
+                    android:id="@+id/firstNameTextView"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="8dp"
+                    android:backgroundTint="@color/vintage_grey"
+                    android:padding="8dp"
+                    android:textAlignment="textStart"
+                    android:textColor="@color/black"
+                    android:textSize="14sp"
+                    android:textStyle="bold"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/userNameTextView" />
+
+                <ImageView
+                    android:id="@+id/userImage"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginTop="32dp"
+                    android:scaleType="centerCrop"
+                    android:background="@drawable/loading"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:shapeAppearance="@style/RoundedImageView" />
+
+                <Button
+                    android:id="@+id/add_friend_button"
+                    android:layout_width="150dp"
+                    android:layout_height="60dp"
+                    android:layout_marginTop="16dp"
+                    android:backgroundTint="@color/begie"
+                    android:text=""
+                    android:textColor="@color/black"
+                    app:iconPadding="8dp"
+                    app:iconTint="@color/light_blue_600"
+                    app:layout_constraintStart_toStartOf="@+id/userNameTextView"
+                    app:layout_constraintTop_toBottomOf="@+id/firstNameTextView" />
+
+                <Button
+                    android:id="@+id/do_event_plan_button"
+                    android:layout_width="150dp"
+                    android:layout_height="60dp"
+                    android:layout_marginEnd="16dp"
+                    android:backgroundTint="@color/begie"
+                    android:text="Etkinlik Planla"
+                    android:textColor="@color/black"
+                    app:icon="@drawable/schedule_calendar_svgrepo_com"
+                    app:iconPadding="8dp"
+                    app:iconTint="@color/vintage"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/add_friend_button" />
+
+                <Button
+                    android:id="@+id/send_message_button"
+                    android:layout_width="150dp"
+                    android:layout_height="60dp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginBottom="16dp"
+                    android:backgroundTint="@color/begie"
+                    android:text="Mesaj At"
+                    android:textColor="@color/black"
+                    app:icon="@drawable/baseline_message_24"
+                    app:iconPadding="8dp"
+                    app:iconTint="@color/navy"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="@+id/do_event_plan_button"
+                    app:layout_constraintStart_toStartOf="@+id/add_friend_button"
+                    app:layout_constraintTop_toBottomOf="@+id/add_friend_button" />
+
+                <androidx.cardview.widget.CardView
+                    android:id="@+id/userProfileInformation"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
+                    android:layout_marginEnd="16dp"
+                    android:backgroundTint="@color/krem"
+                    app:layout_constraintBottom_toBottomOf="@+id/userImage"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/userImage"
+                    app:layout_constraintTop_toTopOf="@+id/userImage">
+
+                    <androidx.constraintlayout.widget.ConstraintLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
+
+                        <TextView
+                            android:id="@+id/userMemoriesInfoText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="32dp"
+                            android:layout_marginTop="8dp"
+                            android:text="5"
+                            android:textColor="@color/black"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <TextView
+                            android:id="@+id/userMemoriesTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:layout_marginBottom="8dp"
+                            android:text="Anı"
+                            android:textColor="@color/black"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            app:layout_constraintBottom_toBottomOf="parent"
+                            app:layout_constraintEnd_toEndOf="@+id/userMemoriesInfoText"
+                            app:layout_constraintStart_toStartOf="@+id/userMemoriesInfoText"
+                            app:layout_constraintTop_toBottomOf="@+id/userMemoriesInfoText" />
+
+                        <TextView
+                            android:id="@+id/userProfileFriendsText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="16"
+                            android:textColor="@color/black"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            app:layout_constraintEnd_toStartOf="@+id/userProfileEventText"
+                            app:layout_constraintStart_toEndOf="@+id/userMemoriesInfoText"
+                            app:layout_constraintTop_toTopOf="@+id/userMemoriesInfoText" />
+
+                        <TextView
+                            android:id="@+id/userProfileFriendsTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="Arkadaş"
+                            android:textColor="@color/black"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            app:layout_constraintEnd_toEndOf="@+id/userProfileFriendsText"
+                            app:layout_constraintStart_toStartOf="@+id/userProfileFriendsText"
+                            app:layout_constraintTop_toBottomOf="@+id/userProfileFriendsText" />
+
+                        <TextView
+                            android:id="@+id/userProfileEventText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginEnd="32dp"
+                            android:text="5"
+                            android:textColor="@color/black"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toTopOf="@+id/userProfileFriendsText" />
+
+                        <TextView
+                            android:id="@+id/userProfileEventTitle"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="8dp"
+                            android:text="Etkinlik"
+                            android:textColor="@color/black"
+                            android:textSize="14sp"
+                            android:textStyle="bold"
+                            app:layout_constraintEnd_toEndOf="@+id/userProfileEventText"
+                            app:layout_constraintStart_toStartOf="@+id/userProfileEventText"
+                            app:layout_constraintTop_toBottomOf="@+id/userProfileEventText" />
+
+                    </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.cardview.widget.CardView>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <com.ismaeldivita.chipnavigation.ChipNavigationBar
+                    android:id="@+id/profile_nav_bar"
+                    android:layout_width="match_parent"
+                    android:layout_height="60dp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_gravity="bottom"
+                    android:background="@color/white"
+                    android:backgroundTint="@color/Cream"
+                    android:fadingEdge="horizontal"
+                    app:cnb_menuResource="@menu/usersearchmenu"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <FrameLayout
+                    android:id="@+id/profile_frame_layout"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/profile_nav_bar">
+
+                </FrameLayout>
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+        </LinearLayout>
+
+
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

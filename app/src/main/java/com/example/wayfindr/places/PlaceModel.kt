@@ -13,5 +13,8 @@ data class PlaceModel(
     val placeOpeningHours: String = "",
     val placeDetails: String = "",
     val placePrice: String? = "",
+    var latitude: Double = 0.0,
+    var longitude: Double = 0.0,
     var isFavorite: Boolean = false
-):Serializable
+) : Serializable
+

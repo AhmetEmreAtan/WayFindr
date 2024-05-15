@@ -16,11 +16,13 @@
         android:layout_marginBottom="16dp"
         android:clickable="true"
         android:src="@drawable/add_image_svgrepo_com"
+        app:shapeAppearanceOverlay="@style/OvalShapeAppearanceOverlay"
         app:backgroundTint="@color/Cream"
         app:tint="@color/black"
         app:fabSize="mini"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent" />
+
 
     <FrameLayout
         android:id="@+id/profile_frame"
@@ -52,7 +54,74 @@
 
 
                 <TextView
-                    android:id="@+id/textView8"
+                    android:id="@+id/myMemoriesCounting"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toTopOf="@+id/myMemoriesTitle"
+                    app:layout_constraintEnd_toEndOf="@+id/myMemoriesTitle"
+                    app:layout_constraintStart_toStartOf="@+id/myMemoriesTitle" />
+
+                <TextView
+                    android:id="@+id/myMemoriesTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="32dp"
+                    android:text="@string/activity_memories_tittle"
+                    android:textColor="@color/black"
+                    app:layout_constraintBottom_toBottomOf="@+id/userImage"
+                    app:layout_constraintStart_toEndOf="@+id/userImage"
+                    app:layout_constraintTop_toTopOf="@+id/userImage"
+                    app:layout_constraintVertical_bias="0.876" />
+
+                <TextView
+                    android:id="@+id/myFriendsTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="FRIENDS"
+                    android:textColor="@color/black"
+                    app:layout_constraintBottom_toBottomOf="@+id/myMemoriesTitle"
+                    app:layout_constraintEnd_toStartOf="@+id/myEventTitle"
+                    app:layout_constraintStart_toEndOf="@+id/myMemoriesTitle"
+                    app:layout_constraintTop_toTopOf="@+id/myMemoriesTitle" />
+
+                <TextView
+                    android:id="@+id/myFriendsCounting"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toTopOf="@+id/myFriendsTitle"
+                    app:layout_constraintEnd_toEndOf="@+id/myFriendsTitle"
+                    app:layout_constraintStart_toStartOf="@+id/myFriendsTitle" />
+
+                <TextView
+                    android:id="@+id/myEventTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="32dp"
+                    android:text="EVENT"
+                    android:textColor="@color/black"
+                    app:layout_constraintBottom_toBottomOf="@+id/myFriendsTitle"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/myFriendsTitle" />
+
+                <TextView
+                    android:id="@+id/myEventCounting"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:textColor="@color/black"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toTopOf="@+id/myEventTitle"
+                    app:layout_constraintEnd_toEndOf="@+id/myEventTitle"
+                    app:layout_constraintStart_toStartOf="@+id/myEventTitle" />
+
+                <TextView
+                    android:id="@+id/fragmentTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="8dp"
@@ -66,11 +135,10 @@
 
                 <TextView
                     android:id="@+id/profileName"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="20dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="16dp"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginTop="8dp"
                     android:background="@drawable/btn_background"
                     android:backgroundTint="@color/vintage_grey"
                     android:text=""
@@ -78,17 +146,15 @@
                     android:textColor="@color/black"
                     android:textSize="14sp"
                     android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/userImage"
-                    app:layout_constraintTop_toTopOf="@+id/userImage" />
+                    app:layout_constraintStart_toStartOf="@+id/userImage"
+                    app:layout_constraintTop_toBottomOf="@+id/userImage" />
 
                 <TextView
                     android:id="@+id/profileUserName"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="20dp"
-                    android:layout_marginStart="16dp"
+                    android:layout_marginStart="8dp"
                     android:layout_marginTop="5dp"
-                    android:layout_marginEnd="16dp"
                     android:background="@drawable/btn_background"
                     android:backgroundTint="@color/vintage_grey"
                     android:text=""
@@ -96,8 +162,7 @@
                     android:textColor="@color/black_overlay"
                     android:textSize="14sp"
                     android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toEndOf="@+id/userImage"
+                    app:layout_constraintStart_toStartOf="@+id/userImage"
                     app:layout_constraintTop_toBottomOf="@+id/profileName" />
 
                 <ImageView
@@ -131,7 +196,7 @@
                     android:layout_width="0dp"
                     android:layout_height="50dp"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="5dp"
+                    android:layout_marginTop="16dp"
                     android:layout_marginEnd="16dp"
                     android:backgroundTint="@color/Cream"
                     android:text="@string/fragment_profile_edit2"
@@ -139,7 +204,7 @@
                     android:textSize="12sp"
                     app:layout_constraintEnd_toStartOf="@+id/btnsetting"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/userImage" />
+                    app:layout_constraintTop_toBottomOf="@+id/profileUserName" />
 
                 <ImageButton
                     android:id="@+id/btnsetting"

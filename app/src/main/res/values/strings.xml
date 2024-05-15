@@ -4,6 +4,7 @@
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
     <string name="title_activity_navigation">Navigation</string>
+    <string name="google_map_api_key" translatable="false">AIzaSyCp7NoV0_lRIbv8J_pjz1NzsvJbwGnR1V0</string>
     <!-- Strings used for fragments for navigation -->
     <string name="first_fragment_label">First Fragment</string>
     <string name="second_fragment_label">Second Fragment</string>
@@ -230,6 +231,8 @@
 
     <string name="profile_nav_memories">Memories</string>
     <string name="profile_nav_favorite">Favorites</string>
+    <string name="profile_nav_event">Events</string>
+    <string name="title_activity_maps" translatable="false">MapsActivity</string>
 
 
 </resources>

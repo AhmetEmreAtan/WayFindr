@@ -33,10 +33,10 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/kizkulesi" />
+                app:srcCompat="@drawable/placeholder_image" />
 
             <ImageButton
-                android:id="@+id/imageButton"
+                android:id="@+id/placesdetail_closebtn"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_marginStart="16dp"
@@ -48,7 +48,7 @@
                 app:srcCompat="@drawable/back_arrow_navigation_svgrepo_com" />
 
             <ImageButton
-                android:id="@+id/imageButton2"
+                android:id="@+id/placesdetail_savefavorite"
                 android:layout_width="40dp"
                 android:layout_height="40dp"
                 android:layout_marginTop="8dp"

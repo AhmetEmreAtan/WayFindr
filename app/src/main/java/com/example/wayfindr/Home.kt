@@ -18,6 +18,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.example.wayfindr.home.CategoryDetailFragment
 import com.example.wayfindr.databinding.FragmentHomeBinding
+import com.example.wayfindr.home.NotificationFragment
 import com.example.wayfindr.places.PlaceModel
 import com.example.wayfindr.places.PlacesDetailFragment
 import com.google.firebase.auth.FirebaseAuth
@@ -25,9 +26,9 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.google.firebase.storage.FirebaseStorage
+import com.ismaeldivita.chipnavigation.ChipNavigationBar
 import java.text.Collator
 import java.util.Locale
-
 
 class Home : Fragment(), PopularAdapter.OnItemClickListener {
 
@@ -53,13 +54,13 @@ class Home : Fragment(), PopularAdapter.OnItemClickListener {
         firebaseAuth = FirebaseAuth.getInstance()
         adapter = PopularAdapter(emptyList(), this)
 
-
         loadUserProfilePicture()
         loadUserName()
         setupCitySpinner(view)
         setupRecyclerView(view)
         fetchPlacesData()
         setupCategoryButtons()
+        setupNotificationButton()
     }
 
     private fun setupRecyclerView(view: View) {
@@ -228,5 +229,14 @@ class Home : Fragment(), PopularAdapter.OnItemClickListener {
             .replace(R.id.frame_layout, fragment)
             .addToBackStack(null)
             .commit()
+    }
+
+    private fun setupNotificationButton() {
+        binding.notificationSettingsButton.setOnClickListener {
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.frame_layout, NotificationFragment())
+                .addToBackStack(null)
+                .commit()
+        }
     }
 }

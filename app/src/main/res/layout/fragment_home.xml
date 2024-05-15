@@ -40,22 +40,22 @@
 
                         <ImageView
                             android:id="@+id/profilepicture"
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
                             android:background="@drawable/category_button_shape"
                             android:layout_marginStart="16dp"
                             android:layout_marginTop="16dp"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
-                        <ImageView
+                        <ImageButton
                             android:id="@+id/notification_settings_button"
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
-                            android:background="@drawable/category_button_shape"
-                            android:src="@drawable/baseline_notifications_24"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
                             android:layout_marginTop="16dp"
                             android:layout_marginEnd="16dp"
+                            android:background="@drawable/category_button_shape"
+                            android:src="@drawable/baseline_notifications_24"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
@@ -81,8 +81,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="16dp"
-                            android:layout_marginTop="16dp"
-                            android:text="Hi, UserName"
+                            android:layout_marginTop="24dp"
+                            android:text="Hi "
                             android:textColor="@color/white"
                             android:textSize="20sp"
                             app:layout_constraintStart_toStartOf="parent"
@@ -142,31 +142,35 @@
 
                         <ImageButton
                             android:id="@+id/category1"
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
                             android:layout_marginStart="24dp"
                             android:background="@drawable/category_button_shape"
                             android:src="@drawable/iconsmall"
                             app:layout_constraintEnd_toStartOf="@+id/category2"
                             app:layout_constraintHorizontal_chainStyle="spread_inside"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:tint="@color/black" />
 
                         <TextView
                             android:id="@+id/Category1_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="AVM"
+                            android:textColor="@color/black"
+                            android:textSize="14sp"
                             app:layout_constraintEnd_toEndOf="@+id/category1"
                             app:layout_constraintStart_toStartOf="@+id/category1"
                             app:layout_constraintTop_toBottomOf="@+id/category1" />
 
                         <ImageButton
                             android:id="@+id/category2"
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
                             android:background="@drawable/category_button_shape"
                             android:src="@drawable/iconspray"
+                            app:tint="@color/gradient"
                             app:layout_constraintEnd_toStartOf="@+id/category3"
                             app:layout_constraintStart_toEndOf="@+id/category1"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -176,16 +180,19 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Dini"
+                            android:textColor="@color/black"
+                            android:textSize="14sp"
                             app:layout_constraintEnd_toEndOf="@+id/category2"
                             app:layout_constraintStart_toStartOf="@+id/category2"
                             app:layout_constraintTop_toBottomOf="@+id/category2" />
 
                         <ImageButton
                             android:id="@+id/category3"
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
                             android:background="@drawable/category_button_shape"
                             android:src="@drawable/iconsforest"
+                            app:tint="@color/green"
                             app:layout_constraintEnd_toStartOf="@+id/Category4"
                             app:layout_constraintStart_toEndOf="@+id/category2"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -195,6 +202,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Doğa"
+                            android:textColor="@color/black"
+                            android:textSize="14sp"
                             app:layout_constraintEnd_toEndOf="@+id/category3"
                             app:layout_constraintStart_toStartOf="@+id/category3"
                             app:layout_constraintTop_toBottomOf="@+id/category3" />
@@ -202,11 +211,12 @@
 
                         <ImageButton
                             android:id="@+id/Category4"
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
                             android:layout_marginEnd="24dp"
                             android:background="@drawable/category_button_shape"
                             android:src="@drawable/iconsthemepark"
+                            app:tint="@color/navy"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toEndOf="@+id/category3"
                             app:layout_constraintTop_toTopOf="parent" />
@@ -216,6 +226,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Eğlence"
+                            android:textColor="@color/black"
+                            android:textSize="14sp"
                             app:layout_constraintEnd_toEndOf="@+id/Category4"
                             app:layout_constraintStart_toStartOf="@+id/Category4"
                             app:layout_constraintTop_toBottomOf="@+id/Category4" />
@@ -223,12 +235,13 @@
 
                         <ImageButton
                             android:id="@+id/category5"
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
                             android:layout_marginStart="24dp"
                             android:layout_marginTop="16dp"
                             android:background="@drawable/category_button_shape"
                             android:src="@drawable/iconscafe40"
+                            app:tint="@color/light_blue_600"
                             app:layout_constraintEnd_toStartOf="@+id/category6"
                             app:layout_constraintHorizontal_chainStyle="spread_inside"
                             app:layout_constraintStart_toStartOf="parent"
@@ -239,6 +252,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Kafe"
+                            android:textColor="@color/black"
+                            android:textSize="14sp"
                             app:layout_constraintEnd_toEndOf="@+id/category5"
                             app:layout_constraintStart_toStartOf="@+id/category5"
                             app:layout_constraintTop_toBottomOf="@+id/category5" />
@@ -246,11 +261,12 @@
 
                         <ImageButton
                             android:id="@+id/category6"
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
                             android:layout_marginTop="16dp"
                             android:background="@drawable/category_button_shape"
                             android:src="@drawable/iconsmuseum"
+                            app:tint="@color/maroon"
                             app:layout_constraintEnd_toStartOf="@+id/category7"
                             app:layout_constraintStart_toEndOf="@+id/category5"
                             app:layout_constraintTop_toBottomOf="@+id/Category2_title" />
@@ -260,6 +276,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Müze"
+                            android:textColor="@color/black"
+                            android:textSize="14sp"
                             app:layout_constraintEnd_toEndOf="@+id/category6"
                             app:layout_constraintStart_toStartOf="@+id/category6"
                             app:layout_constraintTop_toBottomOf="@+id/category6" />
@@ -267,8 +285,8 @@
 
                         <ImageButton
                             android:id="@+id/category7"
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
                             android:layout_marginTop="16dp"
                             android:background="@drawable/category_button_shape"
                             android:src="@drawable/iconsrestaurant"
@@ -281,6 +299,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="Restoran"
+                            android:textColor="@color/black"
+                            android:textSize="14sp"
                             app:layout_constraintEnd_toEndOf="@+id/category7"
                             app:layout_constraintStart_toStartOf="@+id/category7"
                             app:layout_constraintTop_toBottomOf="@+id/category7" />
@@ -288,8 +308,8 @@
 
                         <ImageButton
                             android:id="@+id/Category8"
-                            android:layout_width="50dp"
-                            android:layout_height="50dp"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
                             android:layout_marginTop="16dp"
                             android:layout_marginEnd="24dp"
                             android:background="@drawable/category_button_shape"
@@ -303,6 +323,8 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:text="See"
+                            android:textColor="@color/black"
+                            android:textSize="14sp"
                             app:layout_constraintEnd_toEndOf="@+id/Category8"
                             app:layout_constraintStart_toStartOf="@+id/Category8"
                             app:layout_constraintTop_toBottomOf="@+id/Category8" />

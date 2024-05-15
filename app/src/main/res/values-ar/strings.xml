@@ -142,4 +142,5 @@
     <string name="memories_menu_spam">البريد المزعج</string>
     <string name="profile_nav_memories">ذكريات</string>
     <string name="profile_nav_favorite">المفضله</string>
+    <string name="profile_nav_event">حدث</string>
 </resources>

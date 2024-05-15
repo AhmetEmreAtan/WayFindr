@@ -142,4 +142,5 @@
     <string name="memories_menu_spam">垃圾邮件</string>
     <string name="profile_nav_memories">记忆</string>
     <string name="profile_nav_favorite">藏夹</string>
+    <string name="profile_nav_event">事件</string>
 </resources>

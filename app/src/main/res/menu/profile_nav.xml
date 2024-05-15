@@ -13,4 +13,10 @@
         android:id="@+id/favorites"
         android:icon="@drawable/favorite"
         app:cnb_iconColor="@color/gradient"/>
+
+    <item
+        android:title="@string/profile_nav_event"
+        android:id="@+id/events"
+        android:icon="@drawable/schedule_calendar_svgrepo_com"
+        app:cnb_iconColor="@color/navy"/>
 </menu>
