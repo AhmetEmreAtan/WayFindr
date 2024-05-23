@@ -135,10 +135,6 @@ class ProfileEdit : Fragment() {
             requireActivity().supportFragmentManager.popBackStack()
         }
 
-
-
-
-
         return view
     }
 
