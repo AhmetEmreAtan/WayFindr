@@ -1,4 +1,4 @@
-package com.example.wayfindr.home
+package com.example.wayfindr.home.adapters
 
 import android.view.LayoutInflater
 import android.view.View
@@ -7,6 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.wayfindr.R
+import com.example.wayfindr.home.ItemClickListener
 
 class ImageSliderAdapter(
     private val imageList: List<Int>,

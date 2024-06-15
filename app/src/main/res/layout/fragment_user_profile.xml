@@ -35,7 +35,7 @@
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/profile_background">
+                android:background="@color/vintage_grey">
 
                 <TextView
                     android:id="@+id/userNameTextView"
@@ -57,7 +57,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="8dp"
+                    android:layout_marginTop="0dp"
                     android:backgroundTint="@color/vintage_grey"
                     android:padding="8dp"
                     android:textAlignment="textStart"
@@ -146,7 +146,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="32dp"
                             android:layout_marginTop="8dp"
-                            android:text="5"
+                            android:text=""
                             android:textColor="@color/black"
                             android:textSize="14sp"
                             android:textStyle="bold"
@@ -172,7 +172,7 @@
                             android:id="@+id/userProfileFriendsText"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="16"
+                            android:text=""
                             android:textColor="@color/black"
                             android:textSize="14sp"
                             android:textStyle="bold"
@@ -198,7 +198,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginEnd="32dp"
-                            android:text="5"
+                            android:text="0"
                             android:textColor="@color/black"
                             android:textSize="14sp"
                             android:textStyle="bold"

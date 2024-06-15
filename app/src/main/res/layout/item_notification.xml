@@ -16,7 +16,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/placeholder_image"
+            android:src="@drawable/loading"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -56,7 +56,8 @@
             android:src="@drawable/baseline_close"
             app:layout_constraintBottom_toBottomOf="@+id/acceptButton"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/acceptButton" />
+            app:layout_constraintTop_toTopOf="@+id/acceptButton"
+            app:tint="@color/red" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

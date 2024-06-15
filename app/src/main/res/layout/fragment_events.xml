@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/coomingsoonimage"
+        android:layout_width="wrap_content"
+        android:layout_height="250dp"
+        android:src="@drawable/coomingsoonbg"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/comingSoonTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="Yakında"
+        android:textColor="@android:color/black"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/coomingsoonimage" />
+
+    <TextView
+        android:id="@+id/comingSoonMessage"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="72dp"
+        android:layout_marginTop="25dp"
+        android:layout_marginEnd="75dp"
+        android:layout_marginBottom="50dp"
+        android:gravity="center"
+        android:text="Bu özellik çok yakında sizlerle olacak. Takipte kalın!"
+        android:textColor="@android:color/black"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/comingSoonTitle"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <TextView
+        android:id="@+id/moreinfotxt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Daha fazla bilgi..."
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="@+id/comingSoonMessage"
+        app:layout_constraintStart_toStartOf="@+id/comingSoonMessage"
+        app:layout_constraintTop_toBottomOf="@+id/comingSoonMessage" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

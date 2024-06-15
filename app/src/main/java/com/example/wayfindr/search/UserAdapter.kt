@@ -9,11 +9,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.wayfindr.R
-import com.example.wayfindr.userProfile.userProfile
-import com.google.firebase.firestore.FirebaseFirestore
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
-import com.google.firebase.auth.FirebaseAuth
 
 class UserAdapter(options: FirestoreRecyclerOptions<User>, private val currentUserId: String) :
     FirestoreRecyclerAdapter<User, UserAdapter.UserViewHolder>(options) {

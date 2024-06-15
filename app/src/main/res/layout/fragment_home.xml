@@ -8,12 +8,12 @@
     android:background="@color/vintage_grey"
     tools:context=".Home">
 
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <ScrollView
+            android:id="@+id/scrollView2"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -26,7 +26,7 @@
                 android:layout_height="wrap_content">
 
                 <androidx.cardview.widget.CardView
-                    android:id="@+id/cardView"
+                    android:id="@+id/profileCardView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:layout_constraintEnd_toEndOf="parent"
@@ -42,9 +42,9 @@
                             android:id="@+id/profilepicture"
                             android:layout_width="60dp"
                             android:layout_height="60dp"
-                            android:background="@drawable/category_button_shape"
                             android:layout_marginStart="16dp"
                             android:layout_marginTop="16dp"
+                            android:background="@drawable/category_button_shape"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
@@ -56,6 +56,17 @@
                             android:layout_marginEnd="16dp"
                             android:background="@drawable/category_button_shape"
                             android:src="@drawable/baseline_notifications_24"
+                            app:layout_constraintEnd_toStartOf="@+id/messaging_button"
+                            app:layout_constraintTop_toTopOf="parent" />
+
+                        <ImageButton
+                            android:id="@+id/messaging_button"
+                            android:layout_width="40dp"
+                            android:layout_height="40dp"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginEnd="16dp"
+                            android:background="@drawable/category_button_shape"
+                            android:src="@drawable/baseline_message_24"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintTop_toTopOf="parent" />
 
@@ -66,13 +77,13 @@
                             android:layout_marginTop="16dp"
                             android:background="@drawable/spinner_design"
                             android:fontFamily="@font/font2"
-                            android:text="İstanbul"
                             android:gravity="center"
+                            android:text="İstanbul"
                             android:textAlignment="center"
                             android:textColor="@color/black"
                             android:textSize="20sp"
                             android:textStyle="bold"
-                            app:layout_constraintEnd_toStartOf="@+id/notification_settings_button"
+                            app:layout_constraintEnd_toStartOf="@+id/messaging_button"
                             app:layout_constraintStart_toEndOf="@+id/profilepicture"
                             app:layout_constraintTop_toTopOf="parent" />
 
@@ -99,8 +110,8 @@
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@id/homepage_hitext" />
 
-                        <EditText
-                            android:id="@+id/editTextText"
+                        <androidx.appcompat.widget.SearchView
+                            android:id="@+id/searchView"
                             android:layout_width="0dp"
                             android:layout_height="50dp"
                             android:layout_marginStart="16dp"
@@ -108,14 +119,7 @@
                             android:layout_marginEnd="16dp"
                             android:layout_marginBottom="16dp"
                             android:background="@drawable/spinner_border"
-                            android:backgroundTint="@color/Cream"
-                            android:drawableLeft="@android:drawable/ic_menu_search"
-                            android:drawableRight="@drawable/baseline_filter_list_24"
-                            android:ems="10"
-                            android:inputType="text"
-                            android:paddingLeft="5dp"
-                            android:paddingRight="5dp"
-                            android:text="Search"
+                            android:iconifiedByDefault="false"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
@@ -126,11 +130,11 @@
                 </androidx.cardview.widget.CardView>
 
                 <androidx.cardview.widget.CardView
-                    android:id="@+id/cardView2"
+                    android:id="@+id/categoriesCardview"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/border_background"
-                    app:layout_constraintTop_toBottomOf="@+id/cardView">
+                    app:layout_constraintTop_toBottomOf="@+id/profileCardView">
 
                     <androidx.constraintlayout.widget.ConstraintLayout
                         android:layout_width="match_parent"
@@ -170,10 +174,10 @@
                             android:layout_height="60dp"
                             android:background="@drawable/category_button_shape"
                             android:src="@drawable/iconspray"
-                            app:tint="@color/gradient"
                             app:layout_constraintEnd_toStartOf="@+id/category3"
                             app:layout_constraintStart_toEndOf="@+id/category1"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:tint="@color/gradient" />
 
                         <TextView
                             android:id="@+id/Category2_title"
@@ -192,10 +196,10 @@
                             android:layout_height="60dp"
                             android:background="@drawable/category_button_shape"
                             android:src="@drawable/iconsforest"
-                            app:tint="@color/green"
                             app:layout_constraintEnd_toStartOf="@+id/Category4"
                             app:layout_constraintStart_toEndOf="@+id/category2"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:tint="@color/green" />
 
                         <TextView
                             android:id="@+id/Category3_title"
@@ -216,10 +220,10 @@
                             android:layout_marginEnd="24dp"
                             android:background="@drawable/category_button_shape"
                             android:src="@drawable/iconsthemepark"
-                            app:tint="@color/navy"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toEndOf="@+id/category3"
-                            app:layout_constraintTop_toTopOf="parent" />
+                            app:layout_constraintTop_toTopOf="parent"
+                            app:tint="@color/navy" />
 
                         <TextView
                             android:id="@+id/Category4_title"
@@ -241,11 +245,11 @@
                             android:layout_marginTop="16dp"
                             android:background="@drawable/category_button_shape"
                             android:src="@drawable/iconscafe40"
-                            app:tint="@color/light_blue_600"
                             app:layout_constraintEnd_toStartOf="@+id/category6"
                             app:layout_constraintHorizontal_chainStyle="spread_inside"
                             app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/Category1_title" />
+                            app:layout_constraintTop_toBottomOf="@+id/Category1_title"
+                            app:tint="@color/light_blue_600" />
 
                         <TextView
                             android:id="@+id/Category5_title"
@@ -266,10 +270,10 @@
                             android:layout_marginTop="16dp"
                             android:background="@drawable/category_button_shape"
                             android:src="@drawable/iconsmuseum"
-                            app:tint="@color/maroon"
                             app:layout_constraintEnd_toStartOf="@+id/category7"
                             app:layout_constraintStart_toEndOf="@+id/category5"
-                            app:layout_constraintTop_toBottomOf="@+id/Category2_title" />
+                            app:layout_constraintTop_toBottomOf="@+id/Category2_title"
+                            app:tint="@color/maroon" />
 
                         <TextView
                             android:id="@+id/Category6_title"
@@ -338,14 +342,14 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="24dp"
                     android:fontFamily="@font/font2"
                     android:text="@string/fragment_home_popular"
                     android:textColor="@color/black"
                     android:textSize="20sp"
                     android:textStyle="bold"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/cardView2" />
+                    app:layout_constraintTop_toBottomOf="@+id/categoriesCardview" />
 
                 <androidx.cardview.widget.CardView
                     android:id="@+id/popular_cardView"
@@ -354,7 +358,9 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="16dp"
                     android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="50dp"
                     android:background="@color/black"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/textView5">
@@ -364,12 +370,28 @@
                         android:layout_width="match_parent"
                         android:layout_height="200dp"
                         android:background="@color/white"
-                        tools:listitem="@layout/item_popular"/>
+                        tools:listitem="@layout/item_popular" />
 
                 </androidx.cardview.widget.CardView>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewFiltered"
+            android:layout_width="0dp"
+            android:layout_height="150dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="@+id/scrollView2"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="NotSibling" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
 </FrameLayout>

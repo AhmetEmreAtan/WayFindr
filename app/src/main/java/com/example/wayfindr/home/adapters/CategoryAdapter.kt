@@ -1,4 +1,4 @@
-package com.example.wayfindr.home
+package com.example.wayfindr.home.adapters
 
 import android.view.LayoutInflater
 import android.view.View
@@ -8,6 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.wayfindr.R
+import com.example.wayfindr.home.models.CategoryDataModel
 
 class CategoryAdapter(private val placeList: List<CategoryDataModel>) : RecyclerView.Adapter<CategoryAdapter.ViewHolder>() {
 

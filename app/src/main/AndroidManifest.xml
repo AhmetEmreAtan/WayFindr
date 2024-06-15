@@ -12,6 +12,7 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
 
     <uses-feature
         android:name="android.hardware.camera"
@@ -33,10 +34,6 @@
             android:value="@string/google_map_api_key" />
 
         <activity
-            android:name=".MapsActivity"
-            android:exported="false"
-            android:label="@string/title_activity_maps" />
-        <activity
             android:name=".Welcome"
             android:exported="false" />
 
@@ -50,18 +47,19 @@
         <activity
             android:name=".memories.MemoriesDetail"
             android:exported="false" />
+
         <activity
             android:name=".home.Navigation"
             android:exported="false" />
+
         <activity
             android:name=".Register"
             android:exported="false" />
-        <activity
-            android:name=".AdminEdit"
-            android:exported="true" />
+
         <activity
             android:name=".Favorites"
             android:exported="true" />
+
         <activity
             android:name=".MainActivity"
             android:exported="true">
@@ -74,7 +72,7 @@
 
         <service
             android:name=".MyFirebaseMessagingService"
-            android:exported="false">
+            android:exported="true">
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>

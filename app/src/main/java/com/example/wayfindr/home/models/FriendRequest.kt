@@ -4,10 +4,5 @@ data class FriendRequest(
     val id: String,
     val fromUserId: String,
     val toUserId: String,
-    val status: String
+    var status: String
 )
-
-
-
-
-

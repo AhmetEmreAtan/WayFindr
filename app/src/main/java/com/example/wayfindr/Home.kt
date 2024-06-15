@@ -1,6 +1,6 @@
 package com.example.wayfindr
 
-import PopularAdapter
+import com.example.wayfindr.home.adapters.PopularAdapter
 import android.content.ContentValues
 import android.os.Bundle
 import android.util.Log
@@ -11,6 +11,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
 import android.widget.Toast
+import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -18,19 +19,19 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.example.wayfindr.home.CategoryDetailFragment
 import com.example.wayfindr.databinding.FragmentHomeBinding
+import com.example.wayfindr.home.MessagesFragment
 import com.example.wayfindr.home.NotificationFragment
+import com.example.wayfindr.home.adapters.FilteredAdapter
 import com.example.wayfindr.places.PlaceModel
 import com.example.wayfindr.places.PlacesDetailFragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
-import com.google.firebase.storage.FirebaseStorage
-import com.ismaeldivita.chipnavigation.ChipNavigationBar
 import java.text.Collator
 import java.util.Locale
 
-class Home : Fragment(), PopularAdapter.OnItemClickListener {
+class Home : Fragment(), FilteredAdapter.OnItemClickListener, PopularAdapter.OnItemClickListener {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
@@ -39,7 +40,8 @@ class Home : Fragment(), PopularAdapter.OnItemClickListener {
     private val turkishCollator = Collator.getInstance(Locale("tr", "TR"))
 
     private lateinit var firebaseAuth: FirebaseAuth
-    private lateinit var adapter: PopularAdapter
+    private lateinit var filteredAdapter: FilteredAdapter
+    private lateinit var popularAdapter: PopularAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -52,21 +54,30 @@ class Home : Fragment(), PopularAdapter.OnItemClickListener {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         firebaseAuth = FirebaseAuth.getInstance()
-        adapter = PopularAdapter(emptyList(), this)
+        filteredAdapter = FilteredAdapter(emptyList(), this)
+        popularAdapter = PopularAdapter(emptyList(), this)
 
         loadUserProfilePicture()
         loadUserName()
         setupCitySpinner(view)
         setupRecyclerView(view)
+        setupFilteredRecyclerView()
         fetchPlacesData()
         setupCategoryButtons()
         setupNotificationButton()
+        setupMessageButtons()
+        setupSearchListener()
     }
 
     private fun setupRecyclerView(view: View) {
         val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerViewPopular)
         recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        recyclerView.adapter = adapter
+        recyclerView.adapter = popularAdapter
+    }
+
+    private fun setupFilteredRecyclerView() {
+        binding.recyclerViewFiltered.layoutManager = LinearLayoutManager(context)
+        binding.recyclerViewFiltered.adapter = filteredAdapter
     }
 
     private fun setupCitySpinner(view: View) {
@@ -110,7 +121,64 @@ class Home : Fragment(), PopularAdapter.OnItemClickListener {
                     turkishCollator.compare(place1.placeName, place2.placeName)
                 })
 
-                adapter.setPlacesList(placesList)
+                popularAdapter.setPlacesList(placesList)
+            }
+            .addOnFailureListener { exception ->
+                Log.e(ContentValues.TAG, "Veri çekme işlemi başarısız. Hata: $exception")
+            }
+    }
+
+    private fun setupSearchListener() {
+        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                if (newText.isNullOrEmpty()) {
+                    binding.recyclerViewFiltered.visibility = View.GONE
+                    filteredAdapter.setPlacesList(emptyList())
+                } else {
+                    fetchFilteredPlacesData(newText)
+                }
+                return true
+            }
+        })
+
+        binding.searchView.setOnQueryTextFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
+                binding.recyclerViewFiltered.visibility = View.VISIBLE
+            } else if (binding.searchView.query.isEmpty()) {
+                binding.recyclerViewFiltered.visibility = View.GONE
+            }
+        }
+    }
+
+    private fun fetchFilteredPlacesData(query: String) {
+        placesCollection
+            .whereGreaterThanOrEqualTo("placeName", query)
+            .whereLessThanOrEqualTo("placeName", query + '\uf8ff')
+            .get()
+            .addOnSuccessListener { querySnapshot ->
+                val filteredPlacesList = mutableListOf<PlaceModel>()
+
+                for (document in querySnapshot.documents) {
+                    val placeId = document.id
+                    val placeModel = document.toObject(PlaceModel::class.java)?.apply {
+                        this.placeId = placeId
+                    }
+
+                    placeModel?.let {
+                        filteredPlacesList.add(placeModel)
+                    }
+                }
+
+                filteredPlacesList.sortWith(Comparator { place1, place2 ->
+                    turkishCollator.compare(place1.placeName, place2.placeName)
+                })
+
+                filteredAdapter.setPlacesList(filteredPlacesList)
+                binding.recyclerViewFiltered.visibility = View.VISIBLE
             }
             .addOnFailureListener { exception ->
                 Log.e(ContentValues.TAG, "Veri çekme işlemi başarısız. Hata: $exception")
@@ -118,7 +186,7 @@ class Home : Fragment(), PopularAdapter.OnItemClickListener {
     }
 
     override fun onItemClick(placeId: String) {
-        val selectedPlace = adapter.getPlaceByPlaceId(placeId)
+        val selectedPlace = filteredAdapter.getPlaceByPlaceId(placeId) ?: popularAdapter.getPlaceByPlaceId(placeId)
 
         if (selectedPlace != null) {
             showPlaceDetailFragment(selectedPlace)
@@ -142,7 +210,6 @@ class Home : Fragment(), PopularAdapter.OnItemClickListener {
         _binding = null
     }
 
-    //Profil fotoğrafı yükleme
     private fun loadUserProfilePicture() {
         val user = firebaseAuth.currentUser
         user?.let { user ->
@@ -173,26 +240,27 @@ class Home : Fragment(), PopularAdapter.OnItemClickListener {
         }
     }
 
-    //Profil ismi yükleme
     private fun loadUserName() {
         val user = firebaseAuth.currentUser
         user?.let {
             val userId = it.uid
-            val userRef = FirebaseDatabase.getInstance().getReference("users/$userId")
-            userRef.child("username").get().addOnSuccessListener { dataSnapshot ->
-                if (dataSnapshot.exists() && isAdded) {
-                    val userName = dataSnapshot.value as String
+            val userRef = FirebaseFirestore.getInstance().collection("users").document(userId)
+            userRef.get().addOnSuccessListener { documentSnapshot ->
+                if (documentSnapshot.exists() && isAdded) {
+                    val userName = documentSnapshot.getString("username") ?: ""
                     binding.homepageHitext.text = "Hi, $userName"
                 }
+            }.addOnFailureListener { exception ->
+                Log.d("ProfileFragment", "Error getting username: ", exception)
+                Toast.makeText(context, "Kullanıcı adı yüklenirken hata oluştu.", Toast.LENGTH_SHORT).show()
             }
         }
     }
 
-    //Category Fragment Open
     private fun setupCategoryButtons() {
         val categoryClickListener = View.OnClickListener { view ->
             val category = when (view.id) {
-                R.id.category1, R.id.Category1_title -> "AVM"
+                R.id.category1, R.id.Category1_title -> "Avm"
                 R.id.category2, R.id.Category2_title -> "Dini"
                 R.id.category3, R.id.Category3_title -> "Doğa"
                 R.id.Category4, R.id.Category4_title -> "Eğlence"
@@ -229,6 +297,15 @@ class Home : Fragment(), PopularAdapter.OnItemClickListener {
             .replace(R.id.frame_layout, fragment)
             .addToBackStack(null)
             .commit()
+    }
+
+    private fun setupMessageButtons() {
+        binding.messagingButton.setOnClickListener {
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.frame_layout, MessagesFragment())
+                .addToBackStack(null)
+                .commit()
+        }
     }
 
     private fun setupNotificationButton() {
