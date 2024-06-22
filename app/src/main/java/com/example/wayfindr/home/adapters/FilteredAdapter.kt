@@ -10,53 +10,47 @@ import com.bumptech.glide.Glide
 import com.example.wayfindr.R
 import com.example.wayfindr.places.PlaceModel
 
-class FilteredAdapter(
-    private var places: List<PlaceModel>,
-    private val listener: OnItemClickListener
-) : RecyclerView.Adapter<FilteredAdapter.PlaceViewHolder>() {
+class FilteredAdapter(private var placesList: List<PlaceModel>, private val listener: OnItemClickListener) :
+    RecyclerView.Adapter<FilteredAdapter.PlaceViewHolder>() {
 
     interface OnItemClickListener {
         fun onItemClick(placeId: String)
     }
 
-    inner class PlaceViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
-        val placeImageView: ImageView = itemView.findViewById(R.id.placeImageView)
-        val placeNameTextView: TextView = itemView.findViewById(R.id.placeNameTextView)
+    inner class PlaceViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val placeName: TextView = itemView.findViewById(R.id.placeName)
+        val placeImage: ImageView = itemView.findViewById(R.id.placeImage)
 
         init {
-            itemView.setOnClickListener(this)
-        }
-
-        override fun onClick(v: View?) {
-            val position = adapterPosition
-            if (position != RecyclerView.NO_POSITION) {
-                listener.onItemClick(places[position].placeId)
+            itemView.setOnClickListener {
+                listener.onItemClick(placesList[adapterPosition].placeId)
             }
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PlaceViewHolder {
-        val itemView = LayoutInflater.from(parent.context).inflate(R.layout.item_places_search, parent, false)
-        return PlaceViewHolder(itemView)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_places_search, parent, false)
+        return PlaceViewHolder(view)
     }
 
     override fun onBindViewHolder(holder: PlaceViewHolder, position: Int) {
-        val currentPlace = places[position]
-        holder.placeNameTextView.text = currentPlace.placeName
+        val place = placesList[position]
+        holder.placeName.text = place.placeName
         Glide.with(holder.itemView.context)
-            .load(currentPlace.placeImage)
-            .into(holder.placeImageView)
+            .load(place.placeImage)
+            .into(holder.placeImage)
     }
 
-    override fun getItemCount() = places.size
+    override fun getItemCount(): Int {
+        return placesList.size
+    }
 
-    fun setPlacesList(newPlaces: List<PlaceModel>) {
-        places = newPlaces
+    fun setPlacesList(newPlacesList: List<PlaceModel>) {
+        placesList = newPlacesList
         notifyDataSetChanged()
     }
 
     fun getPlaceByPlaceId(placeId: String): PlaceModel? {
-        return places.find { it.placeId == placeId }
+        return placesList.find { it.placeId == placeId }
     }
 }
-

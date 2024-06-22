@@ -19,29 +19,36 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.example.wayfindr.home.CategoryDetailFragment
 import com.example.wayfindr.databinding.FragmentHomeBinding
+import com.example.wayfindr.home.EventsDetailFragment
+import com.example.wayfindr.home.EventsFragment
 import com.example.wayfindr.home.MessagesFragment
 import com.example.wayfindr.home.NotificationFragment
+import com.example.wayfindr.home.adapters.EventsAdapter
 import com.example.wayfindr.home.adapters.FilteredAdapter
+import com.example.wayfindr.home.models.EventModel
 import com.example.wayfindr.places.PlaceModel
 import com.example.wayfindr.places.PlacesDetailFragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
+import java.io.Serializable
 import java.text.Collator
 import java.util.Locale
 
-class Home : Fragment(), FilteredAdapter.OnItemClickListener, PopularAdapter.OnItemClickListener {
+class Home : Fragment(), EventsAdapter.OnItemClickListener, PopularAdapter.OnItemClickListener, FilteredAdapter.OnItemClickListener {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
     private val db = FirebaseFirestore.getInstance()
+    private val eventsCollection = db.collection("events")
     private val placesCollection = db.collection("places")
     private val turkishCollator = Collator.getInstance(Locale("tr", "TR"))
 
     private lateinit var firebaseAuth: FirebaseAuth
-    private lateinit var filteredAdapter: FilteredAdapter
+    private lateinit var eventsAdapter: EventsAdapter
     private lateinit var popularAdapter: PopularAdapter
+    private lateinit var filteredAdapter: FilteredAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -54,15 +61,18 @@ class Home : Fragment(), FilteredAdapter.OnItemClickListener, PopularAdapter.OnI
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         firebaseAuth = FirebaseAuth.getInstance()
-        filteredAdapter = FilteredAdapter(emptyList(), this)
+        eventsAdapter = EventsAdapter(emptyList(), this)
         popularAdapter = PopularAdapter(emptyList(), this)
+        filteredAdapter = FilteredAdapter(emptyList(), this)
 
         loadUserProfilePicture()
         loadUserName()
         setupCitySpinner(view)
         setupRecyclerView(view)
+        setupEventsRecyclerView(view)
         setupFilteredRecyclerView()
         fetchPlacesData()
+        fetchEventsData()
         setupCategoryButtons()
         setupNotificationButton()
         setupMessageButtons()
@@ -75,27 +85,15 @@ class Home : Fragment(), FilteredAdapter.OnItemClickListener, PopularAdapter.OnI
         recyclerView.adapter = popularAdapter
     }
 
+    private fun setupEventsRecyclerView(view: View) {
+        val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerViewEvents)
+        recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        recyclerView.adapter = eventsAdapter
+    }
+
     private fun setupFilteredRecyclerView() {
         binding.recyclerViewFiltered.layoutManager = LinearLayoutManager(context)
         binding.recyclerViewFiltered.adapter = filteredAdapter
-    }
-
-    private fun setupCitySpinner(view: View) {
-        val cities = arrayOf("İstanbul", "Ankara", "İzmir", "Antalya", "Çanakkale")
-        val adapter = ArrayAdapter(requireContext(), R.layout.selected_city_spinner, cities)
-        adapter.setDropDownViewResource(R.layout.dropdown_city_spinner)
-        val spinner = view.findViewById<Spinner>(R.id.City_Select_Button)
-        spinner.adapter = adapter
-        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
-                if (parent.getItemAtPosition(position) != "İstanbul") {
-                    Toast.makeText(requireContext(), "Coming soon", Toast.LENGTH_SHORT).show()
-                    spinner.setSelection(adapter.getPosition("İstanbul"))
-                }
-            }
-
-            override fun onNothingSelected(parent: AdapterView<*>) {}
-        }
     }
 
     private fun fetchPlacesData() {
@@ -128,69 +126,55 @@ class Home : Fragment(), FilteredAdapter.OnItemClickListener, PopularAdapter.OnI
             }
     }
 
-    private fun setupSearchListener() {
-        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                return false
-            }
-
-            override fun onQueryTextChange(newText: String?): Boolean {
-                if (newText.isNullOrEmpty()) {
-                    binding.recyclerViewFiltered.visibility = View.GONE
-                    filteredAdapter.setPlacesList(emptyList())
-                } else {
-                    fetchFilteredPlacesData(newText)
-                }
-                return true
-            }
-        })
-
-        binding.searchView.setOnQueryTextFocusChangeListener { _, hasFocus ->
-            if (hasFocus) {
-                binding.recyclerViewFiltered.visibility = View.VISIBLE
-            } else if (binding.searchView.query.isEmpty()) {
-                binding.recyclerViewFiltered.visibility = View.GONE
-            }
-        }
-    }
-
-    private fun fetchFilteredPlacesData(query: String) {
-        placesCollection
-            .whereGreaterThanOrEqualTo("placeName", query)
-            .whereLessThanOrEqualTo("placeName", query + '\uf8ff')
+    private fun fetchEventsData() {
+        eventsCollection
             .get()
             .addOnSuccessListener { querySnapshot ->
-                val filteredPlacesList = mutableListOf<PlaceModel>()
+                val eventsList = mutableListOf<EventModel>()
 
                 for (document in querySnapshot.documents) {
-                    val placeId = document.id
-                    val placeModel = document.toObject(PlaceModel::class.java)?.apply {
-                        this.placeId = placeId
+                    val eventId = document.id
+                    val eventModel = document.toObject(EventModel::class.java)?.apply {
+                        this.eventId = eventId
                     }
 
-                    placeModel?.let {
-                        filteredPlacesList.add(placeModel)
+                    eventModel?.let {
+                        eventsList.add(eventModel)
                     }
                 }
 
-                filteredPlacesList.sortWith(Comparator { place1, place2 ->
-                    turkishCollator.compare(place1.placeName, place2.placeName)
-                })
-
-                filteredAdapter.setPlacesList(filteredPlacesList)
-                binding.recyclerViewFiltered.visibility = View.VISIBLE
+                eventsAdapter.setEventsList(eventsList)
             }
             .addOnFailureListener { exception ->
                 Log.e(ContentValues.TAG, "Veri çekme işlemi başarısız. Hata: $exception")
             }
     }
 
-    override fun onItemClick(placeId: String) {
-        val selectedPlace = filteredAdapter.getPlaceByPlaceId(placeId) ?: popularAdapter.getPlaceByPlaceId(placeId)
+    override fun onItemClick(event: EventModel) {
+        showEventDetailFragment(event)
+    }
 
+    override fun onItemClick(placeId: String) {
+        val selectedPlace = popularAdapter.getPlaceByPlaceId(placeId)
         if (selectedPlace != null) {
             showPlaceDetailFragment(selectedPlace)
         }
+    }
+
+    fun onItemClickFiltered(place: PlaceModel) {
+        showPlaceDetailFragment(place)
+    }
+
+    private fun showEventDetailFragment(selectedEvent: EventModel) {
+        val fragment = EventsDetailFragment()
+        val bundle = Bundle()
+        bundle.putSerializable("selectedEvent", selectedEvent)
+        fragment.arguments = bundle
+
+        requireActivity().supportFragmentManager.beginTransaction()
+            .replace(R.id.frame_layout, fragment)
+            .addToBackStack(null)
+            .commit()
     }
 
     private fun showPlaceDetailFragment(selectedPlace: PlaceModel) {
@@ -257,10 +241,28 @@ class Home : Fragment(), FilteredAdapter.OnItemClickListener, PopularAdapter.OnI
         }
     }
 
+    private fun setupCitySpinner(view: View) {
+        val cities = arrayOf("İstanbul", "Ankara", "İzmir", "Antalya", "Çanakkale")
+        val adapter = ArrayAdapter(requireContext(), R.layout.selected_city_spinner, cities)
+        adapter.setDropDownViewResource(R.layout.dropdown_city_spinner)
+        val spinner = view.findViewById<Spinner>(R.id.City_Select_Button)
+        spinner.adapter = adapter
+        spinner.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(parent: AdapterView<*>, view: View?, position: Int, id: Long) {
+                if (parent.getItemAtPosition(position) != "İstanbul") {
+                    Toast.makeText(requireContext(), "Coming soon", Toast.LENGTH_SHORT).show()
+                    spinner.setSelection(adapter.getPosition("İstanbul"))
+                }
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>) {}
+        }
+    }
+
     private fun setupCategoryButtons() {
         val categoryClickListener = View.OnClickListener { view ->
             val category = when (view.id) {
-                R.id.category1, R.id.Category1_title -> "Avm"
+                R.id.category1, R.id.Category1_title -> "AVM"
                 R.id.category2, R.id.Category2_title -> "Dini"
                 R.id.category3, R.id.Category3_title -> "Doğa"
                 R.id.Category4, R.id.Category4_title -> "Eğlence"
@@ -315,5 +317,50 @@ class Home : Fragment(), FilteredAdapter.OnItemClickListener, PopularAdapter.OnI
                 .addToBackStack(null)
                 .commit()
         }
+    }
+
+    private fun setupSearchListener() {
+        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                return false
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                if (newText.isNullOrEmpty()) {
+                    binding.recyclerViewFiltered.visibility = View.GONE
+                } else {
+                    binding.recyclerViewFiltered.visibility = View.VISIBLE
+                    filterPlaces(newText)
+                }
+                return true
+            }
+        })
+    }
+
+    private fun filterPlaces(query: String) {
+        placesCollection
+            .orderBy("placeName")
+            .startAt(query)
+            .endAt(query + "\uf8ff")
+            .get()
+            .addOnSuccessListener { querySnapshot ->
+                val filteredList = mutableListOf<PlaceModel>()
+
+                for (document in querySnapshot.documents) {
+                    val placeId = document.id
+                    val placeModel = document.toObject(PlaceModel::class.java)?.apply {
+                        this.placeId = placeId
+                    }
+
+                    placeModel?.let {
+                        filteredList.add(placeModel)
+                    }
+                }
+
+                filteredAdapter.setPlacesList(filteredList)
+            }
+            .addOnFailureListener { exception ->
+                Log.e(ContentValues.TAG, "Veri çekme işlemi başarısız. Hata: $exception")
+            }
     }
 }

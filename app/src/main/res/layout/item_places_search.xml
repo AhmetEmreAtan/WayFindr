@@ -3,21 +3,22 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    android:padding="8dp"
-    android:background="@drawable/border">
+    android:padding="8dp">
 
     <ImageView
-        android:id="@+id/placeImageView"
+        android:id="@+id/placeImage"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:layout_marginEnd="8dp"
-        android:scaleType="centerCrop" />
+        android:layout_marginEnd="16dp"
+        android:contentDescription="@string/place_image" />
 
     <TextView
-        android:id="@+id/placeNameTextView"
+        android:id="@+id/placeName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="Place Name"
+        android:textColor="@color/black"
         android:textSize="16sp"
-        android:layout_gravity="center_vertical" />
+        android:textStyle="bold" />
 </LinearLayout>
 

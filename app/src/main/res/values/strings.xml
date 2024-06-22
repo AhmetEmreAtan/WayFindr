@@ -233,6 +233,7 @@
     <string name="profile_nav_favorite">Favorites</string>
     <string name="profile_nav_event">Events</string>
     <string name="title_activity_maps" translatable="false">MapsActivity</string>
+    <string name="place_image" />
 
 
 </resources>
