@@ -55,7 +55,10 @@
         <activity
             android:name=".Register"
             android:exported="false" />
+<<<<<<< HEAD
+=======
 
+>>>>>>> 05a38c95a641075409cea515932784e53c976f89
         <activity
             android:name=".Favorites"
             android:exported="true" />

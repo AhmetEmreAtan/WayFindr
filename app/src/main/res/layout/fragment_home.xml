@@ -304,7 +304,7 @@
                             android:layout_marginTop="16dp"
                             android:background="@drawable/category_button_shape"
                             android:src="@drawable/iconsrestaurant"
-                            app:layout_constraintEnd_toStartOf="@+id/category8"
+                            app:layout_constraintEnd_toStartOf="@+id/Category8"
                             app:layout_constraintStart_toEndOf="@+id/category6"
                             app:layout_constraintTop_toBottomOf="@+id/Category3_title" />
 
@@ -321,7 +321,7 @@
 
 
                         <ImageButton
-                            android:id="@+id/category8"
+                            android:id="@+id/Category8"
                             android:layout_width="60dp"
                             android:layout_height="60dp"
                             android:layout_marginTop="16dp"
@@ -339,9 +339,9 @@
                             android:text="See"
                             android:textColor="@color/black"
                             android:textSize="14sp"
-                            app:layout_constraintEnd_toEndOf="@+id/category8"
-                            app:layout_constraintStart_toStartOf="@+id/category8"
-                            app:layout_constraintTop_toBottomOf="@+id/category8" />
+                            app:layout_constraintEnd_toEndOf="@+id/Category8"
+                            app:layout_constraintStart_toStartOf="@+id/Category8"
+                            app:layout_constraintTop_toBottomOf="@+id/Category8" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 

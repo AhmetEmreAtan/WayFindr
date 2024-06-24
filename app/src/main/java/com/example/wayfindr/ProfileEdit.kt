@@ -71,6 +71,72 @@ class ProfileEdit : Fragment() {
                     Toast.makeText(requireContext(), "Kullanıcı bilgileri alınırken hata oluştu.", Toast.LENGTH_SHORT).show()
                 }
         }
+<<<<<<< HEAD
+
+        val user = FirebaseAuth.getInstance().currentUser
+        user?.let {
+            val email = user.email
+            editEmail.setText(email)
+
+
+            val password = "********"
+            editPassword.setText(password)
+        }
+
+        //Update Fun
+        val editButton: Button = binding.editButton
+        editButton.setOnClickListener {
+            val newName = binding.editName.text.toString()
+            val newUserName = binding.editUserName.text.toString()
+            val newEmail = binding.editEmail.text.toString()
+            val newPassword = binding.editPassword.text.toString()
+
+            val user = FirebaseAuth.getInstance().currentUser
+
+            user?.let { currentUser ->
+                currentUser.updateEmail(newEmail)
+                    .addOnSuccessListener {
+                        Log.d(TAG, "User email address updated.")
+                        val db = FirebaseFirestore.getInstance()
+                        val userId = currentUser.uid
+                        val userRef = db.collection("users").document(userId)
+
+                        userRef.update(mapOf(
+                            "firstName" to newName,
+                            "username" to newUserName
+                        ))
+                            .addOnSuccessListener {
+                                Log.d(TAG, "User profile updated.")
+                                if (newPassword.isNotEmpty()) {
+                                    currentUser.updatePassword(newPassword)
+                                        .addOnSuccessListener {
+                                            Log.d(TAG, "User password updated.")
+                                            Toast.makeText(requireContext(), "Bilgiler başarıyla güncellendi.", Toast.LENGTH_SHORT).show()
+                                        }
+                                } else {
+                                    Toast.makeText(requireContext(), "Bilgiler başarıyla güncellendi.", Toast.LENGTH_SHORT).show()
+                                }
+                            }
+                            .addOnFailureListener { exception ->
+                                Log.d(TAG, "User profile update failed: $exception")
+                                Toast.makeText(requireContext(), "Bilgiler güncellenirken bir hata oluştu.", Toast.LENGTH_SHORT).show()
+                            }
+                    }
+                    .addOnFailureListener { exception ->
+                        Log.d(TAG, "Email address update failed: $exception")
+                        Toast.makeText(requireContext(), "E-posta güncellenirken bir hata oluştu.", Toast.LENGTH_SHORT).show()
+                    }
+            }
+        }
+
+        val closeBtn: ImageButton = binding.closeBtn
+        closeBtn.setOnClickListener {
+            requireActivity().supportFragmentManager.popBackStack()
+        }
+
+        return view
+=======
+>>>>>>> 05a38c95a641075409cea515932784e53c976f89
     }
 
     private fun updateUserProfile() {

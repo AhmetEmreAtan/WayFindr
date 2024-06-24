@@ -106,7 +106,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:padding="5dp"
-                            android:text="UserName"
+                            android:text="Place Name"
                             android:textAlignment="textStart"
                             android:textColor="@color/black"
                             app:layout_constraintStart_toStartOf="parent"
