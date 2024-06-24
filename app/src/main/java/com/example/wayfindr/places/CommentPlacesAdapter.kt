@@ -48,7 +48,6 @@ class CommentPlacesAdapter(private val comments: List<CommentPlacesModel>) :
     override fun onBindViewHolder(holder: CommentViewHolder, position: Int) {
         val comment = comments[position]
         holder.bind(comment)
-
     }
 
     override fun getItemCount(): Int {

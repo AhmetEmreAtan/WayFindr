@@ -57,9 +57,6 @@
             android:name=".Register"
             android:exported="false" />
         <activity
-            android:name=".AdminEdit"
-            android:exported="true" />
-        <activity
             android:name=".Favorites"
             android:exported="true" />
         <activity
