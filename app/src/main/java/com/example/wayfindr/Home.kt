@@ -2,11 +2,13 @@ package com.example.wayfindr
 
 import com.example.wayfindr.home.adapters.PopularAdapter
 import android.content.ContentValues
+import android.graphics.Rect
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.ViewTreeObserver
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
@@ -20,7 +22,7 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.example.wayfindr.home.CategoryDetailFragment
 import com.example.wayfindr.databinding.FragmentHomeBinding
 import com.example.wayfindr.home.EventsDetailFragment
-import com.example.wayfindr.home.EventsFragment
+import com.example.wayfindr.home.FilteredResultsBottomSheetFragment
 import com.example.wayfindr.home.MessagesFragment
 import com.example.wayfindr.home.NotificationFragment
 import com.example.wayfindr.home.adapters.EventsAdapter
@@ -32,7 +34,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
-import java.io.Serializable
 import java.text.Collator
 import java.util.Locale
 
@@ -49,6 +50,7 @@ class Home : Fragment(), EventsAdapter.OnItemClickListener, PopularAdapter.OnIte
     private lateinit var eventsAdapter: EventsAdapter
     private lateinit var popularAdapter: PopularAdapter
     private lateinit var filteredAdapter: FilteredAdapter
+    private var filteredResultsBottomSheet: FilteredResultsBottomSheetFragment? = null
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -70,30 +72,38 @@ class Home : Fragment(), EventsAdapter.OnItemClickListener, PopularAdapter.OnIte
         setupCitySpinner(view)
         setupRecyclerView(view)
         setupEventsRecyclerView(view)
-        setupFilteredRecyclerView()
+        setupSearchListener()
         fetchPlacesData()
         fetchEventsData()
         setupCategoryButtons()
         setupNotificationButton()
         setupMessageButtons()
-        setupSearchListener()
+        setupKeyboardVisibilityListener()
+
     }
 
-    private fun setupRecyclerView(view: View) {
-        val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerViewPopular)
-        recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        recyclerView.adapter = popularAdapter
-    }
+    private fun fetchEventsData() {
+        eventsCollection
+            .get()
+            .addOnSuccessListener { querySnapshot ->
+                val eventsList = mutableListOf<EventModel>()
 
-    private fun setupEventsRecyclerView(view: View) {
-        val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerViewEvents)
-        recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        recyclerView.adapter = eventsAdapter
-    }
+                for (document in querySnapshot.documents) {
+                    val eventId = document.id
+                    val eventModel = document.toObject(EventModel::class.java)?.apply {
+                        this.eventId = eventId
+                    }
 
-    private fun setupFilteredRecyclerView() {
-        binding.recyclerViewFiltered.layoutManager = LinearLayoutManager(context)
-        binding.recyclerViewFiltered.adapter = filteredAdapter
+                    eventModel?.let {
+                        eventsList.add(eventModel)
+                    }
+                }
+
+                eventsAdapter.setEventsList(eventsList)
+            }
+            .addOnFailureListener { exception ->
+                Log.e(ContentValues.TAG, "Veri çekme işlemi başarısız. Hata: $exception")
+            }
     }
 
     private fun fetchPlacesData() {
@@ -126,24 +136,73 @@ class Home : Fragment(), EventsAdapter.OnItemClickListener, PopularAdapter.OnIte
             }
     }
 
-    private fun fetchEventsData() {
-        eventsCollection
+    private fun setupRecyclerView(view: View) {
+        val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerViewPopular)
+        recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        recyclerView.adapter = popularAdapter
+    }
+
+    private fun setupEventsRecyclerView(view: View) {
+        val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerViewEvents)
+        recyclerView.layoutManager = LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
+        recyclerView.adapter = eventsAdapter
+    }
+
+    private fun setupSearchListener() {
+        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                if (filteredResultsBottomSheet?.isVisible != true) {
+                    showFilteredResultsBottomSheet()
+                }
+                filterPlaces(query ?: "")
+                return true
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                return true
+            }
+        })
+
+        val searchButtonId = binding.searchView.context.resources.getIdentifier("android:id/search_go_btn", null, null)
+        val searchButton = binding.searchView.findViewById<View>(searchButtonId)
+        searchButton?.setOnClickListener {
+            val query = binding.searchView.query.toString()
+            if (query.isNotEmpty()) {
+                if (filteredResultsBottomSheet?.isVisible != true) {
+                    showFilteredResultsBottomSheet()
+                }
+                filterPlaces(query)
+            }
+        }
+    }
+
+    private fun showFilteredResultsBottomSheet() {
+        filteredResultsBottomSheet = FilteredResultsBottomSheetFragment.newInstance(this)
+        filteredResultsBottomSheet?.show(parentFragmentManager, FilteredResultsBottomSheetFragment::class.java.simpleName)
+    }
+
+    private fun filterPlaces(query: String) {
+        val lowerCaseQuery = query.toLowerCase(Locale.getDefault())
+        placesCollection
+            .orderBy("placeName")
             .get()
             .addOnSuccessListener { querySnapshot ->
-                val eventsList = mutableListOf<EventModel>()
+                val filteredList = mutableListOf<PlaceModel>()
 
                 for (document in querySnapshot.documents) {
-                    val eventId = document.id
-                    val eventModel = document.toObject(EventModel::class.java)?.apply {
-                        this.eventId = eventId
+                    val placeId = document.id
+                    val placeModel = document.toObject(PlaceModel::class.java)?.apply {
+                        this.placeId = placeId
                     }
 
-                    eventModel?.let {
-                        eventsList.add(eventModel)
+                    placeModel?.let {
+                        if (it.placeName.toLowerCase(Locale.getDefault()).contains(lowerCaseQuery)) {
+                            filteredList.add(placeModel)
+                        }
                     }
                 }
 
-                eventsAdapter.setEventsList(eventsList)
+                filteredResultsBottomSheet?.updateResults(filteredList)
             }
             .addOnFailureListener { exception ->
                 Log.e(ContentValues.TAG, "Veri çekme işlemi başarısız. Hata: $exception")
@@ -262,14 +321,14 @@ class Home : Fragment(), EventsAdapter.OnItemClickListener, PopularAdapter.OnIte
     private fun setupCategoryButtons() {
         val categoryClickListener = View.OnClickListener { view ->
             val category = when (view.id) {
-                R.id.category1, R.id.Category1_title -> "AVM"
+                R.id.category1, R.id.Category1_title -> "Avm"
                 R.id.category2, R.id.Category2_title -> "Dini"
                 R.id.category3, R.id.Category3_title -> "Doğa"
                 R.id.Category4, R.id.Category4_title -> "Eğlence"
                 R.id.category5, R.id.Category5_title -> "Kafe"
                 R.id.category6, R.id.Category6_title -> "Müze"
                 R.id.category7, R.id.Category7_title -> "Restoran"
-                R.id.Category8, R.id.Category8_title -> "Daha Fazla"
+                R.id.category8, R.id.Category8_title -> "Daha Fazla"
                 else -> ""
             }
             openCategoryDetailFragment(category)
@@ -289,7 +348,7 @@ class Home : Fragment(), EventsAdapter.OnItemClickListener, PopularAdapter.OnIte
         binding.Category6Title.setOnClickListener(categoryClickListener)
         binding.category7.setOnClickListener(categoryClickListener)
         binding.Category7Title.setOnClickListener(categoryClickListener)
-        binding.Category8.setOnClickListener(categoryClickListener)
+        binding.category8.setOnClickListener(categoryClickListener)
         binding.Category8Title.setOnClickListener(categoryClickListener)
     }
 
@@ -319,48 +378,30 @@ class Home : Fragment(), EventsAdapter.OnItemClickListener, PopularAdapter.OnIte
         }
     }
 
-    private fun setupSearchListener() {
-        binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                return false
-            }
+    private fun setupKeyboardVisibilityListener() {
+        val rootView = binding.root
+        rootView.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+            private var wasKeyboardVisible = false
 
-            override fun onQueryTextChange(newText: String?): Boolean {
-                if (newText.isNullOrEmpty()) {
-                    binding.recyclerViewFiltered.visibility = View.GONE
-                } else {
-                    binding.recyclerViewFiltered.visibility = View.VISIBLE
-                    filterPlaces(newText)
+            override fun onGlobalLayout() {
+                val rect = Rect()
+                rootView.getWindowVisibleDisplayFrame(rect)
+                val screenHeight = rootView.height
+                val keypadHeight = screenHeight - rect.bottom
+
+                val isKeyboardVisible = keypadHeight > screenHeight * 0.15
+
+                if (isKeyboardVisible != wasKeyboardVisible) {
+                    if (isKeyboardVisible) {
+                        (activity as MainActivity).binding.bottomNavBar.visibility = View.GONE
+                    } else {
+                        (activity as MainActivity).binding.bottomNavBar.visibility = View.VISIBLE
+                    }
                 }
-                return true
+                wasKeyboardVisible = isKeyboardVisible
             }
         })
     }
 
-    private fun filterPlaces(query: String) {
-        placesCollection
-            .orderBy("placeName")
-            .startAt(query)
-            .endAt(query + "\uf8ff")
-            .get()
-            .addOnSuccessListener { querySnapshot ->
-                val filteredList = mutableListOf<PlaceModel>()
 
-                for (document in querySnapshot.documents) {
-                    val placeId = document.id
-                    val placeModel = document.toObject(PlaceModel::class.java)?.apply {
-                        this.placeId = placeId
-                    }
-
-                    placeModel?.let {
-                        filteredList.add(placeModel)
-                    }
-                }
-
-                filteredAdapter.setPlacesList(filteredList)
-            }
-            .addOnFailureListener { exception ->
-                Log.e(ContentValues.TAG, "Veri çekme işlemi başarısız. Hata: $exception")
-            }
-    }
 }

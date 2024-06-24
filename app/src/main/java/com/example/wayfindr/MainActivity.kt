@@ -2,7 +2,10 @@ package com.example.wayfindr
 
 import android.content.Context
 import android.content.Intent
+import android.graphics.Rect
 import android.os.Bundle
+import android.view.View
+import android.view.ViewTreeObserver
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.wayfindr.databinding.ActivityMainBinding
@@ -10,11 +13,10 @@ import com.example.wayfindr.search.Search
 import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
 import com.ismaeldivita.chipnavigation.ChipNavigationBar
-import com.google.firebase.messaging.FirebaseMessaging
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityMainBinding
+    lateinit var binding: ActivityMainBinding
     private lateinit var bottomNavBar: ChipNavigationBar
     private val firebaseAuth = FirebaseAuth.getInstance()
 
@@ -28,6 +30,7 @@ class MainActivity : AppCompatActivity() {
         checkFirstRun()
         setupBottomNavigationBar()
         loadDefaultFragment()
+        setupKeyboardVisibilityListener()
     }
 
     private fun checkFirstRun() {
@@ -63,7 +66,6 @@ class MainActivity : AppCompatActivity() {
         bottomNavBar.setItemSelected(R.id.home, true)
     }
 
-
     private fun replaceFragment(fragment: Fragment) {
         val fragmentManager = supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
@@ -71,4 +73,28 @@ class MainActivity : AppCompatActivity() {
         fragmentTransaction.commit()
     }
 
+    private fun setupKeyboardVisibilityListener() {
+        val rootView = binding.root
+        rootView.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener {
+            private var wasKeyboardVisible = false
+
+            override fun onGlobalLayout() {
+                val rect = Rect()
+                rootView.getWindowVisibleDisplayFrame(rect)
+                val screenHeight = rootView.height
+                val keypadHeight = screenHeight - rect.bottom
+
+                val isKeyboardVisible = keypadHeight > screenHeight * 0.15
+
+                if (isKeyboardVisible != wasKeyboardVisible) {
+                    if (isKeyboardVisible) {
+                        binding.bottomNavBar.visibility = View.GONE
+                    } else {
+                        binding.bottomNavBar.visibility = View.VISIBLE
+                    }
+                }
+                wasKeyboardVisible = isKeyboardVisible
+            }
+        })
+    }
 }
