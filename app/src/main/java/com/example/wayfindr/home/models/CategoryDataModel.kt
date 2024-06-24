@@ -1,4 +1,4 @@
-package com.example.wayfindr.home
+package com.example.wayfindr.home.models
 
 import java.io.Serializable
 

@@ -11,6 +11,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.wayfindr.Home
 import com.example.wayfindr.R
+import com.example.wayfindr.home.adapters.CategoryAdapter
+import com.example.wayfindr.home.models.CategoryDataModel
 import com.google.firebase.firestore.FirebaseFirestore
 
 class CategoryDetailFragment : Fragment() {

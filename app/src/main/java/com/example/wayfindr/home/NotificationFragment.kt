@@ -1,6 +1,7 @@
 package com.example.wayfindr.home
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,8 +10,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.wayfindr.Home
 import com.example.wayfindr.R
 import com.example.wayfindr.databinding.FragmentNotificationBinding
+import com.example.wayfindr.home.adapters.NotificationAdapter
 import com.example.wayfindr.home.models.FriendRequest
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 
 class NotificationFragment : Fragment() {
@@ -33,7 +36,6 @@ class NotificationFragment : Fragment() {
         setupRecyclerView()
         fetchNotifications()
 
-
         binding.closeNotificationfragment.setOnClickListener {
             parentFragmentManager.beginTransaction()
                 .replace(R.id.frame_layout, Home())
@@ -42,7 +44,11 @@ class NotificationFragment : Fragment() {
     }
 
     private fun setupRecyclerView() {
-        adapter = NotificationAdapter(emptyList())
+        adapter = NotificationAdapter(mutableListOf(), { requestId, fromUserId ->
+            acceptFriendRequest(requestId, fromUserId)
+        }, { requestId ->
+            rejectFriendRequest(requestId)
+        })
         binding.notificationRecyclerView.layoutManager = LinearLayoutManager(context)
         binding.notificationRecyclerView.adapter = adapter
     }
@@ -51,25 +57,65 @@ class NotificationFragment : Fragment() {
         val currentUserId = FirebaseAuth.getInstance().currentUser?.uid ?: return
         val db = FirebaseFirestore.getInstance()
 
+        Log.d("NotificationFragment", "Fetching notifications for user ID: $currentUserId")
+
         db.collection("friend_requests")
-            .whereEqualTo("to", currentUserId)
+            .whereEqualTo("toUserId", currentUserId)
             .whereEqualTo("status", "pending")
             .get()
             .addOnSuccessListener { documents ->
-                val notifications = documents.map { doc ->
-                    FriendRequest(
-                        doc.id,
-                        doc.getString("from") ?: "",
-                        doc.getString("to") ?: "",
-                        doc.getString("status") ?: ""
-                    )
+                if (documents.isEmpty) {
+                    Log.d("NotificationFragment", "No pending friend requests found.")
+                } else {
+                    val notifications = documents.map { doc ->
+                        FriendRequest(
+                            doc.id,
+                            doc.getString("fromUserId") ?: "",
+                            doc.getString("toUserId") ?: "",
+                            doc.getString("status") ?: "pending" // Varsayılan olarak "pending" yap
+                        )
+                    }
+                    Log.d("NotificationFragment", "Fetched ${notifications.size} notifications")
+                    adapter.updateNotifications(notifications)
                 }
-                adapter.updateNotifications(notifications)
+            }
+            .addOnFailureListener { e ->
+                Log.e("NotificationFragment", "Error fetching notifications", e)
             }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    private fun acceptFriendRequest(requestId: String, fromUserId: String) {
+        val currentUserId = FirebaseAuth.getInstance().currentUser?.uid ?: return
+        val db = FirebaseFirestore.getInstance()
+
+        db.collection("users").document(currentUserId).update("friends", FieldValue.arrayUnion(fromUserId))
+        db.collection("users").document(fromUserId).update("friends", FieldValue.arrayUnion(currentUserId))
+            .addOnSuccessListener {
+                db.collection("friend_requests").document(requestId).update("status", "accepted")
+                    .addOnSuccessListener {
+                        adapter.updateItemToFriendAdded(requestId)
+                    }
+            }
+            .addOnFailureListener { e ->
+                Log.e("NotificationsFragment", "Error accepting friend request", e)
+            }
+    }
+
+    private fun rejectFriendRequest(requestId: String) {
+        val currentUserId = FirebaseAuth.getInstance().currentUser?.uid ?: return
+        val db = FirebaseFirestore.getInstance()
+
+        db.collection("friend_requests").document(requestId).delete()
+            .addOnSuccessListener {
+                adapter.removeNotification(requestId)
+            }
+            .addOnFailureListener { e ->
+                Log.e("NotificationsFragment", "Error rejecting friend request", e)
+            }
     }
 }

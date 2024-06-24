@@ -1,27 +1,16 @@
 package com.example.wayfindr
 
-import com.example.wayfindr.Home
-import android.Manifest
-import android.app.Activity
 import android.content.Context
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.net.Uri
-import android.os.Build
 import android.os.Bundle
-import android.provider.SyncStateContract.Columns
-import android.text.Layout.Alignment
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.wayfindr.databinding.ActivityMainBinding
 import com.example.wayfindr.search.Search
 import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.StorageReference
 import com.ismaeldivita.chipnavigation.ChipNavigationBar
-import java.lang.reflect.Modifier
+import com.google.firebase.messaging.FirebaseMessaging
 
 class MainActivity : AppCompatActivity() {
 
@@ -81,4 +70,5 @@ class MainActivity : AppCompatActivity() {
         fragmentTransaction.replace(R.id.frame_layout, fragment)
         fragmentTransaction.commit()
     }
+
 }
