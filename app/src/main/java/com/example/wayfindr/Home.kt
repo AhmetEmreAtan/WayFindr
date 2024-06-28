@@ -5,13 +5,16 @@ import android.content.ContentValues
 import android.graphics.Rect
 import android.os.Bundle
 import android.util.Log
+import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
+import android.view.inputmethod.EditorInfo
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
+import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
@@ -150,29 +153,28 @@ class Home : Fragment(), EventsAdapter.OnItemClickListener, PopularAdapter.OnIte
 
     private fun setupSearchListener() {
         binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-            override fun onQueryTextSubmit(query: String?): Boolean {
-                if (filteredResultsBottomSheet?.isVisible != true) {
-                    showFilteredResultsBottomSheet()
+            override fun onQueryTextSubmit(query: String): Boolean {
+                if (query.isEmpty()) {
+                    filteredResultsBottomSheet?.dismiss()
+                } else {
+                    if (filteredResultsBottomSheet == null || !filteredResultsBottomSheet!!.isVisible) {
+                        showFilteredResultsBottomSheet()
+                    }
+                    filterPlaces(query)
                 }
-                filterPlaces(query ?: "")
                 return true
             }
 
-            override fun onQueryTextChange(newText: String?): Boolean {
-                return true
+            override fun onQueryTextChange(newText: String): Boolean {
+                return false
             }
         })
 
-        val searchButtonId = binding.searchView.context.resources.getIdentifier("android:id/search_go_btn", null, null)
-        val searchButton = binding.searchView.findViewById<View>(searchButtonId)
-        searchButton?.setOnClickListener {
-            val query = binding.searchView.query.toString()
-            if (query.isNotEmpty()) {
-                if (filteredResultsBottomSheet?.isVisible != true) {
-                    showFilteredResultsBottomSheet()
-                }
-                filterPlaces(query)
-            }
+        binding.searchView.setOnTouchListener { v, event ->
+            v.performClick()
+            binding.searchView.isIconified = false
+            binding.searchView.requestFocus()
+            true
         }
     }
 
@@ -196,7 +198,7 @@ class Home : Fragment(), EventsAdapter.OnItemClickListener, PopularAdapter.OnIte
                     }
 
                     placeModel?.let {
-                        if (it.placeName.toLowerCase(Locale.getDefault()).contains(lowerCaseQuery)) {
+                        if (it.placeName.toLowerCase(Locale.getDefault()).startsWith(lowerCaseQuery)) {
                             filteredList.add(placeModel)
                         }
                     }
@@ -208,6 +210,7 @@ class Home : Fragment(), EventsAdapter.OnItemClickListener, PopularAdapter.OnIte
                 Log.e(ContentValues.TAG, "Veri çekme işlemi başarısız. Hata: $exception")
             }
     }
+
 
     override fun onItemClick(event: EventModel) {
         showEventDetailFragment(event)
@@ -267,18 +270,18 @@ class Home : Fragment(), EventsAdapter.OnItemClickListener, PopularAdapter.OnIte
                                 .placeholder(R.drawable.profilephotoicon)
                                 .error(R.drawable.error_image)
                                 .transform(CircleCrop())
-                                .into(binding.profilepicture)
+                                .into(binding.homefragmentprofilepicture)
                         }
                     } else {
-                        binding.profilepicture.setImageResource(R.drawable.profilephotoicon)
+                        binding.homefragmentprofilepicture.setImageResource(R.drawable.profilephotoicon)
                     }
                 } else {
                     Toast.makeText(context, "Error: Profile picture URL not found", Toast.LENGTH_SHORT).show()
-                    binding.profilepicture.setImageResource(R.drawable.profilephotoicon)
+                    binding.homefragmentprofilepicture.setImageResource(R.drawable.profilephotoicon)
                 }
             }.addOnFailureListener {
                 Toast.makeText(context, "Error fetching profile picture: ${it.message}", Toast.LENGTH_SHORT).show()
-                binding.profilepicture.setImageResource(R.drawable.profilephotoicon)
+                binding.homefragmentprofilepicture.setImageResource(R.drawable.profilephotoicon)
             }
         }
     }
@@ -328,7 +331,8 @@ class Home : Fragment(), EventsAdapter.OnItemClickListener, PopularAdapter.OnIte
                 R.id.category5, R.id.Category5_title -> "Kafe"
                 R.id.category6, R.id.Category6_title -> "Müze"
                 R.id.category7, R.id.Category7_title -> "Restoran"
-                R.id.category8, R.id.Category8_title -> "Daha Fazla"
+                R.id.category8, R.id.Category8_title -> "Otel"
+                R.id.category9, R.id.Category9_title -> "Kütüphane"
                 else -> ""
             }
             openCategoryDetailFragment(category)
@@ -350,6 +354,8 @@ class Home : Fragment(), EventsAdapter.OnItemClickListener, PopularAdapter.OnIte
         binding.Category7Title.setOnClickListener(categoryClickListener)
         binding.category8.setOnClickListener(categoryClickListener)
         binding.Category8Title.setOnClickListener(categoryClickListener)
+        binding.category9.setOnClickListener(categoryClickListener)
+        binding.Category9Title.setOnClickListener(categoryClickListener)
     }
 
     private fun openCategoryDetailFragment(category: String) {
@@ -359,6 +365,7 @@ class Home : Fragment(), EventsAdapter.OnItemClickListener, PopularAdapter.OnIte
             .addToBackStack(null)
             .commit()
     }
+
 
     private fun setupMessageButtons() {
         binding.messagingButton.setOnClickListener {
@@ -402,6 +409,4 @@ class Home : Fragment(), EventsAdapter.OnItemClickListener, PopularAdapter.OnIte
             }
         })
     }
-
-
 }

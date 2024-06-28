@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageButton
+import android.widget.TextView
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -40,6 +41,10 @@ class CategoryDetailFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        val categoryName = arguments?.getString("CATEGORY") ?: "Category"
+        val categoryTitleTextView = view.findViewById<TextView>(R.id.categorysTitle)
+        categoryTitleTextView.text = categoryName
 
         recyclerView = view.findViewById(R.id.recyclerView_category)
         recyclerView.layoutManager = LinearLayoutManager(requireContext())
@@ -100,5 +105,4 @@ class CategoryDetailFragment : Fragment() {
         adapter = CategoryAdapter(dataList)
         recyclerView.adapter = adapter
     }
-
 }

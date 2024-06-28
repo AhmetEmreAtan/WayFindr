@@ -39,7 +39,7 @@
                         android:background="@drawable/homepage_bg">
 
                         <ImageView
-                            android:id="@+id/profilepicture"
+                            android:id="@+id/homefragmentprofilepicture"
                             android:layout_width="60dp"
                             android:layout_height="60dp"
                             android:layout_marginStart="16dp"
@@ -78,13 +78,12 @@
                             android:background="@drawable/spinner_design"
                             android:fontFamily="@font/font2"
                             android:gravity="center"
-                            android:text="İstanbul"
                             android:textAlignment="center"
                             android:textColor="@color/black"
                             android:textSize="20sp"
                             android:textStyle="bold"
                             app:layout_constraintEnd_toStartOf="@+id/messaging_button"
-                            app:layout_constraintStart_toEndOf="@+id/profilepicture"
+                            app:layout_constraintStart_toEndOf="@+id/homefragmentprofilepicture"
                             app:layout_constraintTop_toTopOf="parent" />
 
                         <TextView
@@ -93,7 +92,7 @@
                             android:layout_height="wrap_content"
                             android:layout_marginStart="16dp"
                             android:layout_marginTop="24dp"
-                            android:text="Hi "
+                            android:text="@string/fragment_home_hi"
                             android:textColor="@color/white"
                             android:textSize="20sp"
                             app:layout_constraintStart_toStartOf="parent"
@@ -104,7 +103,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_marginStart="16dp"
-                            android:text="Let's explore the places around"
+                            android:text="@string/fragment_home_letsexplore"
                             android:textColor="@color/white"
                             android:textSize="16sp"
                             app:layout_constraintStart_toStartOf="parent"
@@ -120,19 +119,11 @@
                             android:layout_marginBottom="16dp"
                             android:background="@drawable/spinner_border"
                             android:iconifiedByDefault="false"
+                            app:searchIcon="@drawable/search"
                             app:layout_constraintBottom_toBottomOf="parent"
                             app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toStartOf="parent"
                             app:layout_constraintTop_toBottomOf="@+id/textView10">
-
-                            <ImageButton
-                                android:id="@+id/searchButton"
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Search"
-                                android:layout_gravity="end|center_vertical"
-                                android:layout_marginEnd="8dp"
-                                android:background="?attr/selectableItemBackground" />
                         </androidx.appcompat.widget.SearchView>
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -158,7 +149,7 @@
                             android:id="@+id/category1"
                             android:layout_width="60dp"
                             android:layout_height="60dp"
-                            android:layout_marginStart="24dp"
+                            android:layout_marginStart="32dp"
                             android:background="@drawable/category_button_shape"
                             android:src="@drawable/iconsmall"
                             app:layout_constraintEnd_toStartOf="@+id/category2"
@@ -171,7 +162,7 @@
                             android:id="@+id/Category1_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="AVM"
+                            android:text="@string/fragment_categories_avm"
                             android:textColor="@color/black"
                             android:textSize="14sp"
                             app:layout_constraintEnd_toEndOf="@+id/category1"
@@ -193,7 +184,7 @@
                             android:id="@+id/Category2_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Dini"
+                            android:text="@string/fragment_categories_religious"
                             android:textColor="@color/black"
                             android:textSize="14sp"
                             app:layout_constraintEnd_toEndOf="@+id/category2"
@@ -204,9 +195,10 @@
                             android:id="@+id/category3"
                             android:layout_width="60dp"
                             android:layout_height="60dp"
+                            android:layout_marginEnd="32dp"
                             android:background="@drawable/category_button_shape"
                             android:src="@drawable/iconsforest"
-                            app:layout_constraintEnd_toStartOf="@+id/Category4"
+                            app:layout_constraintEnd_toEndOf="parent"
                             app:layout_constraintStart_toEndOf="@+id/category2"
                             app:layout_constraintTop_toTopOf="parent"
                             app:tint="@color/green" />
@@ -215,7 +207,7 @@
                             android:id="@+id/Category3_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Doğa"
+                            android:text="@string/fragment_categories_nature"
                             android:textColor="@color/black"
                             android:textSize="14sp"
                             app:layout_constraintEnd_toEndOf="@+id/category3"
@@ -227,19 +219,19 @@
                             android:id="@+id/Category4"
                             android:layout_width="60dp"
                             android:layout_height="60dp"
-                            android:layout_marginEnd="24dp"
+                            android:layout_marginStart="32dp"
+                            android:layout_marginTop="16dp"
                             android:background="@drawable/category_button_shape"
                             android:src="@drawable/iconsthemepark"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toEndOf="@+id/category3"
-                            app:layout_constraintTop_toTopOf="parent"
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/Category1_title"
                             app:tint="@color/navy" />
 
                         <TextView
                             android:id="@+id/Category4_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Eğlence"
+                            android:text="@string/fragment_categories_entertaiment"
                             android:textColor="@color/black"
                             android:textSize="14sp"
                             app:layout_constraintEnd_toEndOf="@+id/Category4"
@@ -251,21 +243,20 @@
                             android:id="@+id/category5"
                             android:layout_width="60dp"
                             android:layout_height="60dp"
-                            android:layout_marginStart="24dp"
                             android:layout_marginTop="16dp"
                             android:background="@drawable/category_button_shape"
                             android:src="@drawable/iconscafe40"
                             app:layout_constraintEnd_toStartOf="@+id/category6"
                             app:layout_constraintHorizontal_chainStyle="spread_inside"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/Category1_title"
+                            app:layout_constraintStart_toEndOf="@+id/Category4"
+                            app:layout_constraintTop_toBottomOf="@+id/Category2_title"
                             app:tint="@color/light_blue_600" />
 
                         <TextView
                             android:id="@+id/Category5_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Kafe"
+                            android:text="@string/fragment_categories_cafe"
                             android:textColor="@color/black"
                             android:textSize="14sp"
                             app:layout_constraintEnd_toEndOf="@+id/category5"
@@ -278,18 +269,18 @@
                             android:layout_width="60dp"
                             android:layout_height="60dp"
                             android:layout_marginTop="16dp"
+                            android:layout_marginEnd="32dp"
                             android:background="@drawable/category_button_shape"
                             android:src="@drawable/iconsmuseum"
-                            app:layout_constraintEnd_toStartOf="@+id/category7"
-                            app:layout_constraintStart_toEndOf="@+id/category5"
-                            app:layout_constraintTop_toBottomOf="@+id/Category2_title"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/Category3_title"
                             app:tint="@color/maroon" />
 
                         <TextView
                             android:id="@+id/Category6_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Müze"
+                            android:text="@string/fragment_categories_museum"
                             android:textColor="@color/black"
                             android:textSize="14sp"
                             app:layout_constraintEnd_toEndOf="@+id/category6"
@@ -301,18 +292,18 @@
                             android:id="@+id/category7"
                             android:layout_width="60dp"
                             android:layout_height="60dp"
+                            android:layout_marginStart="32dp"
                             android:layout_marginTop="16dp"
                             android:background="@drawable/category_button_shape"
                             android:src="@drawable/iconsrestaurant"
-                            app:layout_constraintEnd_toStartOf="@+id/category8"
-                            app:layout_constraintStart_toEndOf="@+id/category6"
-                            app:layout_constraintTop_toBottomOf="@+id/Category3_title" />
+                            app:layout_constraintStart_toStartOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/Category4_title" />
 
                         <TextView
                             android:id="@+id/Category7_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="Restoran"
+                            android:text="@string/fragment_categories_restaurant"
                             android:textColor="@color/black"
                             android:textSize="14sp"
                             app:layout_constraintEnd_toEndOf="@+id/category7"
@@ -325,23 +316,45 @@
                             android:layout_width="60dp"
                             android:layout_height="60dp"
                             android:layout_marginTop="16dp"
-                            android:layout_marginEnd="24dp"
                             android:background="@drawable/category_button_shape"
-                            android:src="@drawable/iconsellipsis"
-                            app:layout_constraintEnd_toEndOf="parent"
+                            android:src="@drawable/iconshotel"
+                            app:layout_constraintEnd_toStartOf="@+id/category9"
                             app:layout_constraintStart_toEndOf="@+id/category7"
-                            app:layout_constraintTop_toBottomOf="@+id/Category4_title" />
+                            app:layout_constraintTop_toBottomOf="@+id/Category5_title" />
 
                         <TextView
                             android:id="@+id/Category8_title"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:text="See"
+                            android:text="@string/fragment_categories_hotel"
                             android:textColor="@color/black"
                             android:textSize="14sp"
                             app:layout_constraintEnd_toEndOf="@+id/category8"
                             app:layout_constraintStart_toStartOf="@+id/category8"
                             app:layout_constraintTop_toBottomOf="@+id/category8" />
+
+
+                        <ImageButton
+                            android:id="@+id/category9"
+                            android:layout_width="60dp"
+                            android:layout_height="60dp"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginEnd="32dp"
+                            android:background="@drawable/category_button_shape"
+                            android:src="@drawable/iconslibrary"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintTop_toBottomOf="@+id/Category6_title" />
+
+                        <TextView
+                            android:id="@+id/Category9_title"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/fragment_categories_library"
+                            android:textColor="@color/black"
+                            android:textSize="14sp"
+                            app:layout_constraintEnd_toEndOf="@+id/category9"
+                            app:layout_constraintStart_toStartOf="@+id/category9"
+                            app:layout_constraintTop_toBottomOf="@+id/category9" />
 
                     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -389,7 +402,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="24dp"
                     android:fontFamily="@font/font2"
-                    android:text="Events"
+                    android:text="@string/fragment_home_events_title"
                     android:textColor="@color/black"
                     android:textSize="20sp"
                     android:textStyle="bold"
