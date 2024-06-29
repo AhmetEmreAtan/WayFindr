@@ -51,8 +51,7 @@ class PlacesDetailFragment : Fragment() {
         //Close Fragment
         val closeButton = view.findViewById<ImageButton>(R.id.placesdetail_closebtn)
         closeButton.setOnClickListener {
-            parentFragmentManager.beginTransaction().remove(this).commit()
-            parentFragmentManager.beginTransaction().replace(R.id.frame_layout, Places()).commit()
+            parentFragmentManager.popBackStack()
         }
 
         val selectedPlace = arguments?.getSerializable("selectedPlace") as? PlaceModel

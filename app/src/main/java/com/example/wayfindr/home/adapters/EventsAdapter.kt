@@ -48,7 +48,7 @@ class EventsAdapter(private var eventsList: List<EventModel>, private val listen
         return eventsList.size
     }
 
-    fun setEventsList(newEventsList: List<EventModel>) {
+    fun updateEvents(newEventsList: List<EventModel>) {
         eventsList = newEventsList
         notifyDataSetChanged()
     }

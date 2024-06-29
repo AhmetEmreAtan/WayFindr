@@ -374,6 +374,7 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/categoriesCardview" />
 
+
                 <androidx.cardview.widget.CardView
                     android:id="@+id/popular_cardView"
                     android:layout_width="match_parent"
@@ -431,6 +432,27 @@
                         tools:listitem="@layout/item_event" />
 
                 </androidx.cardview.widget.CardView>
+
+                <TextView
+                    android:id="@+id/seeAllPopularTxt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="24dp"
+                    android:text="@string/fragment_home_seealltext"
+                    android:textColor="@color/black"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/textView5" />
+
+                <TextView
+                    android:id="@+id/seeAllEventsTxt"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="24dp"
+                    android:text="@string/fragment_home_seealltext"
+                    android:textColor="@color/black"
+                    app:layout_constraintBottom_toBottomOf="@+id/textViewEvents"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="@+id/textViewEvents" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>

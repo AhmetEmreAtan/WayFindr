@@ -5,16 +5,13 @@ import android.content.ContentValues
 import android.graphics.Rect
 import android.os.Bundle
 import android.util.Log
-import android.view.KeyEvent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.ViewTreeObserver
-import android.view.inputmethod.EditorInfo
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Spinner
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
@@ -24,6 +21,8 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.example.wayfindr.home.CategoryDetailFragment
 import com.example.wayfindr.databinding.FragmentHomeBinding
+import com.example.wayfindr.home.AllEventsFragment
+import com.example.wayfindr.home.AllPopularFragment
 import com.example.wayfindr.home.EventsDetailFragment
 import com.example.wayfindr.home.FilteredResultsBottomSheetFragment
 import com.example.wayfindr.home.MessagesFragment
@@ -82,8 +81,26 @@ class Home : Fragment(), EventsAdapter.OnItemClickListener, PopularAdapter.OnIte
         setupNotificationButton()
         setupMessageButtons()
         setupKeyboardVisibilityListener()
+        setupSeeAllButtons()
 
     }
+
+    private fun setupSeeAllButtons() {
+        binding.seeAllEventsTxt.setOnClickListener {
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.frame_layout, AllEventsFragment())
+                .addToBackStack(null)
+                .commit()
+        }
+
+        binding.seeAllPopularTxt.setOnClickListener {
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.frame_layout, AllPopularFragment())
+                .addToBackStack(null)
+                .commit()
+        }
+    }
+
 
     private fun fetchEventsData() {
         eventsCollection
@@ -102,7 +119,7 @@ class Home : Fragment(), EventsAdapter.OnItemClickListener, PopularAdapter.OnIte
                     }
                 }
 
-                eventsAdapter.setEventsList(eventsList)
+                eventsAdapter.updateEvents(eventsList)
             }
             .addOnFailureListener { exception ->
                 Log.e(ContentValues.TAG, "Veri çekme işlemi başarısız. Hata: $exception")

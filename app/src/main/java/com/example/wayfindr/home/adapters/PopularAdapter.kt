@@ -31,6 +31,8 @@ class PopularAdapter(
         }
 
     }
+
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): PopularViewHolder {
         val view = LayoutInflater.from(parent.context)
             .inflate(R.layout.item_popular, parent, false)
