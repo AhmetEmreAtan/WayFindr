@@ -25,7 +25,7 @@ class NotificationAdapter(
 
         fun bind(notification: FriendRequest) {
             FirebaseFirestore.getInstance().collection("users")
-                .document(notification.fromUserId)
+                .document(notification.from)
                 .get()
                 .addOnSuccessListener { document ->
                     if (document != null) {
@@ -41,7 +41,7 @@ class NotificationAdapter(
                             .into(binding.notificationProfileImage)
 
                         binding.acceptButton.setOnClickListener {
-                            onAcceptClickListener(notification.id, notification.fromUserId)
+                            onAcceptClickListener(notification.id, notification.from)
                         }
                         binding.rejectButton.setOnClickListener {
                             onRejectClickListener(notification.id)
@@ -56,7 +56,7 @@ class NotificationAdapter(
 
         fun bind(notification: FriendRequest) {
             FirebaseFirestore.getInstance().collection("users")
-                .document(notification.fromUserId)
+                .document(notification.from)
                 .get()
                 .addOnSuccessListener { document ->
                     if (document != null) {

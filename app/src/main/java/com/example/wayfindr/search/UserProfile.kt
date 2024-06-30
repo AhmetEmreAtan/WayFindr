@@ -1,5 +1,6 @@
 package com.example.wayfindr.search
 
+import android.app.AlertDialog
 import android.content.ContentValues.TAG
 import android.os.Bundle
 import android.util.Log
@@ -9,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
@@ -20,7 +22,7 @@ import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FieldValue
 import com.google.firebase.firestore.FirebaseFirestore
 
-class userProfile : Fragment() {
+class UserProfile : Fragment() {
 
     private lateinit var userNameTextView: TextView
     private lateinit var firstNameTextView: TextView
@@ -128,11 +130,15 @@ class userProfile : Fragment() {
             }
     }
 
+
     private fun checkFriendRequestStatus(userId: String, callback: (Boolean) -> Unit) {
         val db = FirebaseFirestore.getInstance()
-        db.collection("friend_requests")
-            .whereEqualTo("from", currentUser?.uid)
-            .whereEqualTo("to", userId)
+        val currentUserId = currentUser?.uid ?: return
+
+        db.collection("users")
+            .document(userId)
+            .collection("friend_requests")
+            .whereEqualTo("from", currentUserId)
             .whereEqualTo("status", "pending")
             .get()
             .addOnSuccessListener { documents ->
@@ -144,32 +150,38 @@ class userProfile : Fragment() {
             }
     }
 
+
+
     private fun toggleFollowButton(userId: String) {
         checkFriendshipStatus(userId) { isFriend ->
             if (isFriend) {
-                usersRef.document(currentUser!!.uid).update("friends", FieldValue.arrayRemove(userId))
-                setFollowButtonLabel(userId)
+                showRemoveFriendDialog(userId)
             } else {
                 checkFriendRequestStatus(userId) { isRequested ->
                     if (isRequested) {
-                        cancelFriendRequest(currentUser?.uid ?: "", userId)
+                        cancelFriendRequest(userId)
                     } else {
-                        sendFriendRequest(currentUser?.uid ?: "", userId)
+                        sendFriendRequest(userId)
                     }
                 }
             }
         }
     }
 
-    private fun sendFriendRequest(currentUserId: String, targetUserId: String) {
+    private fun sendFriendRequest(targetUserId: String) {
         val db = FirebaseFirestore.getInstance()
+        val currentUserId = currentUser?.uid ?: return
+
         val friendRequest = hashMapOf(
             "from" to currentUserId,
-            "to" to targetUserId,
-            "status" to "pending"
+            "status" to "pending",
+            "timestamp" to System.currentTimeMillis()
         )
 
-        db.collection("friend_requests").add(friendRequest)
+        db.collection("users")
+            .document(targetUserId)
+            .collection("friend_requests")
+            .add(friendRequest)
             .addOnSuccessListener { documentReference ->
                 Log.d("FriendRequest", "Friend request sent with ID: ${documentReference.id}")
                 setFollowButtonLabel(targetUserId)
@@ -179,16 +191,27 @@ class userProfile : Fragment() {
             }
     }
 
-    private fun cancelFriendRequest(currentUserId: String, targetUserId: String) {
+
+
+
+
+    private fun cancelFriendRequest(targetUserId: String) {
         val db = FirebaseFirestore.getInstance()
-        db.collection("friend_requests")
+        val currentUserId = currentUser?.uid ?: return
+
+        db.collection("users")
+            .document(targetUserId)
+            .collection("friend_requests")
             .whereEqualTo("from", currentUserId)
-            .whereEqualTo("to", targetUserId)
             .whereEqualTo("status", "pending")
             .get()
             .addOnSuccessListener { documents ->
                 for (document in documents) {
-                    db.collection("friend_requests").document(document.id).delete()
+                    db.collection("users")
+                        .document(targetUserId)
+                        .collection("friend_requests")
+                        .document(document.id)
+                        .delete()
                         .addOnSuccessListener {
                             Log.d("FriendRequest", "Friend request canceled")
                             setFollowButtonLabel(targetUserId)
@@ -203,25 +226,68 @@ class userProfile : Fragment() {
             }
     }
 
+
     private fun setFollowButtonLabel(userId: String) {
         checkFriendshipStatus(userId) { isFriend ->
             if (isFriend) {
                 followButton.text = "Arkadaşsınız"
                 followButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.user_trust, 0, 0, 0)
-                followButton.isEnabled = false
+                followButton.isEnabled = true
+                followButton.setOnClickListener {
+                    showRemoveFriendDialog(userId)
+                }
             } else {
                 checkFriendRequestStatus(userId) { isRequested ->
                     if (isRequested) {
                         followButton.text = "İstek Yollandı"
                         followButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.request, 0, 0, 0)
-                        followButton.isEnabled = true
+                        followButton.isEnabled = false
                     } else {
                         followButton.text = "Arkadaş Ekle"
                         followButton.setCompoundDrawablesWithIntrinsicBounds(R.drawable.baseline_person_add_24, 0, 0, 0)
                         followButton.isEnabled = true
+                        followButton.setOnClickListener {
+                            sendFriendRequest(userId)
+                        }
                     }
                 }
             }
+        }
+    }
+
+    private fun showRemoveFriendDialog(userId: String) {
+        val dialogBuilder = AlertDialog.Builder(requireContext())
+        dialogBuilder.setMessage("Kişiyi arkadaşlıktan çıkarırsanız tekrardan istek yollamanız gerekecek.")
+            .setCancelable(false)
+            .setPositiveButton("Evet") { dialog, id ->
+                removeFriend(userId)
+            }
+            .setNegativeButton("Hayır") { dialog, id ->
+                dialog.dismiss()
+            }
+        val alert = dialogBuilder.create()
+        alert.setTitle("Arkadaş silinsin mi?")
+        alert.show()
+    }
+
+    private fun removeFriend(userId: String) {
+        val currentUserId = currentUser?.uid ?: return
+        val db = FirebaseFirestore.getInstance()
+
+        val batch = db.batch()
+
+        val currentUserRef = db.collection("users").document(currentUserId)
+        batch.update(currentUserRef, "friends", FieldValue.arrayRemove(userId))
+
+        val otherUserRef = db.collection("users").document(userId)
+        batch.update(otherUserRef, "friends", FieldValue.arrayRemove(currentUserId))
+
+        batch.commit().addOnSuccessListener {
+            Toast.makeText(requireContext(), "Arkadaşlıktan çıkarıldı", Toast.LENGTH_SHORT).show()
+            setFollowButtonLabel(userId)
+        }.addOnFailureListener { e ->
+            Log.e(TAG, "Arkadaşlıktan çıkarma işlemi başarısız: $e")
+            Toast.makeText(requireContext(), "Arkadaşlıktan çıkarma işlemi başarısız", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -262,8 +328,8 @@ class userProfile : Fragment() {
     }
 
     companion object {
-        fun newInstance(userId: String): userProfile {
-            val fragment = userProfile()
+        fun newInstance(userId: String): UserProfile {
+            val fragment = UserProfile()
             val args = Bundle()
             args.putString("userId", userId)
             fragment.arguments = args
