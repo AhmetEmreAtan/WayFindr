@@ -9,7 +9,7 @@ import android.view.ViewTreeObserver
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import com.example.wayfindr.databinding.ActivityMainBinding
-import com.example.wayfindr.search.Search
+import com.example.wayfindr.search.Friends
 import com.google.firebase.FirebaseApp
 import com.google.firebase.auth.FirebaseAuth
 import com.ismaeldivita.chipnavigation.ChipNavigationBar
@@ -50,7 +50,7 @@ class MainActivity : AppCompatActivity() {
             when (itemId) {
                 R.id.home -> replaceFragment(Home())
                 R.id.places -> replaceFragment(Places())
-                R.id.search -> replaceFragment(Search())
+                R.id.friends -> replaceFragment(Friends())
                 R.id.profile -> {
                     if (firebaseAuth.currentUser != null) {
                         replaceFragment(Profile())
