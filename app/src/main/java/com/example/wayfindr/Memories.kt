@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.wayfindr.memories.Memory
@@ -33,10 +34,11 @@ class Memories : Fragment() {
         val view = inflater.inflate(R.layout.fragment_memories, container, false)
 
         val recyclerView = view.findViewById<RecyclerView>(R.id.recyclerView_memories)
+        val gridLayoutManager = GridLayoutManager(context, 2)
         val memoryAdapter = MemoryAdapter(requireContext(), memoriesList)
         adapter = memoryAdapter
         recyclerView.adapter = adapter
-        recyclerView.layoutManager = LinearLayoutManager(requireContext())
+        recyclerView.layoutManager = gridLayoutManager
         val auth = FirebaseAuth.getInstance()
 
 

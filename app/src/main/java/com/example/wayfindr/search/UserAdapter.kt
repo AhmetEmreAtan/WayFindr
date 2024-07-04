@@ -64,7 +64,7 @@ class UserAdapter(options: FirestoreRecyclerOptions<User>, private val currentUs
 
             itemView.setOnClickListener {
                 val userId = user.userId
-                val profileFragment = userProfile.newInstance(userId)
+                val profileFragment = UserProfile.newInstance(userId)
                 val transaction = (itemView.context as AppCompatActivity)
                     .supportFragmentManager.beginTransaction()
                 transaction.replace(R.id.frame_layout, profileFragment)

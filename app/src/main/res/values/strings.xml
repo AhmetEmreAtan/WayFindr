@@ -243,6 +243,7 @@
     <string name="title_activity_maps" translatable="false">MapsActivity</string>
     <string name="place_image" />
     <string name="fragment_home_seealltext">See All...</string>
+    <string name="friends">Friends</string>
 
 
 </resources>
