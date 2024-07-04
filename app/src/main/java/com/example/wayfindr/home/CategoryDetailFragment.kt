@@ -14,6 +14,8 @@ import com.example.wayfindr.Home
 import com.example.wayfindr.R
 import com.example.wayfindr.home.adapters.CategoryAdapter
 import com.example.wayfindr.home.models.CategoryDataModel
+import com.example.wayfindr.places.PlaceModel
+import com.example.wayfindr.places.PlacesDetailFragment
 import com.google.firebase.firestore.FirebaseFirestore
 
 class CategoryDetailFragment : Fragment() {
@@ -102,7 +104,23 @@ class CategoryDetailFragment : Fragment() {
     }
 
     private fun setupRecyclerView(dataList: List<CategoryDataModel>) {
-        adapter = CategoryAdapter(dataList)
+        adapter = CategoryAdapter(dataList, object : CategoryAdapter.OnItemClickListener {
+            override fun onItemClick(place: CategoryDataModel) {
+                showPlaceDetailFragment(place)
+            }
+        })
         recyclerView.adapter = adapter
+    }
+
+    private fun showPlaceDetailFragment(selectedPlace: CategoryDataModel) {
+        val fragment = PlacesDetailFragment()
+        val bundle = Bundle()
+        bundle.putSerializable("placeId", selectedPlace.placeId)
+        fragment.arguments = bundle
+
+        requireActivity().supportFragmentManager.beginTransaction()
+            .replace(R.id.frame_layout, fragment)
+            .addToBackStack(null)
+            .commit()
     }
 }

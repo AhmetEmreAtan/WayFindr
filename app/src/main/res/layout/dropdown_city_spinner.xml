@@ -2,12 +2,10 @@
     android:id="@+id/text1"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:fontFamily="sans-serif"
+    android:fontFamily="@font/font2"
     android:padding="8dp"
     android:text="Deneme"
-    android:textAlignment="center"
     android:textColor="@color/black"
     android:textSize="16sp"
-    android:textStyle="italic"
     android:typeface="monospace"
     android:background="@drawable/spinner_background"/>

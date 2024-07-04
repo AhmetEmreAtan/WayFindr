@@ -12,12 +12,12 @@ import androidx.fragment.app.Fragment
 import com.example.wayfindr.databinding.FragmentSettingsBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
+import com.example.yourapp.BottomSheetFragment
 
 class Settings : Fragment() {
 
     private lateinit var binding: FragmentSettingsBinding
     private lateinit var firebaseDatabase: FirebaseDatabase
-
     private lateinit var auth: FirebaseAuth
     private lateinit var sharedPreferences: SharedPreferences
 
@@ -29,25 +29,20 @@ class Settings : Fragment() {
         return binding.root
     }
 
-    override fun onActivityCreated(savedInstanceState: Bundle?) {
-        super.onActivityCreated(savedInstanceState)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         auth = FirebaseAuth.getInstance()
         sharedPreferences = requireContext().getSharedPreferences("MY_PRE", Context.MODE_PRIVATE)
 
         binding.aboutButton.setOnClickListener {
-            val builder = AlertDialog.Builder(requireContext())
-            val view = layoutInflater.inflate(R.layout.dialog_about_us, null)
-
-            builder.setView(view)
-            val dialog = builder.create()
-            dialog.show()
+            val bottomSheetFragment = BottomSheetFragment()
+            bottomSheetFragment.show(parentFragmentManager, bottomSheetFragment.tag)
         }
 
         binding.logOutButton.setOnClickListener {
             auth.signOut()
             clearUserPreference()
-
 
             val transaction = requireActivity().supportFragmentManager.beginTransaction()
             val loginFragment = Login()
@@ -64,7 +59,6 @@ class Settings : Fragment() {
             builder.setCancelable(false)
 
             builder.setPositiveButton("Yes") { _, _ ->
-
                 val user = auth.currentUser
 
                 if (user != null) {
@@ -76,18 +70,17 @@ class Settings : Fragment() {
                         if (authTask.isSuccessful) {
                             Toast.makeText(requireContext(), "Hesap silme işlemi gerçekleşti !!", Toast.LENGTH_SHORT).show()
 
-
                             val transaction = requireActivity().supportFragmentManager.beginTransaction()
                             val loginFragment = Login()
                             transaction.replace(R.id.frame_layout, loginFragment)
                             transaction.addToBackStack(null)
                             transaction.commit()
                         } else {
-
+                            // Hata durumu
                         }
                     }
                 } else {
-
+                    // Kullanıcı null durumunda yapılacak işlemler
                 }
             }
 

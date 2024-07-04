@@ -18,9 +18,9 @@ class EventsAdapter(private var eventsList: List<EventModel>, private val listen
     }
 
     inner class EventViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val eventsName: TextView = itemView.findViewById(R.id.eventName)
-        val eventsLocation: TextView = itemView.findViewById(R.id.eventLocation)
-        val eventsImage: ImageView = itemView.findViewById(R.id.eventImage)
+        val eventsName: TextView = itemView.findViewById(R.id.textTitle)
+        val eventsLocation: TextView = itemView.findViewById(R.id.textLocation)
+        val eventsImage: ImageView = itemView.findViewById(R.id.kbvLocation)
 
         init {
             itemView.setOnClickListener {
@@ -30,7 +30,7 @@ class EventsAdapter(private var eventsList: List<EventModel>, private val listen
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): EventViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_event, parent, false)
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_container_location, parent, false)
         return EventViewHolder(view)
     }
 

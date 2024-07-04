@@ -14,7 +14,7 @@
         android:layout_height="match_parent">
 
         <com.flaviofaria.kenburnsview.KenBurnsView
-            android:id="@+id/kbvLocation1"
+            android:id="@+id/kbvLocation"
             android:layout_width="match_parent"
             android:layout_height="match_parent"/>
 
@@ -32,15 +32,15 @@
             android:paddingBottom="2dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
-
-            <ImageView
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:src="@drawable/favorite"
-                app:tint="#FFFFFF " />
+            
+           <ImageView
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:src="@drawable/favorite"
+            app:tint="#FFFFFF " />
 
             <TextView
-                android:id="@+id/textStarRating1"
+                android:id="@+id/textStarRating"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="2dp"
@@ -55,22 +55,22 @@
             android:layout_height="0dp"
             android:background="#D6000000"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/textTitle1"/>
+            app:layout_constraintTop_toTopOf="@+id/textTitle"/>
 
         <ImageView
-            android:id="@+id/imageLocation1"
+            android:id="@+id/imageLocation"
             android:layout_width="19dp"
             android:layout_height="19dp"
             android:layout_marginStart="20dp"
             android:contentDescription="@string/home_places_fragment_tittle"
             android:src="@drawable/ic_location"
             app:tint="@color/white"
-            app:layout_constraintBottom_toBottomOf="@+id/textLocation1"
+            app:layout_constraintBottom_toBottomOf="@+id/textLocation"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/textLocation1"/>
+            app:layout_constraintTop_toTopOf="@+id/textLocation"/>
 
         <TextView
-            android:id="@+id/textLocation1"
+            android:id="@+id/textLocation"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="2dp"
@@ -80,10 +80,10 @@
             android:textSize="10sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/imageLocation1"/>
+            app:layout_constraintStart_toEndOf="@+id/imageLocation"/>
 
         <TextView
-            android:id="@+id/textTitle1"
+            android:id="@+id/textTitle"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
@@ -93,7 +93,7 @@
             android:textColor="@color/white"
             android:textSize="15sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/imageLocation1"/>
+            app:layout_constraintBottom_toTopOf="@+id/imageLocation"/>
 
 
 

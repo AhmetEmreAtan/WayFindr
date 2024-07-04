@@ -17,8 +17,9 @@ class PopularAdapter(
 
 ) : RecyclerView.Adapter<PopularAdapter.PopularViewHolder>() {
     inner class PopularViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        private val placeImage: ImageView = itemView.findViewById(R.id.imageViewPopular)
-        private val placeName: TextView = itemView.findViewById(R.id.popularPlaceName)
+        private val placeImage: ImageView = itemView.findViewById(R.id.kbvLocation1)
+        private val placeName: TextView = itemView.findViewById(R.id.textTitle1)
+        private val placeDescription: TextView = itemView.findViewById(R.id.textLocation1)
 
         fun bind(place: PlaceModel) {
             Glide.with(itemView)
@@ -28,6 +29,7 @@ class PopularAdapter(
                 .into(placeImage)
 
             placeName.text = place.placeName
+            placeDescription.text=place.placeDescription
         }
 
     }

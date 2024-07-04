@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srcCompat="@drawable/logo5" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Hakkımızda"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:paddingBottom="8dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Wayfindr, İstanbul'un zengin kültürel mirasını keşfetmeye adanmış öncü bir seyahat rehberi uygulamasıdır. Şehrin popüler turistik noktalarının ötesinde, derinliklerinde saklı kalmış tarihi sokakları, sanat galerilerini, yerel pazarları ve el sanatlarını içeren benzersiz mekânları keşfetmek için tasarlanmıştır.  Biz Wayfindr ekibi olarak, gezginlere unutulmaz bir İstanbul deneyimi yaşatmayı ve şehrin gizli kalmış zenginliklerini dünya ile paylaşmayı hedefliyoruz. Her bir keşfedilmeyi bekleyen noktayı özenle seçiyor ve kullanıcılarımıza tarihî derinlikleriyle birlikte sunuyoruz.  Uygulamamız, kullanıcı dostu arayüzüyle kişiselleştirilmiş gezilecek yer önerileri sunar ve entegre navigasyon özellikleriyle kullanıcıların kolayca ulaşmalarını sağlar. Her mekân için detaylı bilgiler, kültürel önemi, etkinlikleri ve ziyaret saatleri gibi içerikler sunarak, kullanıcılarımızı şehri keşfetmeye teşvik ediyoruz.  Wayfindr olarak, yerel ekonominin güçlenmesine katkıda bulunmayı ve şehrin tarihi ve kültürel zenginliğini korumayı misyon ediniyoruz. Kültürel çeşitliliği vurgulayarak, İstanbul'un eşsiz mirasını gelecek nesillere aktarmayı ve turizmin sürdürülebilir gelişimine katkıda bulunmayı amaçlıyoruz.  İstanbul'u keşfetmek ve şehrin derinliklerinde unutulmaz anılar biriktirmek için Wayfindr ile yolculuğunuza çıkın. Bizimle birlikte, şehrin sıra dışı güzelliklerini keşfedin ve benzersiz bir seyahat deneyimi yaşayın."
+            android:textSize="10sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Gizlilik Politikası"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            android:paddingBottom="8dp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Wayfindr olarak, kullanıcılarımızın gizliliğini korumak bizim için büyük önem taşımaktadır. Bu gizlilik politikası, uygulamamızı kullanan kullanıcıların hangi tür bilgilerin toplandığını, bu bilgilerin nasıl kullanıldığını ve korunduğunu açıklamaktadır.  Toplanan Bilgiler  Wayfindr uygulaması, kullanıcıların kişisel bilgilerini toplamamaktadır. Ancak, kullanıcıların uygulama içindeki etkileşimleri sırasında anonim ve toplu veriler (örneğin, kullanıcıların gezdiği yerler, tercih ettikleri kategoriler gibi) toplanabilir ve bu veriler, uygulamanın kullanıcı deneyimini iyileştirmek amacıyla analiz edilebilir.  Kullanılan Bilgiler  Toplanan bilgiler, kullanıcı deneyimini kişiselleştirmek, uygulama performansını analiz etmek, hizmetlerimizi iyileştirmek ve kullanıcılarımıza daha iyi bir hizmet sunabilmek için kullanılabilir. Bu bilgiler üçüncü şahıslarla paylaşılmamakta ve yasal düzenlemeler dışında herhangi bir amaç için kullanılmamaktadır.  Güvenlik  Wayfindr, kullanıcı bilgilerini korumak için güvenlik önlemleri almakta ve bilgi güvenliğini sağlamak için endüstri standardı yöntemleri kullanmaktadır. Ancak, internet üzerinden bilgi iletiminin tam güvenliği garanti edilemez; bu nedenle, uygulama üzerinden iletilen bilgilerin güvenliğini sağlamak için çaba gösterilmektedir.  Çocukların Gizliliği  Wayfindr, 13 yaşın altındaki çocuklardan bilerek kişisel bilgi toplamamaktadır. Ebeveynler veya yasal veliler, çocuklarının uygulamamızı kullanımı hakkında bilgi edinmek ve bu konuda girişimde bulunmak için bizimle iletişime geçebilirler.  Değişiklikler  Bu gizlilik politikası zaman zaman güncellenebilir ve değişiklikler uygulamamızda yayımlandıktan sonra yürürlüğe girer. Bu nedenle, zaman zaman politikamızı gözden geçirmeniz önerilir.  İletişim  Gizlilik politikamız veya gizlilik uygulamalarımız hakkında herhangi bir sorunuz veya endişeniz varsa, lütfen bizimle iletişime geçmekten çekinmeyin. İletişim bilgilerimizi web sitemizden veya uygulama içinden bulabilirsiniz."
+            android:textSize="10sp" />
+    </LinearLayout>
+</ScrollView>

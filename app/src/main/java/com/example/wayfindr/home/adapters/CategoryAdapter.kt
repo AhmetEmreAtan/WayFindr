@@ -10,12 +10,34 @@ import com.bumptech.glide.Glide
 import com.example.wayfindr.R
 import com.example.wayfindr.home.models.CategoryDataModel
 
-class CategoryAdapter(private val placeList: List<CategoryDataModel>) : RecyclerView.Adapter<CategoryAdapter.ViewHolder>() {
+class CategoryAdapter(
+    private val placeList: List<CategoryDataModel>,
+    private val itemClickListener: OnItemClickListener
+) : RecyclerView.Adapter<CategoryAdapter.ViewHolder>() {
+
+    interface OnItemClickListener {
+        fun onItemClick(place: CategoryDataModel)
+    }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val placeNameTextView: TextView = itemView.findViewById(R.id.placesName)
         val placeDescriptionTextView: TextView = itemView.findViewById(R.id.placesDescription)
         val placeImageView: ImageView = itemView.findViewById(R.id.placesImage)
+
+        fun bind(place: CategoryDataModel, clickListener: OnItemClickListener) {
+            placeNameTextView.text = place.placeName
+            placeDescriptionTextView.text = place.placeDescription
+
+            if (place.placeImage.isNotEmpty()) {
+                Glide.with(itemView.context)
+                    .load(place.placeImage)
+                    .into(placeImageView)
+            }
+
+            itemView.setOnClickListener {
+                clickListener.onItemClick(place)
+            }
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -25,20 +47,10 @@ class CategoryAdapter(private val placeList: List<CategoryDataModel>) : Recycler
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val place = placeList[position]
-
-        holder.placeNameTextView.text = place.placeName
-        holder.placeDescriptionTextView.text = place.placeDescription
-
-        if (place.placeImage.isNotEmpty()) {
-            Glide.with(holder.itemView.context)
-                .load(place.placeImage)
-                .into(holder.placeImageView)
-        }
+        holder.bind(place, itemClickListener)
     }
 
     override fun getItemCount(): Int {
         return placeList.size
     }
 }
-
-
