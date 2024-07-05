@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="istanbul_districts">
+    <array name="istanbul_districts">
         <item>İlçe Seçiniz</item>
         <item>Adalar</item>
         <item>Arnavutköy</item>
@@ -39,5 +39,5 @@
         <item>Ümraniye</item>
         <item>Üsküdar</item>
         <item>Zeytinburnu</item>
-    </string-array>
+    </array>
 </resources>

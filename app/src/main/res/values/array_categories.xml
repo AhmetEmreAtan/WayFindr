@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="array_categories">
+        <item>AVM</item>
+        <item>Dini</item>
+        <item>Doğa</item>
+        <item>Eğlence</item>
+        <item>Kafe</item>
+        <item>Müze</item>
+        <item>Restoran</item>
+        <item>Otel</item>
+        <item>Kütüphane</item>
+    </array>
+</resources>

@@ -8,7 +8,6 @@ import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
@@ -63,19 +62,17 @@ class AddPlacesFragment : Fragment() {
         storageReference = storage.reference
 
 
-        val spinnerItems = listOf(
-            SpinnerItem("Müze", R.drawable.museumicon),
-            SpinnerItem("Kafe", R.drawable.cafeicon),
-            SpinnerItem("Restoran", R.drawable.restauranticon),
-            SpinnerItem("Eğlence", R.drawable.icons_user ),
-            SpinnerItem("Tarihi", R.drawable.iconshistorical),
-            SpinnerItem("Dini", R.drawable.iconsmosque),
-            SpinnerItem("Doğa", R.drawable.natureicon),
-            SpinnerItem("Atölye", R.drawable.iconsworkshop),
-            SpinnerItem("Sembol", R.drawable.symbolicon),
-            SpinnerItem("Alış-veriş Merkezi", R.drawable.mall),
-            SpinnerItem("Sahiller", R.drawable.iconsbeach)
-        )
+        val categoryNames = resources.getStringArray(R.array.array_categories)
+        val categoryDrawablesResIds = resources.getIntArray(R.array.array_category_images)
+
+        val spinnerItems = mutableListOf<SpinnerItem>()
+
+        for (i in categoryNames.indices) {
+            val name = categoryNames[i]
+            val drawableResId = categoryDrawablesResIds[i]
+            spinnerItems.add(SpinnerItem(name, drawableResId))
+        }
+
 
         val adapter = CustomSpinnerAdapter(requireContext(), R.layout.custom_spinner_item, spinnerItems)
         add_places_categories_spinner.adapter = adapter

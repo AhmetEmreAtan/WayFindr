@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <array name="array_category_images">
+        <item>@drawable/iconsmall</item>
+        <item>@drawable/iconspray</item>
+        <item>@drawable/iconsforest</item>
+        <item>@drawable/iconsthemepark</item>
+        <item>@drawable/iconscafe40</item>
+        <item>@drawable/iconsmuseum</item>
+        <item>@drawable/iconsrestaurant</item>
+        <item>@drawable/iconshotel</item>
+        <item>@drawable/iconslibrary</item>
+    </array>
+</resources>

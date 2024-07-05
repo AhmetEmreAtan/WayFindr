@@ -12,7 +12,6 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.bumptech.glide.Glide
-import com.example.wayfindr.Places
 import com.example.wayfindr.R
 import com.example.wayfindr.UserData
 import com.example.wayfindr.databinding.FragmentPlacesDetailBinding
@@ -34,6 +33,8 @@ class PlacesDetailFragment : Fragment() {
     private val auth = FirebaseAuth.getInstance()
     private val currentUser = auth.currentUser
     private val userId = currentUser?.uid
+
+    private val favoriteRepository = FavoriteRepository()
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -47,31 +48,12 @@ class PlacesDetailFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        closeFragment(view)
 
-        //Close Fragment
-        val closeButton = view.findViewById<ImageButton>(R.id.placesdetail_closebtn)
-        closeButton.setOnClickListener {
-            parentFragmentManager.popBackStack()
-        }
+        goToNavigationButtonAction(view)
 
         val selectedPlace = arguments?.getSerializable("selectedPlace") as? PlaceModel
         val selectedPlaceId = selectedPlace?.placeId
-
-
-        val gitBtn = view.findViewById<Button>(R.id.gitbtn)
-        gitBtn.setOnClickListener {
-            getSelectedPlaceLocation { placeLocation ->
-                if (placeLocation != null) {
-                    val intent = Intent(requireContext(), Navigation::class.java)
-                    intent.putExtra("latitude", placeLocation.latitude)
-                    intent.putExtra("longitude", placeLocation.longitude)
-                    startActivity(intent)
-                } else {
-                    Toast.makeText(requireContext(), "Konum bilgileri bulunamadı", Toast.LENGTH_SHORT).show()
-                }
-            }
-        }
-
 
         var placesName = binding.placesName
         var placesImage = binding.placesImage
@@ -81,7 +63,6 @@ class PlacesDetailFragment : Fragment() {
         var placesAddress = binding.placesAddress
         var commentDetail = binding.commentDetail
         var addedComment = binding.commentSend
-
 
         if (selectedPlace != null) {
             val placeId = selectedPlace.placeId
@@ -132,7 +113,8 @@ class PlacesDetailFragment : Fragment() {
             val placeId = selectedPlace.placeId
 
             if (!placeId.isNullOrBlank()) {
-                val placeRef = FirebaseFirestore.getInstance().collection("places").document(placeId)
+                val placeRef =
+                    FirebaseFirestore.getInstance().collection("places").document(placeId)
 
                 placeRef.collection("comments")
                     .get()
@@ -142,7 +124,7 @@ class PlacesDetailFragment : Fragment() {
                         for (commentDocument in commentsQuerySnapshot.documents) {
                             val commentText = commentDocument.getString("commentText")
 
-                            val userMap = commentDocument.get("user") as Map<String,Any>?
+                            val userMap = commentDocument.get("user") as Map<String, Any>?
                             val userModel = UserData(
                                 userId = userMap?.get("id") as String?,
                                 username = userMap?.get("userName") as String?,
@@ -179,12 +161,13 @@ class PlacesDetailFragment : Fragment() {
             if (user != null && !placeId.isNullOrBlank()) {
                 val userId = user.uid
                 val userRef = FirebaseFirestore.getInstance().collection("users").document(userId)
-                val realtimeDatabaseRef = FirebaseDatabase.getInstance().getReference("users").child(userId)
+                val realtimeDatabaseRef =
+                    FirebaseDatabase.getInstance().getReference("users").child(userId)
                 val userData = hashMapOf<String, Any>()
 
                 realtimeDatabaseRef.addListenerForSingleValueEvent(object : ValueEventListener {
                     override fun onDataChange(dataSnapshot: DataSnapshot) {
-                        val realtimeUserData = dataSnapshot.value as Map<String,Any>?
+                        val realtimeUserData = dataSnapshot.value as Map<String, Any>?
 
                         if (realtimeUserData != null) {
                             userData.putAll(realtimeUserData as Map<out String, Any>)
@@ -199,7 +182,8 @@ class PlacesDetailFragment : Fragment() {
                                     "user" to userData
                                 )
 
-                                val placeRef = FirebaseFirestore.getInstance().collection("places").document(placeId)
+                                val placeRef = FirebaseFirestore.getInstance().collection("places")
+                                    .document(placeId)
                                 placeRef.collection("comments").add(commentData)
                                     .addOnSuccessListener { documentReference ->
                                         Toast.makeText(
@@ -246,6 +230,80 @@ class PlacesDetailFragment : Fragment() {
             } else {
                 Log.i("asas", "Kullanıcı girişi yapmamış veya Yer ID'si boş veya null")
             }
+        }
+
+        addRemoveFavorites(selectedPlaceId, selectedPlace)
+    }
+
+    private fun addRemoveFavorites(
+        selectedPlaceId: String?,
+        selectedPlace: PlaceModel?
+    ) {
+        if (userId != null && selectedPlaceId != null) {
+            favoriteRepository.isPlaceFavorite(userId, selectedPlaceId) { isFavorite ->
+                updateFavoriteButtonUI(isFavorite)
+            }
+        }
+
+        binding.placesdetailSavefavorite.setOnClickListener {
+            if (userId != null && selectedPlace != null) {
+                favoriteRepository.isPlaceFavorite(userId, selectedPlace.placeId) { isFavorite ->
+                    if (isFavorite) {
+                        favoriteRepository.removeFromFavorites(userId, selectedPlace.placeId)
+                        Toast.makeText(
+                            requireContext(),
+                            "remove from favorites",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    } else {
+                        favoriteRepository.addToFavorites(userId, selectedPlace)
+                        Toast.makeText(requireContext(), "add to favorites", Toast.LENGTH_SHORT)
+                            .show()
+                    }
+                    updateFavoriteButtonUI(!isFavorite)
+                }
+            } else {
+                Toast.makeText(
+                    requireContext(),
+                    "Please login",
+                    Toast.LENGTH_SHORT
+                ).show()
+            }
+        }
+    }
+
+    private fun updateFavoriteButtonUI(isFavorite: Boolean) {
+        if (isFavorite) {
+            binding.placesdetailSavefavorite.setImageResource(R.drawable.ic_heart_filled)
+        } else {
+            binding.placesdetailSavefavorite.setImageResource(R.drawable.ic_heart_outlined)
+        }
+    }
+
+    private fun goToNavigationButtonAction(view: View) {
+        val gitBtn = view.findViewById<Button>(R.id.gitbtn)
+        gitBtn.setOnClickListener {
+            getSelectedPlaceLocation { placeLocation ->
+                if (placeLocation != null) {
+                    val intent = Intent(requireContext(), Navigation::class.java)
+                    intent.putExtra("latitude", placeLocation.latitude)
+                    intent.putExtra("longitude", placeLocation.longitude)
+                    startActivity(intent)
+                } else {
+                    Toast.makeText(
+                        requireContext(),
+                        "Konum bilgileri bulunamadı",
+                        Toast.LENGTH_SHORT
+                    ).show()
+                }
+            }
+        }
+    }
+
+    private fun closeFragment(view: View) {
+        val closeButton = view.findViewById<ImageButton>(R.id.placesdetail_closebtn)
+        closeButton.setOnClickListener {
+            parentFragmentManager.popBackStack()
         }
     }
 
@@ -299,8 +357,6 @@ class PlacesDetailFragment : Fragment() {
             callback(null)
         }
     }
-
-
 
     override fun onDestroyView() {
         super.onDestroyView()
