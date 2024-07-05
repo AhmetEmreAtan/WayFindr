@@ -18,7 +18,7 @@ import com.example.wayfindr.places.FilterFragment
 import com.example.wayfindr.places.FilterResultListener
 import com.example.wayfindr.places.ItemClickListener
 import com.example.wayfindr.places.PlacesDetailFragment
-import com.example.wayfindr.places.PlacesRepository
+import com.example.wayfindr.places.FavoriteRepository
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
@@ -69,8 +69,8 @@ class Places : Fragment(), FilterResultListener {
 
 
         firebaseAuth = FirebaseAuth.getInstance()
-        val placesRepository= PlacesRepository()
-        adapter = PlacesAdapter(emptyList(), itemClickListener, firebaseAuth,placesRepository)
+        val favoriteRepository= FavoriteRepository()
+        adapter = PlacesAdapter(emptyList(), itemClickListener, firebaseAuth,favoriteRepository)
 
         binding.recyclerViewPlaces.adapter = adapter
         binding.recyclerViewPlaces.layoutManager = LinearLayoutManager(requireContext())

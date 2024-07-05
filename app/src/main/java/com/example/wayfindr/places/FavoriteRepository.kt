@@ -5,7 +5,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 
-class PlacesRepository {
+class FavoriteRepository {
     fun isPlaceFavorite(userId: String, placeId: String, callback: (Boolean) -> Unit) {
         val database = FirebaseDatabase.getInstance()
         val userFavoritesReference = database.getReference("users").child(userId).child("favorites")

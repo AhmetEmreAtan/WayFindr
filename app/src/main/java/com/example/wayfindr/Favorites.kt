@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.wayfindr.favorites.FavoritesAdapter
 import com.example.wayfindr.favorites.ItemClickListener
 import com.example.wayfindr.places.PlacesDetailFragment
-import com.example.wayfindr.places.PlacesRepository
+import com.example.wayfindr.places.FavoriteRepository
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 
@@ -30,11 +30,11 @@ class Favorites: Fragment() {
         val view = inflater.inflate(R.layout.fragment_favorites, container, false)
 
         firebaseAuth = FirebaseAuth.getInstance()
-        val placesRepository= PlacesRepository()
+        val favoriteRepository= FavoriteRepository()
 
         favoritesRecyclerView = view.findViewById(R.id.recyclerViewFavorite)
         favoritesRecyclerView.layoutManager = LinearLayoutManager(context)
-        favoritesAdapter = FavoritesAdapter(emptyList(), itemClickListener, firebaseAuth,placesRepository)
+        favoritesAdapter = FavoritesAdapter(emptyList(), itemClickListener, firebaseAuth,favoriteRepository)
         favoritesRecyclerView.adapter = favoritesAdapter
 
         fetchFavoritePlaces()

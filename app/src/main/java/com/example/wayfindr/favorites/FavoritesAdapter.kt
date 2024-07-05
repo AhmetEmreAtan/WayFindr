@@ -11,7 +11,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.wayfindr.R
-import com.example.wayfindr.places.PlacesRepository
+import com.example.wayfindr.places.FavoriteRepository
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -23,7 +23,7 @@ class FavoritesAdapter(
     private var favoritesList: List<PlaceModel>,
     private val itemClickListener: ItemClickListener,
     private val firebaseAuth: FirebaseAuth,
-    private val placesRepository: PlacesRepository
+    private val favoriteRepository: FavoriteRepository
 ) : RecyclerView.Adapter<FavoritesAdapter.FavoritesViewHolder>(), Serializable {
 
     inner class FavoritesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -70,11 +70,11 @@ class FavoritesAdapter(
             val userId = currentUser.uid
 
             // isFavoritePlace fonksiyonunu doğrudan burada bir geri çağrı ile kullan
-            placesRepository.isPlaceFavorite(userId, place.placeId) { isFavorite ->
+            favoriteRepository.isPlaceFavorite(userId, place.placeId) { isFavorite ->
                 if (isFavorite) {
-                    placesRepository.removeFromFavorites(userId, place.placeId)
+                    favoriteRepository.removeFromFavorites(userId, place.placeId)
                 } else {
-                    placesRepository.addToFavorites(userId, place)
+                    favoriteRepository.addToFavorites(userId, place)
                 }
 
                 updateFavoriteButton(holder, place)
