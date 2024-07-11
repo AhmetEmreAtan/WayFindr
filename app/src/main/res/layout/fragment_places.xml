@@ -55,7 +55,7 @@
                     android:layout_height="30dp"
                     android:layout_margin="5dp"
                     android:layout_weight="1"
-                    android:background="@color/begie"
+                    android:background="@color/white"
                     android:drawableStart="@drawable/search"
                     android:drawablePadding="10dp"
                     android:ems="10"

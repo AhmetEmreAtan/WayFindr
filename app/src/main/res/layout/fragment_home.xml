@@ -5,7 +5,7 @@
     android:id="@+id/home_fragment_FL"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/vintage_grey"
+    android:background="@color/white"
     tools:context=".Home">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -137,25 +137,33 @@
                     android:background="@drawable/border_background"
                     app:layout_constraintTop_toBottomOf="@+id/profileCardView">
 
-                    <androidx.constraintlayout.widget.ConstraintLayout
+                    <HorizontalScrollView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:background="@color/vintage_grey"
+                        android:fillViewport="true">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:background="@color/white"
                         android:paddingTop="16dp"
-                        android:paddingBottom="16dp"
-                        app:layout_constraintTop_toBottomOf="@+id/cardView">
+                        android:paddingBottom="16dp">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginEnd="32dp"
+                        android:gravity="center">
 
                         <ImageButton
                             android:id="@+id/category1"
                             android:layout_width="60dp"
                             android:layout_height="60dp"
-                            android:layout_marginStart="32dp"
                             android:background="@drawable/category_button_shape"
                             android:src="@drawable/iconsmall"
-                            app:layout_constraintEnd_toStartOf="@+id/category2"
-                            app:layout_constraintHorizontal_chainStyle="spread_inside"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
                             app:tint="@color/black" />
 
                         <TextView
@@ -165,9 +173,17 @@
                             android:text="@string/fragment_categories_avm"
                             android:textColor="@color/black"
                             android:textSize="14sp"
-                            app:layout_constraintEnd_toEndOf="@+id/category1"
-                            app:layout_constraintStart_toStartOf="@+id/category1"
-                            app:layout_constraintTop_toBottomOf="@+id/category1" />
+                            android:gravity="center" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginEnd="32dp"
+                        android:gravity="center">
 
                         <ImageButton
                             android:id="@+id/category2"
@@ -175,9 +191,6 @@
                             android:layout_height="60dp"
                             android:background="@drawable/category_button_shape"
                             android:src="@drawable/iconspray"
-                            app:layout_constraintEnd_toStartOf="@+id/category3"
-                            app:layout_constraintStart_toEndOf="@+id/category1"
-                            app:layout_constraintTop_toTopOf="parent"
                             app:tint="@color/gradient" />
 
                         <TextView
@@ -187,20 +200,24 @@
                             android:text="@string/fragment_categories_religious"
                             android:textColor="@color/black"
                             android:textSize="14sp"
-                            app:layout_constraintEnd_toEndOf="@+id/category2"
-                            app:layout_constraintStart_toStartOf="@+id/category2"
-                            app:layout_constraintTop_toBottomOf="@+id/category2" />
+                            android:gravity="center" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginEnd="32dp"
+                        android:gravity="center">
 
                         <ImageButton
                             android:id="@+id/category3"
                             android:layout_width="60dp"
                             android:layout_height="60dp"
-                            android:layout_marginEnd="32dp"
                             android:background="@drawable/category_button_shape"
                             android:src="@drawable/iconsforest"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintStart_toEndOf="@+id/category2"
-                            app:layout_constraintTop_toTopOf="parent"
                             app:tint="@color/green" />
 
                         <TextView
@@ -210,21 +227,24 @@
                             android:text="@string/fragment_categories_nature"
                             android:textColor="@color/black"
                             android:textSize="14sp"
-                            app:layout_constraintEnd_toEndOf="@+id/category3"
-                            app:layout_constraintStart_toStartOf="@+id/category3"
-                            app:layout_constraintTop_toBottomOf="@+id/category3" />
+                            android:gravity="center" />
 
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginEnd="32dp"
+                        android:gravity="center">
 
                         <ImageButton
-                            android:id="@+id/Category4"
+                            android:id="@+id/category4"
                             android:layout_width="60dp"
                             android:layout_height="60dp"
-                            android:layout_marginStart="32dp"
-                            android:layout_marginTop="16dp"
                             android:background="@drawable/category_button_shape"
                             android:src="@drawable/iconsthemepark"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/Category1_title"
                             app:tint="@color/navy" />
 
                         <TextView
@@ -234,22 +254,24 @@
                             android:text="@string/fragment_categories_entertaiment"
                             android:textColor="@color/black"
                             android:textSize="14sp"
-                            app:layout_constraintEnd_toEndOf="@+id/Category4"
-                            app:layout_constraintStart_toStartOf="@+id/Category4"
-                            app:layout_constraintTop_toBottomOf="@+id/Category4" />
+                            android:gravity="center" />
 
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginEnd="32dp"
+                        android:gravity="center">
 
                         <ImageButton
                             android:id="@+id/category5"
                             android:layout_width="60dp"
                             android:layout_height="60dp"
-                            android:layout_marginTop="16dp"
                             android:background="@drawable/category_button_shape"
                             android:src="@drawable/iconscafe40"
-                            app:layout_constraintEnd_toStartOf="@+id/category6"
-                            app:layout_constraintHorizontal_chainStyle="spread_inside"
-                            app:layout_constraintStart_toEndOf="@+id/Category4"
-                            app:layout_constraintTop_toBottomOf="@+id/Category2_title"
                             app:tint="@color/light_blue_600" />
 
                         <TextView
@@ -259,21 +281,24 @@
                             android:text="@string/fragment_categories_cafe"
                             android:textColor="@color/black"
                             android:textSize="14sp"
-                            app:layout_constraintEnd_toEndOf="@+id/category5"
-                            app:layout_constraintStart_toStartOf="@+id/category5"
-                            app:layout_constraintTop_toBottomOf="@+id/category5" />
+                            android:gravity="center" />
 
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginEnd="32dp"
+                        android:gravity="center">
 
                         <ImageButton
                             android:id="@+id/category6"
                             android:layout_width="60dp"
                             android:layout_height="60dp"
-                            android:layout_marginTop="16dp"
-                            android:layout_marginEnd="32dp"
                             android:background="@drawable/category_button_shape"
                             android:src="@drawable/iconsmuseum"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/Category3_title"
                             app:tint="@color/maroon" />
 
                         <TextView
@@ -283,21 +308,24 @@
                             android:text="@string/fragment_categories_museum"
                             android:textColor="@color/black"
                             android:textSize="14sp"
-                            app:layout_constraintEnd_toEndOf="@+id/category6"
-                            app:layout_constraintStart_toStartOf="@+id/category6"
-                            app:layout_constraintTop_toBottomOf="@+id/category6" />
+                            android:gravity="center" />
 
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginEnd="32dp"
+                        android:gravity="center">
 
                         <ImageButton
                             android:id="@+id/category7"
                             android:layout_width="60dp"
                             android:layout_height="60dp"
-                            android:layout_marginStart="32dp"
-                            android:layout_marginTop="16dp"
                             android:background="@drawable/category_button_shape"
-                            android:src="@drawable/iconsrestaurant"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/Category4_title" />
+                            android:src="@drawable/iconsrestaurant" />
 
                         <TextView
                             android:id="@+id/Category7_title"
@@ -306,44 +334,48 @@
                             android:text="@string/fragment_categories_restaurant"
                             android:textColor="@color/black"
                             android:textSize="14sp"
-                            app:layout_constraintEnd_toEndOf="@+id/category7"
-                            app:layout_constraintStart_toStartOf="@+id/category7"
-                            app:layout_constraintTop_toBottomOf="@+id/category7" />
+                            android:gravity="center" />
 
+                    </LinearLayout>
 
-                        <ImageButton
-                            android:id="@+id/category8"
-                            android:layout_width="60dp"
-                            android:layout_height="60dp"
-                            android:layout_marginTop="16dp"
-                            android:background="@drawable/category_button_shape"
-                            android:src="@drawable/iconshotel"
-                            app:layout_constraintEnd_toStartOf="@+id/category9"
-                            app:layout_constraintStart_toEndOf="@+id/category7"
-                            app:layout_constraintTop_toBottomOf="@+id/Category5_title" />
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginEnd="32dp"
+                        android:gravity="center">
 
-                        <TextView
-                            android:id="@+id/Category8_title"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/fragment_categories_hotel"
-                            android:textColor="@color/black"
-                            android:textSize="14sp"
-                            app:layout_constraintEnd_toEndOf="@+id/category8"
-                            app:layout_constraintStart_toStartOf="@+id/category8"
-                            app:layout_constraintTop_toBottomOf="@+id/category8" />
+                    <ImageButton
+                        android:id="@+id/category8"
+                        android:layout_width="60dp"
+                        android:layout_height="60dp"
+                        android:background="@drawable/category_button_shape"
+                        android:src="@drawable/iconshotel" />
 
+                    <TextView
+                        android:id="@+id/Category8_title"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/fragment_categories_hotel"
+                        android:textColor="@color/black"
+                        android:textSize="14sp"
+                        android:gravity="center" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:layout_marginStart="32dp"
+                        android:layout_marginEnd="32dp"
+                        android:gravity="center">
 
                         <ImageButton
                             android:id="@+id/category9"
                             android:layout_width="60dp"
                             android:layout_height="60dp"
-                            android:layout_marginTop="16dp"
-                            android:layout_marginEnd="32dp"
                             android:background="@drawable/category_button_shape"
-                            android:src="@drawable/iconslibrary"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/Category6_title" />
+                            android:src="@drawable/iconslibrary" />
 
                         <TextView
                             android:id="@+id/Category9_title"
@@ -352,11 +384,11 @@
                             android:text="@string/fragment_categories_library"
                             android:textColor="@color/black"
                             android:textSize="14sp"
-                            app:layout_constraintEnd_toEndOf="@+id/category9"
-                            app:layout_constraintStart_toStartOf="@+id/category9"
-                            app:layout_constraintTop_toBottomOf="@+id/category9" />
+                            android:gravity="center" />
+                    </LinearLayout>
+                    </LinearLayout>
+                    </HorizontalScrollView>
 
-                    </androidx.constraintlayout.widget.ConstraintLayout>
 
                 </androidx.cardview.widget.CardView>
 
@@ -402,7 +434,7 @@
                     <androidx.recyclerview.widget.RecyclerView
                         android:id="@+id/recyclerViewPopular"
                         android:layout_width="match_parent"
-                        android:layout_height="300dp"
+                        android:layout_height="200dp"
                         android:background="@color/white"
                         tools:listitem="@layout/item_popular" />
 

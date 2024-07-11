@@ -1,22 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
     android:layout_margin="10dp"
     app:cardElevation="5dp"
     app:cardCornerRadius="12dp">
 
-
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
-        <com.flaviofaria.kenburnsview.KenBurnsView
+        <ImageView
             android:id="@+id/kbvLocation"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
+            android:layout_height="400dp"
+            android:scaleType="centerCrop"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -32,21 +34,12 @@
             android:paddingBottom="2dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
-            
-           <ImageView
-            android:layout_width="16dp"
-            android:layout_height="16dp"
-            android:src="@drawable/favorite"
-            app:tint="#FFFFFF " />
 
-            <TextView
-                android:id="@+id/textStarRating"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="2dp"
-                android:layout_marginEnd="2dp"
-                android:textColor="@color/white"
-                android:textSize="15sp"/>
+            <ImageView
+                android:layout_width="16dp"
+                android:layout_height="16dp"
+                android:src="@drawable/favorite"
+                app:tint="#FFFFFF" />
 
         </LinearLayout>
 
@@ -55,7 +48,7 @@
             android:layout_height="0dp"
             android:background="#D6000000"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/textTitle"/>
+            app:layout_constraintTop_toTopOf="@+id/textTitle" />
 
         <ImageView
             android:id="@+id/imageLocation"
@@ -67,7 +60,7 @@
             app:tint="@color/white"
             app:layout_constraintBottom_toBottomOf="@+id/textLocation"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/textLocation"/>
+            app:layout_constraintTop_toTopOf="@+id/textLocation" />
 
         <TextView
             android:id="@+id/textLocation"
@@ -80,7 +73,7 @@
             android:textSize="10sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/imageLocation"/>
+            app:layout_constraintStart_toEndOf="@+id/imageLocation" />
 
         <TextView
             android:id="@+id/textTitle"
@@ -93,11 +86,8 @@
             android:textColor="@color/white"
             android:textSize="15sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/imageLocation"/>
-
-
+            app:layout_constraintBottom_toTopOf="@+id/imageLocation" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 
 </androidx.cardview.widget.CardView>

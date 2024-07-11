@@ -12,7 +12,7 @@
     <color name="pembe">#FA9884</color>
     <color name="sarı">#FFE5CA</color>
     <color name="krem">#FFF3E2</color>
-    <color name="begie">#FAF1E4</color>
+    <color name="begie">#f5f5f5</color>
     <color name="green">#CEDEBD</color>
     <color name="vintage">#9EB384</color>
     <color name="gradient">#435334</color>
@@ -25,6 +25,6 @@
     <color name="places_icon_bg">#D2DE32</color>
     <color name="profile_icon_bg">#952323</color>
     <color name="delete_button">#FF0000</color>
-    <color name="vintage_grey">#DDDDDD</color>
-    <color name="Cream">#F2EFE5</color>
+    <color name="vintage_grey">#FFFFFFFF</color>
+    <color name="Cream">#f5f5f5</color>
 </resources>

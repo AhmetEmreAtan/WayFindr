@@ -31,232 +31,229 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="@color/vintage_grey"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <LinearLayout
+        <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical">
+            android:background="@color/white">
 
-
-            <androidx.constraintlayout.widget.ConstraintLayout
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content">
+                android:layout_height="match_parent"
+                android:orientation="vertical">
 
 
-                <TextView
-                    android:id="@+id/myMemoriesCounting"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:textColor="@color/black"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toTopOf="@+id/myMemoriesTitle"
-                    app:layout_constraintEnd_toEndOf="@+id/myMemoriesTitle"
-                    app:layout_constraintStart_toStartOf="@+id/myMemoriesTitle" />
-
-                <TextView
-                    android:id="@+id/myMemoriesTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="32dp"
-                    android:text="@string/activity_memories_tittle"
-                    android:textColor="@color/black"
-                    app:layout_constraintBottom_toBottomOf="@+id/userImage"
-                    app:layout_constraintStart_toEndOf="@+id/userImage"
-                    app:layout_constraintTop_toTopOf="@+id/userImage"
-                    app:layout_constraintVertical_bias="0.876" />
-
-                <TextView
-                    android:id="@+id/myFriendsTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="FRIENDS"
-                    android:textColor="@color/black"
-                    app:layout_constraintBottom_toBottomOf="@+id/myMemoriesTitle"
-                    app:layout_constraintEnd_toStartOf="@+id/myEventTitle"
-                    app:layout_constraintStart_toEndOf="@+id/myMemoriesTitle"
-                    app:layout_constraintTop_toTopOf="@+id/myMemoriesTitle" />
-
-                <TextView
-                    android:id="@+id/myFriendsCounting"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:textColor="@color/black"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toTopOf="@+id/myFriendsTitle"
-                    app:layout_constraintEnd_toEndOf="@+id/myFriendsTitle"
-                    app:layout_constraintStart_toStartOf="@+id/myFriendsTitle" />
-
-                <TextView
-                    android:id="@+id/myEventTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="32dp"
-                    android:text="EVENT"
-                    android:textColor="@color/black"
-                    app:layout_constraintBottom_toBottomOf="@+id/myFriendsTitle"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/myFriendsTitle" />
-
-                <TextView
-                    android:id="@+id/myEventCounting"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:text="0"
-                    android:textColor="@color/black"
-                    android:textStyle="bold"
-                    app:layout_constraintBottom_toTopOf="@+id/myEventTitle"
-                    app:layout_constraintEnd_toEndOf="@+id/myEventTitle"
-                    app:layout_constraintStart_toStartOf="@+id/myEventTitle" />
-
-                <TextView
-                    android:id="@+id/fragmentTitle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="8dp"
-                    android:text="@string/fragment_profile_tittle"
-                    android:textColor="@color/black"
-                    android:textSize="20sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.498"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <TextView
-                    android:id="@+id/profileName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="20dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="8dp"
-                    android:background="@drawable/btn_background"
-                    android:backgroundTint="@color/vintage_grey"
-                    android:text=""
-                    android:textAlignment="textStart"
-                    android:textColor="@color/black"
-                    android:textSize="14sp"
-                    android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="@+id/userImage"
-                    app:layout_constraintTop_toBottomOf="@+id/userImage" />
-
-                <TextView
-                    android:id="@+id/profileUserName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="20dp"
-                    android:layout_marginStart="8dp"
-                    android:layout_marginTop="5dp"
-                    android:background="@drawable/btn_background"
-                    android:backgroundTint="@color/vintage_grey"
-                    android:text=""
-                    android:textAlignment="textStart"
-                    android:textColor="@color/black_overlay"
-                    android:textSize="14sp"
-                    android:textStyle="bold"
-                    app:layout_constraintStart_toStartOf="@+id/userImage"
-                    app:layout_constraintTop_toBottomOf="@+id/profileName" />
-
-                <ImageView
-                    android:id="@+id/userImage"
-                    android:layout_width="100dp"
-                    android:layout_height="100dp"
-                    android:layout_gravity="center"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="32dp"
-                    android:scaleType="centerCrop"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:shapeAppearance="@style/RoundedImageView"
-                    app:srcCompat="@drawable/profilephotoicon" />
-
-                <ImageButton
-                    android:id="@+id/selectProfilePictureButton"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:background="@drawable/btn_settings"
-                    android:backgroundTint="@color/Cream"
-                    android:src="@drawable/baseline_edit_24"
-                    android:text="@string/fragment_profile_edit1"
-                    app:layout_constraintBottom_toBottomOf="@+id/userImage"
-                    app:layout_constraintEnd_toEndOf="@+id/userImage" />
-
-
-                <Button
-                    android:id="@+id/btnprofileedit"
-                    android:layout_width="0dp"
-                    android:layout_height="50dp"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="16dp"
-                    android:layout_marginEnd="16dp"
-                    android:backgroundTint="@color/Cream"
-                    android:text="@string/fragment_profile_edit2"
-                    android:textColor="@color/black"
-                    android:textSize="12sp"
-                    app:layout_constraintEnd_toStartOf="@+id/btnsetting"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/profileUserName" />
-
-                <ImageButton
-                    android:id="@+id/btnsetting"
-                    android:layout_width="40dp"
-                    android:layout_height="40dp"
-                    android:layout_marginEnd="16dp"
-                    android:background="@drawable/btn_settings"
-                    android:backgroundTint="@color/Cream"
-                    android:src="@drawable/baseline_table_rows_24"
-                    app:layout_constraintBottom_toBottomOf="@+id/btnprofileedit"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="@+id/btnprofileedit" />
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp">
-
-                <com.ismaeldivita.chipnavigation.ChipNavigationBar
-                    android:id="@+id/profile_nav_bar"
+                <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
-                    android:layout_height="60dp"
-                    android:layout_alignParentBottom="true"
-                    android:layout_gravity="bottom"
-                    android:background="@color/white"
-                    android:backgroundTint="@color/Cream"
-                    android:fadingEdge="horizontal"
-                    app:cnb_menuResource="@menu/profile_nav"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                    android:layout_height="wrap_content">
 
-                <FrameLayout
-                    android:id="@+id/profile_frame_layout"
-                    android:layout_width="0dp"
+
+                    <TextView
+                        android:id="@+id/myMemoriesCounting"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toTopOf="@+id/myMemoriesTitle"
+                        app:layout_constraintEnd_toEndOf="@+id/myMemoriesTitle"
+                        app:layout_constraintStart_toStartOf="@+id/myMemoriesTitle" />
+
+                    <TextView
+                        android:id="@+id/myMemoriesTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="32dp"
+                        android:text="@string/activity_memories_tittle"
+                        android:textColor="@color/black"
+                        app:layout_constraintBottom_toBottomOf="@+id/userImage"
+                        app:layout_constraintStart_toEndOf="@+id/userImage"
+                        app:layout_constraintTop_toTopOf="@+id/userImage"
+                        app:layout_constraintVertical_bias="0.876" />
+
+                    <TextView
+                        android:id="@+id/myFriendsTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="FRIENDS"
+                        android:textColor="@color/black"
+                        app:layout_constraintBottom_toBottomOf="@+id/myMemoriesTitle"
+                        app:layout_constraintEnd_toStartOf="@+id/myEventTitle"
+                        app:layout_constraintStart_toEndOf="@+id/myMemoriesTitle"
+                        app:layout_constraintTop_toTopOf="@+id/myMemoriesTitle" />
+
+                    <TextView
+                        android:id="@+id/myFriendsCounting"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toTopOf="@+id/myFriendsTitle"
+                        app:layout_constraintEnd_toEndOf="@+id/myFriendsTitle"
+                        app:layout_constraintStart_toStartOf="@+id/myFriendsTitle" />
+
+                    <TextView
+                        android:id="@+id/myEventTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="32dp"
+                        android:text="EVENT"
+                        android:textColor="@color/black"
+                        app:layout_constraintBottom_toBottomOf="@+id/myFriendsTitle"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/myFriendsTitle" />
+
+                    <TextView
+                        android:id="@+id/myEventCounting"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="8dp"
+                        android:text="0"
+                        android:textColor="@color/black"
+                        android:textStyle="bold"
+                        app:layout_constraintBottom_toTopOf="@+id/myEventTitle"
+                        app:layout_constraintEnd_toEndOf="@+id/myEventTitle"
+                        app:layout_constraintStart_toStartOf="@+id/myEventTitle" />
+
+                    <TextView
+                        android:id="@+id/fragmentTitle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:text="@string/fragment_profile_tittle"
+                        android:textColor="@color/black"
+                        android:textSize="20sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.498"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <TextView
+                        android:id="@+id/profileName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="8dp"
+                        android:background="@drawable/btn_background"
+                        android:backgroundTint="@color/white"
+                        android:text=""
+                        android:textAlignment="textStart"
+                        android:textColor="@color/black"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="@+id/userImage"
+                        app:layout_constraintTop_toBottomOf="@+id/userImage" />
+
+                    <TextView
+                        android:id="@+id/profileUserName"
+                        android:layout_width="wrap_content"
+                        android:layout_height="20dp"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="5dp"
+                        android:background="@drawable/btn_background"
+                        android:backgroundTint="@color/white"
+                        android:text=""
+                        android:textAlignment="textStart"
+                        android:textColor="@color/black_overlay"
+                        android:textSize="14sp"
+                        android:textStyle="bold"
+                        app:layout_constraintStart_toStartOf="@+id/userImage"
+                        app:layout_constraintTop_toBottomOf="@+id/profileName" />
+
+                    <ImageView
+                        android:id="@+id/userImage"
+                        android:layout_width="100dp"
+                        android:layout_height="100dp"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="32dp"
+                        android:scaleType="centerCrop"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:shapeAppearance="@style/RoundedImageView"
+                        app:srcCompat="@drawable/profilephotoicon" />
+
+                    <ImageButton
+                        android:id="@+id/selectProfilePictureButton"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:background="@drawable/btn_settings"
+                        android:backgroundTint="@color/Cream"
+                        android:src="@drawable/baseline_edit_24"
+                        android:text="@string/fragment_profile_edit1"
+                        app:layout_constraintBottom_toBottomOf="@+id/userImage"
+                        app:layout_constraintEnd_toEndOf="@+id/userImage" />
+
+
+                    <Button
+                        android:id="@+id/btnprofileedit"
+                        android:layout_width="0dp"
+                        android:layout_height="50dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginTop="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:backgroundTint="@color/Cream"
+                        android:text="@string/fragment_profile_edit2"
+                        android:textColor="@color/black"
+                        android:textSize="12sp"
+                        app:layout_constraintEnd_toStartOf="@+id/btnsetting"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/profileUserName" />
+
+                    <ImageButton
+                        android:id="@+id/btnsetting"
+                        android:layout_width="40dp"
+                        android:layout_height="40dp"
+                        android:layout_marginEnd="16dp"
+                        android:background="@drawable/btn_settings"
+                        android:backgroundTint="@color/tansparentColor"
+                        android:src="@drawable/baseline_table_rows_24"
+                        app:layout_constraintBottom_toBottomOf="@+id/btnprofileedit"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="@+id/btnprofileedit" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/profile_nav_bar">
+                    android:layout_marginTop="16dp">
 
-                </FrameLayout>
+                    <com.ismaeldivita.chipnavigation.ChipNavigationBar
+                        android:id="@+id/profile_nav_bar"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_alignParentBottom="true"
+                        android:layout_gravity="bottom"
+                        android:background="@color/white"
+                        android:backgroundTint="@color/Cream"
+                        android:fadingEdge="horizontal"
+                        app:cnb_menuResource="@menu/profile_nav"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <FrameLayout
+                        android:id="@+id/profile_frame_layout"
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/profile_nav_bar">
+
+                    </FrameLayout>
 
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                </androidx.constraintlayout.widget.ConstraintLayout>
 
-        </LinearLayout>
+            </LinearLayout>
 
 
-    </ScrollView>
+        </ScrollView>
+    </FrameLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

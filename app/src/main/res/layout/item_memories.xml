@@ -37,15 +37,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent">
 
-            <TextView
-                android:id="@+id/userComment"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:paddingLeft="10dp"
-                tools:text="@string/item_memories_comment"
-                android:textColor="@color/black"
-                android:textSize="15sp"
-                android:textStyle="bold" />
+
 
             <TextView
                 android:id="@+id/photo_location"
@@ -54,7 +46,7 @@
                 android:layout_marginBottom="10dp"
                 android:paddingLeft="10dp"
                 tools:text="@string/item_memories_location"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 android:textSize="10sp" />
 
         </LinearLayout>

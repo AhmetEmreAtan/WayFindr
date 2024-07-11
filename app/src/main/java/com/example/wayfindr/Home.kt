@@ -344,7 +344,7 @@ class Home : Fragment(), EventsAdapter.OnItemClickListener, PopularAdapter.OnIte
                 R.id.category1, R.id.Category1_title -> "Avm"
                 R.id.category2, R.id.Category2_title -> "Dini"
                 R.id.category3, R.id.Category3_title -> "Doğa"
-                R.id.Category4, R.id.Category4_title -> "Eğlence"
+                R.id.category4, R.id.Category4_title -> "Eğlence"
                 R.id.category5, R.id.Category5_title -> "Kafe"
                 R.id.category6, R.id.Category6_title -> "Müze"
                 R.id.category7, R.id.Category7_title -> "Restoran"
@@ -361,7 +361,7 @@ class Home : Fragment(), EventsAdapter.OnItemClickListener, PopularAdapter.OnIte
         binding.Category2Title.setOnClickListener(categoryClickListener)
         binding.category3.setOnClickListener(categoryClickListener)
         binding.Category3Title.setOnClickListener(categoryClickListener)
-        binding.Category4.setOnClickListener(categoryClickListener)
+        binding.category4.setOnClickListener(categoryClickListener)
         binding.Category4Title.setOnClickListener(categoryClickListener)
         binding.category5.setOnClickListener(categoryClickListener)
         binding.Category5Title.setOnClickListener(categoryClickListener)

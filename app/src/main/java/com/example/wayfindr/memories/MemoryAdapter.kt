@@ -25,7 +25,7 @@ class MemoryAdapter(
         val currentMemory = memoriesList[position]
 
 
-        holder.userComment.text = currentMemory.userComment
+        //holder.userComment.text = currentMemory.userComment
         holder.photoLocation.text = currentMemory.photoLocation
 
         Glide.with(context)
@@ -42,7 +42,7 @@ class MemoryAdapter(
 
     inner class MemoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val imageView: ImageView = itemView.findViewById(R.id.image_view)
-        val userComment: TextView = itemView.findViewById(R.id.userComment)
+       // val userComment: TextView = itemView.findViewById(R.id.userComment)
         val photoLocation: TextView = itemView.findViewById(R.id.photo_location)
 
         init {
@@ -62,7 +62,7 @@ class MemoryAdapter(
 
     private fun openMemoriesDetailActivity(userComment: String, photoLocation: String, imageUrl: String) {
         val intent = Intent(context, MemoriesDetail::class.java).apply {
-            putExtra("userComment", userComment)
+           // putExtra("userComment", userComment)
             putExtra("photoLocation", photoLocation)
             putExtra("imageUrl", imageUrl)
         }
