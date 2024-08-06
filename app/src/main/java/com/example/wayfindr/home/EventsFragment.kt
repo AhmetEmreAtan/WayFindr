@@ -47,5 +47,14 @@ class EventsFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-}
 
+    companion object {
+        fun newInstance(userId: String): EventsFragment {
+            val fragment = EventsFragment()
+            val args = Bundle()
+            args.putString("userId", userId)
+            fragment.arguments = args
+            return fragment
+        }
+    }
+}

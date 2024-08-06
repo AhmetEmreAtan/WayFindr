@@ -7,6 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.example.wayfindr.R
 
 class CommentPlacesAdapter(private val comments: List<CommentPlacesModel>) :
@@ -32,6 +33,7 @@ class CommentPlacesAdapter(private val comments: List<CommentPlacesModel>) :
                 Glide.with(itemView)
                     .load(comment.user?.profileImageUrl)
                     .placeholder(R.drawable.placeholder_image)
+                    .transform(CircleCrop())
                     .error(R.drawable.error_image)
                     .into(commentProfile)
             }

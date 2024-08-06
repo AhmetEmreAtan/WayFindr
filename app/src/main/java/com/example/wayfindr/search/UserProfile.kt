@@ -2,6 +2,7 @@ package com.example.wayfindr.search
 
 import android.app.AlertDialog
 import android.content.ContentValues.TAG
+import android.content.res.Resources
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -15,7 +16,9 @@ import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.example.wayfindr.R
+import com.example.wayfindr.databinding.FragmentUserProfileBinding
 import com.example.wayfindr.home.ChatFragment
+import com.example.wayfindr.home.EventsFragment
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentSnapshot
@@ -24,6 +27,8 @@ import com.google.firebase.firestore.FirebaseFirestore
 
 class UserProfile : Fragment() {
 
+    private var _binding: FragmentUserProfileBinding? = null
+    private val binding get() = _binding!!
     private lateinit var userNameTextView: TextView
     private lateinit var firstNameTextView: TextView
     private lateinit var profileImageView: ImageView
@@ -39,7 +44,8 @@ class UserProfile : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_user_profile, container, false)
+        _binding = FragmentUserProfileBinding.inflate(inflater, container, false)
+        val view = binding.root
 
         val userId = arguments?.getString("userId")
         if (userId != null) {
@@ -47,15 +53,15 @@ class UserProfile : Fragment() {
                 if (document != null) {
                     val user = document.toObject(User::class.java)
 
-                    userNameTextView = view.findViewById(R.id.userNameTextView)
+                    userNameTextView = binding.userNameTextView
                     userNameTextView.text = user?.username
                     userNameTextView.setBackgroundResource(R.drawable.blurbackground)
 
-                    firstNameTextView = view.findViewById(R.id.firstNameTextView)
+                    firstNameTextView = binding.firstNameTextView
                     firstNameTextView.text = user?.firstName
                     firstNameTextView.setBackgroundResource(R.drawable.blurbackground)
 
-                    profileImageView = view.findViewById(R.id.userImage)
+                    profileImageView = binding.userImage
                     Glide.with(this)
                         .load(user?.profileImageUrl)
                         .placeholder(R.drawable.placeholder_image)
@@ -63,25 +69,26 @@ class UserProfile : Fragment() {
                         .transform(CircleCrop())
                         .into(profileImageView)
 
-                    followButton = view.findViewById(R.id.add_friend_button)
+                    followButton = binding.addFriendButton
                     setFollowButtonLabel(userId)
                     followButton.setOnClickListener {
                         toggleFollowButton(userId)
                     }
 
-                    sendMessageButton = view.findViewById(R.id.send_message_button)
+                    sendMessageButton = binding.sendMessageButton
                     sendMessageButton.setOnClickListener {
                         openChatFragment(userId, userId)
                     }
 
-                    userMemoriesInfoText = view.findViewById(R.id.userMemoriesInfoText)
-                    userProfileFriendsText = view.findViewById(R.id.userProfileFriendsText)
+                    userMemoriesInfoText = binding.userMemoriesInfoText
+                    userProfileFriendsText = binding.userProfileFriendsText
 
                     // Fetch Memories Count
                     fetchMemoriesCount(userId)
 
                     // Fetch Friends Count
                     fetchUserFriendsCount(userId)
+
                 } else {
                     Log.d(TAG, "No such document")
                 }
@@ -130,7 +137,6 @@ class UserProfile : Fragment() {
             }
     }
 
-
     private fun checkFriendRequestStatus(userId: String, callback: (Boolean) -> Unit) {
         val db = FirebaseFirestore.getInstance()
         val currentUserId = currentUser?.uid ?: return
@@ -149,8 +155,6 @@ class UserProfile : Fragment() {
                 callback(false)
             }
     }
-
-
 
     private fun toggleFollowButton(userId: String) {
         checkFriendshipStatus(userId) { isFriend ->
@@ -191,10 +195,6 @@ class UserProfile : Fragment() {
             }
     }
 
-
-
-
-
     private fun cancelFriendRequest(targetUserId: String) {
         val db = FirebaseFirestore.getInstance()
         val currentUserId = currentUser?.uid ?: return
@@ -225,7 +225,6 @@ class UserProfile : Fragment() {
                 Log.w("FriendRequest", "Error finding friend request to cancel", e)
             }
     }
-
 
     private fun setFollowButtonLabel(userId: String) {
         checkFriendshipStatus(userId) { isFriend ->
@@ -327,6 +326,7 @@ class UserProfile : Fragment() {
             }
     }
 
+
     companion object {
         fun newInstance(userId: String): UserProfile {
             val fragment = UserProfile()
@@ -336,4 +336,8 @@ class UserProfile : Fragment() {
             return fragment
         }
     }
+}
+
+fun Int.dpToPx(): Int {
+    return (this * Resources.getSystem().displayMetrics.density).toInt()
 }

@@ -3,7 +3,6 @@ package com.example.wayfindr.memories
 import android.content.ContentValues.TAG
 import android.os.Bundle
 import android.util.Log
-import android.view.MotionEvent
 import android.view.View
 import android.widget.EditText
 import android.widget.ImageButton
@@ -17,16 +16,19 @@ import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.example.wayfindr.R
-import com.google.firebase.Firebase
-import com.google.firebase.firestore.firestore
+import com.example.wayfindr.search.User
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 
 class MemoriesDetail : AppCompatActivity() {
 
     private var selectedMemoryId: String? = null
     private lateinit var editText: EditText
     private var documentIds = mutableListOf<String>()
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -37,32 +39,19 @@ class MemoriesDetail : AppCompatActivity() {
         val userComment = intent.getStringExtra("userComment")
         val photoLocation = intent.getStringExtra("photoLocation")
         val imageUrl = intent.getStringExtra("imageUrl")
+        val userProfileImageUrl = intent.getStringExtra("userProfileImageUrl")
+        val username = intent.getStringExtra("username")
+        val currentUser = FirebaseAuth.getInstance().currentUser
 
-        val recyclerView: RecyclerView = findViewById(R.id.commentsRecyclerView)
-        val commentsList = listOf(
-            Comment("1", "userId1", "Yorum 1"),
-            Comment("2", "userId2", "Yorum 2"),
-        )
 
-        val btnMemoriesOptions: ImageButton = findViewById(R.id.btn_memories_options)
-        btnMemoriesOptions.setOnClickListener {
-            showPopupMenu(btnMemoriesOptions)
-        }
-
-        val adapter = CommentsAdapter(commentsList) { selectedComment ->
-            Log.d("SelectedComment", "Selected comment: ${selectedComment.commentText}")
-            showEditTextForComment(selectedComment)
-        }
-
-        recyclerView.layoutManager = LinearLayoutManager(this)
-        recyclerView.adapter = adapter
-
-        val userCommentTextView: TextView = findViewById(R.id.memories_user_comment)
-        val photoLocationTextView: TextView = findViewById(R.id.memories_location)
         val imageView: ImageView = findViewById(R.id.memories_user_image)
+        val profileImageView: ImageView = findViewById(R.id.memoriespp)
+        val currentUserImageView: ImageView = findViewById(R.id.imageView3)
+        val usernameTextView: TextView = findViewById(R.id.memoriesusername)
 
-        userCommentTextView.text = userComment
-        photoLocationTextView.text = photoLocation
+
+        usernameTextView.text = username
+
         Glide.with(this)
             .load(imageUrl)
             .centerCrop()
@@ -70,11 +59,49 @@ class MemoriesDetail : AppCompatActivity() {
             .error(R.drawable.error_image)
             .into(imageView)
 
+        Glide.with(this)
+            .load(userProfileImageUrl)
+            .placeholder(R.drawable.placeholder_image)
+            .error(R.drawable.profilephotoicon)
+            .transform(CircleCrop())
+            .into(profileImageView)
+
+        if (currentUser != null && currentUser.photoUrl != null) {
+            Glide.with(this)
+                .load(currentUser.photoUrl)
+                .placeholder(R.drawable.placeholder_image)
+                .error(R.drawable.profilephotoicon)
+                .transform(CircleCrop())
+                .into(currentUserImageView)
+        } else if (currentUser != null) {
+            loadCurrentUserProfile(currentUser.uid)
+        }
+
         val btnClosedMemories: ImageButton = findViewById(R.id.btn_closed_memories)
         btnClosedMemories.setOnClickListener {
             finish()
         }
     }
+
+
+    private fun loadCurrentUserProfile(currentUserId: String) {
+        val currentUserRef = FirebaseFirestore.getInstance().collection("users").document(currentUserId)
+        currentUserRef.get().addOnSuccessListener { document ->
+            if (document != null && document.exists()) {
+                val currentUser = document.toObject(User::class.java)
+                if (currentUser != null) {
+                    val currentUserImageView: ImageView = findViewById(R.id.imageView3)
+                    Glide.with(this)
+                        .load(currentUser.profileImageUrl)
+                        .placeholder(R.drawable.placeholder_image)
+                        .error(R.drawable.profilephotoicon)
+                        .transform(CircleCrop())
+                        .into(currentUserImageView)
+                }
+            }
+        }
+    }
+
 
     private fun showEditTextForComment(comment: Comment) {
         val parentLayout: LinearLayout = findViewById(R.id.comment_linearlayout)
@@ -124,6 +151,7 @@ class MemoriesDetail : AppCompatActivity() {
                 Log.w(TAG, "Yorum ekleme işlemi başarısız oldu", e)
             }
     }
+
     private fun showPopupMenu(view: View) {
         val popupMenu = PopupMenu(this, view)
         popupMenu.menuInflater.inflate(R.menu.memories_options_menu, popupMenu.menu)
@@ -148,8 +176,6 @@ class MemoriesDetail : AppCompatActivity() {
         popupMenu.show()
     }
 
-
-
     private fun deleteDocument(documentId: String) {
         val db = Firebase.firestore
         val userPhotosCollection = db.collection("user_photos").document("user_id").collection("memories")
@@ -167,12 +193,7 @@ class MemoriesDetail : AppCompatActivity() {
             }
     }
 
-
-
-
-
     private fun showToast(message: String) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
-
 }

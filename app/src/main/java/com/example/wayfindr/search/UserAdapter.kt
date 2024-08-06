@@ -11,15 +11,12 @@ import com.bumptech.glide.Glide
 import com.example.wayfindr.R
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter
 import com.firebase.ui.firestore.FirestoreRecyclerOptions
+import java.util.Locale
 
 class UserAdapter(options: FirestoreRecyclerOptions<User>, private val currentUserId: String) :
     FirestoreRecyclerAdapter<User, UserAdapter.UserViewHolder>(options) {
 
-    private var filteredList: List<User> = mutableListOf()
-
-    init {
-        filteredList = snapshots.toList().filter { it.userId != currentUserId }
-    }
+    private var filteredList: List<User> = options.snapshots.toList().filter { it.userId != currentUserId }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {
         val view = LayoutInflater.from(parent.context)
@@ -36,12 +33,15 @@ class UserAdapter(options: FirestoreRecyclerOptions<User>, private val currentUs
     }
 
     fun filter(queryText: String) {
-        val query = queryText.lowercase()
+        val query = queryText.lowercase(Locale.getDefault())
 
         filteredList = if (query.isEmpty()) {
-            snapshots.toList().filter { it.userId != currentUserId }
+            emptyList()
         } else {
-            snapshots.filter { it.username?.lowercase()?.contains(query) == true && it.userId != currentUserId }
+            snapshots.filter {
+                it.username?.lowercase(Locale.getDefault())?.startsWith(query) == true &&
+                        it.userId != currentUserId
+            }
         }
 
         notifyDataSetChanged()

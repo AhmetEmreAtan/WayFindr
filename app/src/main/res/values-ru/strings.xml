@@ -155,4 +155,5 @@
     <string name="profile_nav_memories">Воспоминания</string>
     <string name="profile_nav_favorite">Избранное</string>
     <string name="profile_nav_event">событие</string>
+    <string name="lockedprofiletext">Чтобы увидеть воспоминания этого человека, вам нужно быть друзьями.</string>
 </resources>

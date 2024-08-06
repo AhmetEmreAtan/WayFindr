@@ -156,4 +156,5 @@
     <string name="profile_nav_memories">Anılar</string>
     <string name="profile_nav_favorite">Favoriler</string>
     <string name="profile_nav_event">Planlar</string>
+    <string name="lockedprofiletext">Bu kişinin anılarını görmek için arkadaş olmanız gerekli</string>
 </resources>

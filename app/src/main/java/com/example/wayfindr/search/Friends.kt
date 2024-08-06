@@ -18,7 +18,6 @@ class Friends : Fragment() {
     private var _binding: FragmentSearchBinding? = null
     private val binding get() = _binding!!
     private lateinit var adapter: UserAdapter
-    private lateinit var userAdapter: UserAdapter
     private lateinit var recyclerView: RecyclerView
     private lateinit var auth: FirebaseAuth
 
@@ -41,16 +40,6 @@ class Friends : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val query = FirebaseFirestore.getInstance().collection("users")
-
-        val options = FirestoreRecyclerOptions.Builder<User>()
-            .setQuery(query, User::class.java)
-            .build()
-
-        adapter = UserAdapter(options, auth.currentUser?.uid ?: "")
-
-        binding.userRecyclerView.adapter = adapter
-
         binding.searchView.setOnQueryTextListener(object : SearchView.OnQueryTextListener {
             override fun onQueryTextSubmit(query: String?): Boolean {
                 return false
@@ -70,8 +59,8 @@ class Friends : Fragment() {
             .setQuery(query, User::class.java)
             .build()
 
-        userAdapter = UserAdapter(options, currentUserId)
-        recyclerView.adapter = userAdapter
+        adapter = UserAdapter(options, currentUserId)
+        recyclerView.adapter = adapter
     }
 
     override fun onStart() {

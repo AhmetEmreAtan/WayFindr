@@ -156,4 +156,5 @@
     <string name="profile_nav_memories">记忆</string>
     <string name="profile_nav_favorite">藏夹</string>
     <string name="profile_nav_event">事件</string>
+    <string name="lockedprofiletext">要查看此人的记忆，您需要成为朋友。</string>
 </resources>

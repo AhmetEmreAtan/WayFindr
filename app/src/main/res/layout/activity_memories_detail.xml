@@ -32,7 +32,7 @@
                     android:id="@+id/btn_closed_memories"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:layout_marginStart="32dp"
+                    android:layout_marginStart="16dp"
                     android:background="@drawable/back_arrow_navigation_svgrepo_com"
                     app:layout_constraintBottom_toBottomOf="@+id/btn_memories_options"
                     app:layout_constraintStart_toStartOf="parent"
@@ -42,12 +42,12 @@
                     android:id="@+id/Memories_TextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:layout_marginStart="16dp"
                     android:text="@string/activity_memories_tittle"
                     android:textColor="@color/black"
                     android:textSize="15sp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/btn_closed_memories"
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <ImageButton
@@ -80,10 +80,7 @@
                         android:id="@+id/memories_user_image"
                         android:layout_width="match_parent"
                         android:layout_height="0dp"
-                        android:layout_marginStart="16dp"
-                        android:layout_marginEnd="16dp"
                         android:layout_marginBottom="16dp"
-                        android:background="@drawable/image_preview"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0.0"
@@ -91,39 +88,34 @@
                         app:layout_constraintTop_toBottomOf="@+id/location_username"
                         app:layout_constraintVertical_bias="0.0" />
 
-                    <androidx.constraintlayout.widget.ConstraintLayout
+                    <LinearLayout
                         android:id="@+id/location_username"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:background="@drawable/text_background"
+                        android:layout_marginTop="8dp"
+                        android:layout_marginBottom="8dp"
+                        app:layout_constraintBottom_toTopOf="@+id/memories_user_image"
                         app:layout_constraintEnd_toEndOf="@+id/memories_user_image"
                         app:layout_constraintHorizontal_bias="0.0"
                         app:layout_constraintStart_toStartOf="@+id/memories_user_image"
                         app:layout_constraintTop_toTopOf="parent">
 
-                        <TextView
-                            android:id="@+id/memories_UserName"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:padding="5dp"
-                            android:text="Place Name"
-                            android:textAlignment="textStart"
-                            android:textColor="@color/black"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toTopOf="parent" />
+                        <ImageView
+                            android:id="@+id/memoriespp"
+                            android:layout_width="30dp"
+                            android:layout_height="30dp"
+                            android:layout_margin="8dp" />
 
                         <TextView
-                            android:id="@+id/memories_location"
+                            android:id="@+id/memoriesusername"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
-                            android:padding="5dp"
-                            android:paddingLeft="0dp"
-                            android:text="@string/activity_memories_photoLocation"
-                            android:textColor="@color/black"
-                            android:textSize="12sp"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintTop_toBottomOf="@+id/memories_UserName" />
-                    </androidx.constraintlayout.widget.ConstraintLayout>
+                            android:layout_margin="8dp"
+                            android:layout_gravity="center"
+                            android:text=""
+                            android:textColor="@color/black"/>
+
+                    </LinearLayout>
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -133,64 +125,51 @@
                 android:id="@+id/like_button"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:layout_weight="1"
-                android:background="@drawable/begen"
+                android:background="@drawable/likebutton"
+                app:layout_constraintEnd_toStartOf="@+id/comment_button"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/memories_cardview" />
 
             <ImageButton
                 android:id="@+id/comment_button"
-                android:layout_width="30dp"
+                android:layout_width="25dp"
                 android:layout_height="30dp"
-                android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
                 android:layout_weight="1"
                 android:background="@drawable/comment_2_svgrepo_com"
-                app:layout_constraintStart_toEndOf="@+id/like_button"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/memories_cardview" />
 
-            <TextView
-                android:id="@+id/memories_user_comment"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginEnd="16dp"
-                android:text="@string/activity_memories_userComment"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                android:textStyle="bold|italic"
+            <ImageButton
+                android:id="@+id/bulucazbirozellik"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_weight="1"
+                android:background="@drawable/shareicon"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/comment_button"
+                app:layout_constraintTop_toTopOf="@+id/comment_button" />
+
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="24dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/like_button" />
 
-            <TextView
-                android:id="@+id/textView9"
+            <EditText
                 android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="16dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="16dp"
-                android:text="@string/activity_memories_comment"
-                android:textColor="@color/black"
-                android:textSize="16sp"
-                android:textStyle="bold|italic"
+                android:layout_height="30dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/memories_user_comment" />
-
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/commentsRecyclerView"
-                android:layout_width="match_parent"
-                android:layout_height="300dp"
-                android:layout_marginStart="16dp"
-                android:layout_marginEnd="16dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView9" />
-
+                app:layout_constraintStart_toEndOf="@+id/imageView3"
+                app:layout_constraintTop_toTopOf="@+id/imageView3" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
