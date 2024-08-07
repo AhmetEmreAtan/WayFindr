@@ -1,3 +1,5 @@
+package com.example.wayfindr.places
+
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -8,9 +10,6 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.wayfindr.R
-import com.example.wayfindr.places.ItemClickListener
-import com.example.wayfindr.places.PlaceModel
-import com.example.wayfindr.places.FavoriteRepository
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError

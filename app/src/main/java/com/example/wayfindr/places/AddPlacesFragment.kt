@@ -8,12 +8,7 @@ import android.provider.MediaStore
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.EditText
-import android.widget.ImageButton
-import android.widget.ImageView
-import android.widget.Spinner
-import android.widget.Toast
+import android.widget.*
 import androidx.fragment.app.Fragment
 import com.bumptech.glide.Glide
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -61,21 +56,7 @@ class AddPlacesFragment : Fragment() {
         val storage = FirebaseStorage.getInstance()
         storageReference = storage.reference
 
-
-        val categoryNames = resources.getStringArray(R.array.array_categories)
-        val categoryDrawablesResIds = resources.getIntArray(R.array.array_category_images)
-
-        val spinnerItems = mutableListOf<SpinnerItem>()
-
-        for (i in categoryNames.indices) {
-            val name = categoryNames[i]
-            val drawableResId = categoryDrawablesResIds[i]
-            spinnerItems.add(SpinnerItem(name, drawableResId))
-        }
-
-
-        val adapter = CustomSpinnerAdapter(requireContext(), R.layout.custom_spinner_item, spinnerItems)
-        add_places_categories_spinner.adapter = adapter
+        setupCategorySpinner()
 
         uploadImageButton.setOnClickListener {
             if (add_places_placeslocationedittext.text.toString().isEmpty()) {
@@ -107,6 +88,24 @@ class AddPlacesFragment : Fragment() {
         }
 
         return view
+    }
+
+    private fun setupCategorySpinner() {
+        val categoryNames = resources.getStringArray(R.array.array_categories)
+        val categoryDrawablesResIds = resources.obtainTypedArray(R.array.array_category_images)
+
+        val spinnerItems = mutableListOf<SpinnerItem>()
+
+        for (i in categoryNames.indices) {
+            val name = categoryNames[i]
+            val drawableResId = categoryDrawablesResIds.getResourceId(i, -1)
+            spinnerItems.add(SpinnerItem(drawableResId, name))
+        }
+
+        categoryDrawablesResIds.recycle()
+
+        val adapter = CustomSpinnerAdapter(requireContext(), R.layout.custom_spinner_item, spinnerItems)
+        add_places_categories_spinner.adapter = adapter
     }
 
     private fun openGallery() {

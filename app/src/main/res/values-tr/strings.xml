@@ -157,4 +157,7 @@
     <string name="profile_nav_favorite">Favoriler</string>
     <string name="profile_nav_event">Planlar</string>
     <string name="lockedprofiletext">Bu kişinin anılarını görmek için arkadaş olmanız gerekli</string>
+
+    <string name="friends">ARKADAŞLAR</string>
+    <string name="fragment_home_seealltext">Hepsini Gör...</string>
 </resources>

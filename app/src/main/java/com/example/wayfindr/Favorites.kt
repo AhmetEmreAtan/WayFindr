@@ -1,7 +1,7 @@
 package com.example.wayfindr
 
 import com.example.wayfindr.places.PlaceModel
-import PlacesAdapter
+import com.example.wayfindr.places.PlacesAdapter
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View

@@ -33,6 +33,7 @@ class CustomSpinnerAdapter(
         val item = getItem(position)
         if (item != null) {
             iconImageView.setImageResource(item.iconResId)
+            iconImageView.setColorFilter(context.getColor(R.color.black))
             text1TextView.text = item.text
         }
 

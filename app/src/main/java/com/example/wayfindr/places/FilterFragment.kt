@@ -1,7 +1,5 @@
 package com.example.wayfindr.places
 
-import android.R
-import android.content.ContentValues.TAG
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -10,9 +8,11 @@ import android.view.ViewGroup
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.wayfindr.R
 import com.example.wayfindr.databinding.FragmentFilterFragmentBinding
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 
 class FilterFragment : BottomSheetDialogFragment() {
 
@@ -29,6 +29,7 @@ class FilterFragment : BottomSheetDialogFragment() {
     private var selectedDistrict = ""
 
     private lateinit var categoryList: MutableList<PlacesCategories>
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -41,8 +42,8 @@ class FilterFragment : BottomSheetDialogFragment() {
         super.onViewCreated(view, savedInstanceState)
 
         setupRadioButton()
-
         setupDistricts()
+        setupRecyclerCategories()
 
         binding.resetButton.setOnClickListener {
             resetFilters()
@@ -50,18 +51,26 @@ class FilterFragment : BottomSheetDialogFragment() {
 
         binding.filterButton.setOnClickListener {
             placesFilterResults()
-            dismiss()
         }
-
-        setupRecyclerCategories()
-
     }
 
     private fun placesFilterResults() {
-        val query = placesCollection
-            .whereEqualTo("placesPrice", selectedPricingType)
-            .whereEqualTo("placesCategories", selectedCategory)
-            .whereEqualTo("placesDescription", selectedDistrict)
+        var query: Query = placesCollection
+
+        if (selectedPricingType.isNotEmpty()) {
+            query = query.whereEqualTo("placePrice", selectedPricingType)
+            Log.d(TAG, "Filtering by price: $selectedPricingType")
+        }
+
+        if (selectedCategory.isNotEmpty()) {
+            query = query.whereEqualTo("placeCategories", selectedCategory)
+            Log.d(TAG, "Filtering by category: $selectedCategory")
+        }
+
+        if (selectedDistrict.isNotEmpty() && selectedDistrict != "İlçe Seçiniz") {
+            query = query.whereEqualTo("placeDescription", selectedDistrict)
+            Log.d(TAG, "Filtering by district: $selectedDistrict")
+        }
 
         query.get()
             .addOnSuccessListener { documents ->
@@ -69,8 +78,9 @@ class FilterFragment : BottomSheetDialogFragment() {
                 for (document in documents) {
                     val place = document.toObject(PlaceModel::class.java)
                     places.add(place)
-                    Log.d(TAG, "${document.id} => ${document.data}")
+                    Log.d(TAG, "Place found: ${document.id} => ${document.data}")
                 }
+                Log.d(TAG, "onFilterResult is called with ${places.size} places.")
                 notifyFilterResults(places)
             }
             .addOnFailureListener { exception ->
@@ -87,16 +97,14 @@ class FilterFragment : BottomSheetDialogFragment() {
 
         adapter.setOnItemClickListener { category ->
             selectedCategory = category.name
-            Log.d("Category", "Selected Category: $selectedCategory")
-
+            Log.d(TAG, "Selected Category: $selectedCategory")
         }
     }
 
     private fun getCategoriesListFromArray(): MutableList<PlacesCategories> {
         val categoriesList = mutableListOf<PlacesCategories>()
-        val rawArray = resources.getStringArray(com.example.wayfindr.R.array.array_categories)
-        val imageResIds =
-            resources.obtainTypedArray(com.example.wayfindr.R.array.array_category_images)
+        val rawArray = resources.getStringArray(R.array.array_categories)
+        val imageResIds = resources.obtainTypedArray(R.array.array_category_images)
 
         rawArray.forEachIndexed { index, category ->
             val imageResId = imageResIds.getResourceId(index, -1)
@@ -107,14 +115,13 @@ class FilterFragment : BottomSheetDialogFragment() {
         return categoriesList
     }
 
-
     private fun resetFilters() {
         binding.spinnerDistricts.setSelection(0)
         binding.radioGroupPricing.clearCheck()
         selectedCategory = ""
         selectedPricingType = ""
         selectedDistrict = ""
-
+        Log.d(TAG, "Filters reset")
     }
 
     private fun setupRadioButton() {
@@ -122,16 +129,14 @@ class FilterFragment : BottomSheetDialogFragment() {
             selectedPricingType = when (checkedId) {
                 binding.radioButtonPaid.id -> "Ücretli"
                 binding.radioButtonFree.id -> "Ücretsiz"
-                else -> "Bilinmeyen"
+                else -> ""
             }
 
-            Log.d("RadioButton", "Selected Pricing Type: $selectedPricingType")
+            Log.d(TAG, "Selected Pricing Type: $selectedPricingType")
         }
     }
 
-
     private fun setupDistricts() {
-
         setupDistrictSpinner()
 
         binding.spinnerDistricts.onItemSelectedListener =
@@ -142,13 +147,12 @@ class FilterFragment : BottomSheetDialogFragment() {
                     position: Int,
                     id: Long
                 ) {
-                    selectedDistrict =
-                        binding.spinnerDistricts.getItemAtPosition(position).toString()
-                    Log.d("Spinner", "Selected District: $selectedDistrict")
+                    selectedDistrict = binding.spinnerDistricts.getItemAtPosition(position).toString()
+                    Log.d(TAG, "Selected District: $selectedDistrict")
                 }
 
                 override fun onNothingSelected(parent: AdapterView<*>?) {
-
+                    selectedDistrict = ""
                 }
             }
     }
@@ -156,11 +160,11 @@ class FilterFragment : BottomSheetDialogFragment() {
     private fun setupDistrictSpinner() {
         val districtAdapter = ArrayAdapter(
             requireContext(),
-            R.layout.simple_spinner_item,
-            resources.getStringArray(com.example.wayfindr.R.array.istanbul_districts)
+            android.R.layout.simple_spinner_item,
+            resources.getStringArray(R.array.istanbul_districts)
         )
-        districtAdapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item)
-        binding.spinnerDistricts?.adapter = districtAdapter
+        districtAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        binding.spinnerDistricts.adapter = districtAdapter
     }
 
     private fun notifyFilterResults(places: List<PlaceModel>) {
@@ -170,5 +174,9 @@ class FilterFragment : BottomSheetDialogFragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    companion object {
+        private const val TAG = "FilterFragment"
     }
 }

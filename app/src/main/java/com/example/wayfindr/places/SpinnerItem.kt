@@ -1,3 +1,4 @@
 package com.example.wayfindr.places
 
-data class SpinnerItem(val text: String, val iconResId: Int)
+data class SpinnerItem(val iconResId: Int, val text: String)
+

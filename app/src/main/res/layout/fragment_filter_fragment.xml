@@ -18,20 +18,19 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginBottom="16dp"
-            android:text="@string/filter_fragment_tittle"
+            android:text="Filtrele"
             android:textSize="18sp"
             android:textStyle="bold" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/filter_fragment_pricing"
+            android:text="Fiyat Türü"
             android:textStyle="bold" />
 
         <RadioGroup
@@ -45,22 +44,21 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:buttonTint="@color/gradient"
-                android:text="@string/filter_fragment_paid" />
+                android:text="Ücretli" />
 
             <RadioButton
                 android:id="@+id/radioButtonFree"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:buttonTint="@color/gradient"
-                android:text="@string/filter_fragment_free" />
+                android:text="Ücretsiz" />
         </RadioGroup>
-
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="@string/filter_fragment_district"
+            android:text="İlçe"
             android:textStyle="bold" />
 
         <Spinner
@@ -74,16 +72,15 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
-            android:text="@string/filter_fragment_categories"
+            android:text="Kategori"
             android:textStyle="bold" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/categoryRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:listitem="@layout/item_categories"
-            tools:itemCount="4"/>
-
+            tools:itemCount="4"
+            tools:listitem="@layout/item_categories" />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -98,14 +95,14 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
                 android:backgroundTint="@color/vintage"
-                android:text="@string/filter_fragment_button1" />
+                android:text="Sıfırla" />
 
             <Button
                 android:id="@+id/filterButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/vintage"
-                android:text="@string/filter_fragment_button2" />
+                android:text="Filtrele" />
         </LinearLayout>
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
