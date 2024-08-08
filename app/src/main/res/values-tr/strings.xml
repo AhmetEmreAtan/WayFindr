@@ -12,7 +12,7 @@
     <string name="activity_admin_email">E-mail</string>
     <string name="activity_admin_password">Şifre</string>
     <string name="activity_admin_button">GÜNCELLE</string>
-    <string name="activity_memories_tittle">ANILAR</string>
+    <string name="activity_memories_tittle">Anılar</string>
     <string name="activity_memories_userComment">Kullanıcı Yorumu</string>
     <string name="activity_memories_comment">Yorumlar</string>
     <string name="activity_memories_photoLocation">Fotoğraf Konumu</string>
@@ -153,11 +153,10 @@
     <string name="bottom_nav_profile">Profil</string>
     <string name="memories_menu_delete">Sil</string>
     <string name="memories_menu_spam">Şikayet Et</string>
-    <string name="profile_nav_memories">Anılar</string>
+    <string name="profile_nav_memories">ANILAR</string>
     <string name="profile_nav_favorite">Favoriler</string>
     <string name="profile_nav_event">Planlar</string>
-    <string name="lockedprofiletext">Bu kişinin anılarını görmek için arkadaş olmanız gerekli</string>
-
-    <string name="friends">ARKADAŞLAR</string>
-    <string name="fragment_home_seealltext">Hepsini Gör...</string>
+    <string name="fragment_home_seealltext">Daha Fazla...</string>
+    <string name="friends">Arkadaşlar</string>
+    <string name="lockedprofiletext">Bu kişinin anılarını görmek için arkadaş olmanız gerekir..</string>
 </resources>

@@ -12,20 +12,6 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/filterResults"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@drawable/title_background"
-            android:gravity="center"
-            android:padding="10dp"
-            android:text="Results"
-            android:textAlignment="center"
-            android:textColor="@color/black"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerViewFilteredResults"

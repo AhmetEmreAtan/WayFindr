@@ -156,7 +156,7 @@
     <string name="profile_nav_memories">ذكريات</string>
     <string name="profile_nav_favorite">المفضله</string>
     <string name="profile_nav_event">حدث</string>
-    <string name="lockedprofiletext">لرؤية ذكريات هذا الشخص، عليك أن تكون أصدقاء.</string>
-    <string name="friends">FRIENDS</string>
-    <string name="fragment_home_seealltext">See All...</string>
+    <string name="fragment_home_seealltext">اظهار الكل</string>
+    <string name="friends">أصدقاء</string>
+    <string name="lockedprofiletext">لكي تتمكن من رؤية ذكريات هذا الشخص، عليك أن تكونا أصدقاء.</string>
 </resources>

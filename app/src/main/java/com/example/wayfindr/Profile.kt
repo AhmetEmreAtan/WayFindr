@@ -30,6 +30,7 @@ class Profile : Fragment() {
     private lateinit var storage: FirebaseStorage
     private lateinit var storageReference: StorageReference
     private lateinit var myFriendsCounting: TextView
+    private lateinit var myFriendsTitle: TextView
     private val PICK_IMAGE_REQUEST = 1
 
     override fun onCreateView(
@@ -46,6 +47,9 @@ class Profile : Fragment() {
         }
 
         myFriendsCounting = view.findViewById(R.id.myFriendsCounting)
+        myFriendsTitle = view.findViewById(R.id.myFriendsTitle)
+
+
 
         auth = FirebaseAuth.getInstance()
         storage = FirebaseStorage.getInstance()
@@ -81,6 +85,27 @@ class Profile : Fragment() {
                 .addToBackStack(null)
                 .commit()
         }
+
+        val userId = auth.currentUser?.uid
+        val clickListener = View.OnClickListener {
+            if (userId != null) {
+                val fragment = FriendListFragment().apply {
+                    arguments = Bundle().apply {
+                        putString("USER_ID", userId)
+                    }
+                }
+                requireActivity().supportFragmentManager.beginTransaction()
+                    .replace(R.id.profil_constraint_layout, fragment)
+                    .commit()
+            } else {
+                Toast.makeText(context, "Kullanıcı bilgileri bulunamadı.", Toast.LENGTH_SHORT).show()
+            }
+        }
+
+        myFriendsCounting.setOnClickListener(clickListener)
+        myFriendsTitle.setOnClickListener(clickListener)
+
+
         return view
     }
 

@@ -93,12 +93,7 @@ class Home : Fragment(), EventsAdapter.OnItemClickListener, PopularAdapter.OnIte
                 .commit()
         }
 
-        binding.seeAllPopularTxt.setOnClickListener {
-            parentFragmentManager.beginTransaction()
-                .replace(R.id.frame_layout, AllPopularFragment())
-                .addToBackStack(null)
-                .commit()
-        }
+
     }
 
 
@@ -194,6 +189,12 @@ class Home : Fragment(), EventsAdapter.OnItemClickListener, PopularAdapter.OnIte
             true
         }
     }
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding.searchView.setQuery("", false)
+        binding.searchView.clearFocus()
+        _binding = null
+    }
 
     private fun showFilteredResultsBottomSheet() {
         filteredResultsBottomSheet = FilteredResultsBottomSheetFragment.newInstance(this)
@@ -240,8 +241,9 @@ class Home : Fragment(), EventsAdapter.OnItemClickListener, PopularAdapter.OnIte
         }
     }
 
-    fun onItemClickFiltered(place: PlaceModel) {
+    fun onItemClickFiltered(place: PlaceModel, event: EventModel) {
         showPlaceDetailFragment(place)
+        showEventDetailFragment(event)
     }
 
     private fun showEventDetailFragment(selectedEvent: EventModel) {
@@ -268,10 +270,7 @@ class Home : Fragment(), EventsAdapter.OnItemClickListener, PopularAdapter.OnIte
             .commit()
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
+
 
     private fun loadUserProfilePicture() {
         val user = firebaseAuth.currentUser

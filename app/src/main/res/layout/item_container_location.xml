@@ -46,7 +46,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            android:background="#D6000000"
+            android:background="#80FFFFFF"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toTopOf="@+id/textTitle" />
 
@@ -57,7 +57,7 @@
             android:layout_marginStart="20dp"
             android:contentDescription="@string/home_places_fragment_tittle"
             android:src="@drawable/ic_location"
-            app:tint="@color/white"
+            app:tint="@color/black"
             app:layout_constraintBottom_toBottomOf="@+id/textLocation"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/textLocation" />
@@ -69,7 +69,7 @@
             android:layout_marginStart="2dp"
             android:layout_marginEnd="20dp"
             android:layout_marginBottom="8dp"
-            android:textColor="#FFFFFF"
+            android:textColor="@color/black"
             android:textSize="10sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
@@ -83,7 +83,7 @@
             android:layout_marginEnd="20dp"
             android:layout_marginBottom="2dp"
             android:paddingTop="4dp"
-            android:textColor="@color/white"
+            android:textColor="@color/black"
             android:textSize="15sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/imageLocation" />

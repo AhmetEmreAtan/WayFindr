@@ -155,9 +155,7 @@
     <string name="profile_nav_memories">Воспоминания</string>
     <string name="profile_nav_favorite">Избранное</string>
     <string name="profile_nav_event">событие</string>
+    <string name="fragment_home_seealltext">Увидеть все...</string>
+    <string name="friends">Друзья</string>
     <string name="lockedprofiletext">Чтобы увидеть воспоминания этого человека, вам нужно быть друзьями.</string>
-
-
-    <string name="friends">FRIENDS</string>
-    <string name="fragment_home_seealltext">See All...</string>
 </resources>

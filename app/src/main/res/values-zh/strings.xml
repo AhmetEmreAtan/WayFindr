@@ -156,9 +156,7 @@
     <string name="profile_nav_memories">记忆</string>
     <string name="profile_nav_favorite">藏夹</string>
     <string name="profile_nav_event">事件</string>
-    <string name="lockedprofiletext">要查看此人的记忆，您需要成为朋友。</string>
-
-
-    <string name="friends">FRIENDS</string>
-    <string name="fragment_home_seealltext">See All...</string>
+    <string name="fragment_home_seealltext">查看更多</string>
+    <string name="friends">朋友们</string>
+    <string name="lockedprofiletext">您必须与此人成为朋友才能看到他们的记忆。</string>
 </resources>

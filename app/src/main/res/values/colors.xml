@@ -9,6 +9,7 @@
     <color name="textColor">#FFF3E2</color>
     <color name="pinkColor">#E74646</color>
     <color name="tansparentColor">#00FFFFFF</color>
+    <color name="transparentColor">#00000000</color>
     <color name="pembe">#FA9884</color>
     <color name="sarı">#FFE5CA</color>
     <color name="krem">#FFF3E2</color>
