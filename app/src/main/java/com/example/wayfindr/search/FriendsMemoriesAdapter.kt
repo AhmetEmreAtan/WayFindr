@@ -1,7 +1,7 @@
-package com.example.wayfindr.memories
+package com.example.wayfindr.search
 
 import android.content.Context
-import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,61 +10,51 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.wayfindr.R
+import com.example.wayfindr.memories.MemoriesDetail
 
-class FriendsMemoriesAdapter(
-    private val context: Context,
-    private val memoriesList: List<Memory>
-) : RecyclerView.Adapter<FriendsMemoriesAdapter.MemoryViewHolder>() {
+class FriendsMemoriesAdapter(private val context: Context, private val memoriesList: List<Memory>) :
+    RecyclerView.Adapter<FriendsMemoriesAdapter.FriendsMemoriesViewHolder>() {
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MemoryViewHolder {
-        val view = LayoutInflater.from(context).inflate(R.layout.item_memories, parent, false)
-        return MemoryViewHolder(view)
+    inner class FriendsMemoriesViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val memoryImageView: ImageView = itemView.findViewById(R.id.memoryImageView)
+        val memoryLocationTextView: TextView = itemView.findViewById(R.id.memoryLocationTextView)
+        val memoryCommentTextView: TextView = itemView.findViewById(R.id.memoryCommentTextView)
     }
 
-    override fun onBindViewHolder(holder: MemoryViewHolder, position: Int) {
-        val currentMemory = memoriesList[position]
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): FriendsMemoriesViewHolder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_memory, parent, false)
+        return FriendsMemoriesViewHolder(view)
+    }
 
-        //holder.userComment.text = currentMemory.userComment
-        //holder.photoLocation.text = currentMemory.photoLocation
-
+    override fun onBindViewHolder(holder: FriendsMemoriesViewHolder, position: Int) {
+        val memory = memoriesList[position]
+        holder.memoryLocationTextView.text = memory.photoLocation
+        holder.memoryCommentTextView.text = memory.userComment
         Glide.with(context)
-            .load(currentMemory.imageUrl)
-            .centerCrop()
+            .load(memory.imageUrl)
             .placeholder(R.drawable.placeholder_image)
             .error(R.drawable.error_image)
-            .into(holder.imageView)
+            .into(holder.memoryImageView)
+
+        holder.itemView.setOnClickListener {
+            Log.d("MemoriesDetail", "Received memoryId: ${memory.memoryId}, userId: ${memory.userId}")
+
+            val intent = MemoriesDetail.newIntent(
+                context = it.context,
+                memoryId = memory.memoryId,
+                userComment = memory.userComment,
+                photoLocation = memory.photoLocation,
+                imageUrl = memory.imageUrl,
+                userProfileImageUrl = memory.userProfileImageUrl,
+                username = memory.username,
+                userId = memory.userId
+            )
+            it.context.startActivity(intent)
+        }
     }
+
 
     override fun getItemCount(): Int {
         return memoriesList.size
-    }
-
-    inner class MemoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val imageView: ImageView = itemView.findViewById(R.id.image_view)
-        //val userComment: TextView = itemView.findViewById(R.id.userComment)
-        //val photoLocation: TextView = itemView.findViewById(R.id.photo_location)
-
-        init {
-            itemView.setOnClickListener {
-                val position = adapterPosition
-                if (position != RecyclerView.NO_POSITION) {
-                    val currentMemory = memoriesList[position]
-                    openMemoryDetailActivity(
-                        currentMemory.userComment,
-                        currentMemory.photoLocation,
-                        currentMemory.imageUrl
-                    )
-                }
-            }
-        }
-    }
-
-    private fun openMemoryDetailActivity(userComment: String, photoLocation: String, imageUrl: String) {
-        val intent = Intent(context, MemoriesDetail::class.java).apply {
-            putExtra("userComment", userComment)
-            putExtra("photoLocation", photoLocation)
-            putExtra("imageUrl", imageUrl)
-        }
-        context.startActivity(intent)
     }
 }

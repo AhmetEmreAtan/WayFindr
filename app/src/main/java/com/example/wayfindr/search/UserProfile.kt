@@ -18,7 +18,6 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.example.wayfindr.R
 import com.example.wayfindr.databinding.FragmentUserProfileBinding
 import com.example.wayfindr.home.ChatFragment
-import com.example.wayfindr.home.EventsFragment
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentSnapshot
@@ -83,11 +82,13 @@ class UserProfile : Fragment() {
                     userMemoriesInfoText = binding.userMemoriesInfoText
                     userProfileFriendsText = binding.userProfileFriendsText
 
-                    // Fetch Memories Count
                     fetchMemoriesCount(userId)
-
-                    // Fetch Friends Count
                     fetchUserFriendsCount(userId)
+
+                    val fragment = FriendsMemoriesFragment.newInstance(userId)
+                    childFragmentManager.beginTransaction()
+                        .replace(R.id.user_frame_layout, fragment)
+                        .commit()
 
                 } else {
                     Log.d(TAG, "No such document")
@@ -325,7 +326,6 @@ class UserProfile : Fragment() {
                 userProfileFriendsText.text = "0"
             }
     }
-
 
     companion object {
         fun newInstance(userId: String): UserProfile {
